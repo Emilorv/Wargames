@@ -2,14 +2,16 @@ package Units;
 
 public class CommanderUnit extends CavalryUnit{
         /**
-         * Constructor of CavalryUnit
-         * @param name name of CavalryUnit
-         * @param health health of CavalryUnit
-         * @param attack attack of CavalryUnit
-         * @param armor armor of CavalryUnit
+         * Constructor of CommanderUnit
+         * @param name name of CommanderUnit
+         * @param health health of CommanderUnit
+         * @param attack attack of CommanderUnit
+         * @param armor armor of CommanderUnit
+         * @param nAttacks number of times unit has attacked
+         * @param nBlocked number of times unit has blocked
          */
-        public CommanderUnit(String name, int health, int attack, int armor, int nAttacks, int nAttacked) {
-            super(name, health, attack, armor, nAttacked, nAttacked);
+        public CommanderUnit(String name, int health, int attack, int armor, int nAttacks, int nBlocked) {
+            super(name, health, attack, armor, nAttacks, nBlocked);
         }
         public CommanderUnit(String name, int health){
             super(name,health, 25,15, 0, 0);

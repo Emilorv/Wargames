@@ -5,21 +5,23 @@ public abstract class Unit {
     private final int attack;
     private final int armor;
     protected int nAttacks;
-    protected int nAttacked;
+    protected int nBlocked;
 
     /**
-     * Units.Unit constructor
+     * Unit constructor
      * @param name name of unit
      * @param health health of unit
      * @param attack attack of unit
      * @param armor armor of unit
+     * @param nAttacks number of times attacking
+     * @param nBlocked number of times blocking an attack
      */
-    public Unit(String name, int health, int attack, int armor, int nAttacks, int nAttacked) {
+    public Unit(String name, int health, int attack, int armor, int nAttacks, int nBlocked) {
         this.name = name;
         this.health = health;
         this.attack = attack;
         this.armor = armor;
-        this.nAttacked = nAttacked;
+        this.nBlocked = nBlocked;
         this.nAttacks = nAttacks;
     }
 
@@ -28,8 +30,8 @@ public abstract class Unit {
      * @param opponent opponent
      */
     public void attack(Unit opponent){
-        setnAttacks(nAttacked++);
-        opponent.setnAttacked(opponent.getnAttacked()+1);
+        setNAttacks(getNAttacks()+1);
+        opponent.setNBlocked(opponent.getNBlocked()+1);
         int newHealth = opponent.getHealth() - this.getAttack()-this.getAttackBonus() + opponent.armor+opponent.getResistBonus();
         opponent.setHealth(newHealth);
     }
@@ -73,22 +75,37 @@ public abstract class Unit {
         this.health = health;
     }
 
-    public int getnAttacks() {
+    /**
+     * Returns number of times the unit has attacked
+     * @return nAttacks
+     */
+    public int getNAttacks() {
         return nAttacks;
     }
 
-    public int getnAttacked() {
-        return nAttacked;
-    }
-
-    public void setnAttacks(int nAttacks) {
+    /**
+     * Modifies number of times attacked
+     * @param nAttacks number of times attacked
+     */
+    public void setNAttacks(int nAttacks) {
         this.nAttacks = nAttacks;
     }
 
-    public void setnAttacked(int nAttacked) {
-        this.nAttacked = nAttacked;
+    /**
+     * Returns number of times the unit has been blocked an attack
+     * @return nBlocked
+     */
+    public int getNBlocked() {
+        return nBlocked;
     }
 
+    /**
+     * Modifies number of times blocked
+     * @param nBlocked number of times blocked
+     */
+    public void setNBlocked(int nBlocked) {
+        this.nBlocked = nBlocked;
+    }
     /**
      * ToString
      * @return String
@@ -97,7 +114,6 @@ public abstract class Unit {
     public String toString() {
         return "{name=" + name + ", health=" + health + ", attack=" + attack + ", armor=" + armor +"}";
     }
-
     /**
      *Abstract attack-bonus method
      */

@@ -7,21 +7,23 @@ public class CavalryUnit extends Unit {
      * @param health health of CavalryUnit
      * @param attack attack of CavalryUnit
      * @param armor armor of CavalryUnit
+     * @param nAttacks number of times unit has attacked
+     * @param nBlocked number of times unit has blocked
      */
-    public CavalryUnit(String name, int health, int attack, int armor, int nAttacks, int nAttacked) {
-        super(name, health, attack, armor, nAttacks, nAttacked);
+    public CavalryUnit(String name, int health, int attack, int armor, int nAttacks, int nBlocked) {
+        super(name, health, attack, armor, nAttacks, nBlocked);
     }
     public CavalryUnit(String name, int health){
         super(name,health, 20,12, 0, 0);
     }
 
     /**
-     * Attackbonus for melee-range
+     * Attackbonus for the first attack (6) then 2
      * @return 2
      */
     @Override
     public int getAttackBonus() {
-        if(getnAttacks()<2){
+        if(getNAttacks()<2){
             return 6;
         }
         return 2;
