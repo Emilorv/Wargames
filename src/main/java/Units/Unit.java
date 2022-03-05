@@ -1,21 +1,26 @@
+package Units;
 public abstract class Unit {
-    private String name;
+    private final String name;
     private int health;
-    private int attack;
-    private int armor;
+    private final int attack;
+    private final int armor;
+    protected int nAttacks;
+    protected int nAttacked;
 
     /**
-     * Unit constructor
+     * Units.Unit constructor
      * @param name name of unit
      * @param health health of unit
      * @param attack attack of unit
      * @param armor armor of unit
      */
-    public Unit(String name, int health, int attack, int armor) {
+    public Unit(String name, int health, int attack, int armor, int nAttacks, int nAttacked) {
         this.name = name;
         this.health = health;
         this.attack = attack;
         this.armor = armor;
+        this.nAttacked = nAttacked;
+        this.nAttacks = nAttacks;
     }
 
     /**
@@ -23,10 +28,11 @@ public abstract class Unit {
      * @param opponent opponent
      */
     public void attack(Unit opponent){
-        int newHealth = opponent.getHealth() - this.getAttack()+this.getAttackBonus() + opponent.armor+opponent.getResistBonus();
+        setnAttacks(nAttacked++);
+        opponent.setnAttacked(opponent.getnAttacked()+1);
+        int newHealth = opponent.getHealth() - this.getAttack()-this.getAttackBonus() + opponent.armor+opponent.getResistBonus();
         opponent.setHealth(newHealth);
     }
-
     /**
      *Returns name of unit
      * @return name
@@ -36,7 +42,7 @@ public abstract class Unit {
     }
 
     /**
-     * Returns health of Unit
+     * Returns health of Units.Unit
      * @return health
      */
     public int getHealth() {
@@ -44,7 +50,7 @@ public abstract class Unit {
     }
 
     /**
-     * Returns attack of Unit
+     * Returns attack of Units.Unit
      * @return attack
      */
     public int getAttack() {
@@ -52,7 +58,7 @@ public abstract class Unit {
     }
 
     /**
-     * Returns armor of Unit
+     * Returns armor of Units.Unit
      * @return armor
      */
     public int getArmor() {
@@ -60,11 +66,27 @@ public abstract class Unit {
     }
 
     /**
-     * modifies health of Unit
+     * modifies health of Units.Unit
      * @param health new health value
      */
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public int getnAttacks() {
+        return nAttacks;
+    }
+
+    public int getnAttacked() {
+        return nAttacked;
+    }
+
+    public void setnAttacks(int nAttacks) {
+        this.nAttacks = nAttacks;
+    }
+
+    public void setnAttacked(int nAttacked) {
+        this.nAttacked = nAttacked;
     }
 
     /**
@@ -85,6 +107,4 @@ public abstract class Unit {
      *Abstract resist-bonus method
      */
     public abstract int getResistBonus();
-
-
 }
