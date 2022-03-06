@@ -33,6 +33,9 @@ public abstract class Unit {
         setNAttacks(getNAttacks()+1);
         opponent.setNBlocked(opponent.getNBlocked()+1);
         int newHealth = opponent.getHealth() - this.getAttack()-this.getAttackBonus() + opponent.armor+opponent.getResistBonus();
+        if( newHealth<0){
+            newHealth = 0;
+        }
         opponent.setHealth(newHealth);
     }
     /**

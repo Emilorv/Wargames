@@ -3,10 +3,11 @@ import Units.CommanderUnit;
 import Units.InfantryUnit;
 import Units.RangedUnit;
 import junit.framework.TestCase;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
-public class UnitTest extends TestCase {
+
+public class UnitTest {
     /**
      * The attack applies a damage of 15(attack) + 2(attackBonus) - 10(opponentArmor) -1(opponentResistBonus) = 6
      * Opponents health goes from 30 to 24 and then 18
