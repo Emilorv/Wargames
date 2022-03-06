@@ -1,11 +1,6 @@
-import Units.CavalryUnit;
-import Units.CommanderUnit;
-import Units.InfantryUnit;
-import Units.RangedUnit;
-import junit.framework.TestCase;
+package Units;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-
 
 public class UnitTest {
     /**
@@ -14,6 +9,7 @@ public class UnitTest {
      */
     @Test
     public void InfantryAttacks(){
+
         InfantryUnit infantry1 = new InfantryUnit("Geir", 30);
         InfantryUnit infantry2 = new InfantryUnit("Hans", 30);
         infantry1.attack(infantry2);
@@ -21,7 +17,6 @@ public class UnitTest {
         infantry1.attack(infantry2);
         Assertions.assertEquals(18, infantry2.getHealth());
     }
-
     /**
      * Tests RangedUnits BonusResist on the first 2 attacks
      * The attack applies a damage of 15(attack) +3(attackBonus) -8(opponentArmor) -6then4then2(opponentResistBonus) = 4then6then8
@@ -69,4 +64,18 @@ public class UnitTest {
         commander1.attack(commander2);
         Assertions.assertEquals(4, commander2.getHealth());
     }
+
+    /**
+     * Test to check if armor is greater than attack -> if True: nothing happens
+     * Test is successful if the
+     */
+    @Test
+    public void ArmorGreaterThanAttack(){
+        InfantryUnit infantry1 = new InfantryUnit("Swordman", 10, 10, 20, 0, 0);
+        InfantryUnit infantry2 = new InfantryUnit("Swordman", 10, 10, 20, 0, 0);
+        Assertions.assertEquals(10, infantry2.getHealth());
+        infantry1.attack(infantry2);
+        Assertions.assertEquals(10, infantry2.getHealth());
+    }
 }
+

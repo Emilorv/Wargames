@@ -6,7 +6,6 @@ import java.util.Random;
 public class Army {
     private String name;
     private ArrayList<Unit> units = new ArrayList<>();
-
     /**
      * Constructor of ArmyClass
      * @param name name of army
@@ -101,7 +100,6 @@ public class Army {
         Army army = (Army) object;
         return Objects.equals(name, army.name) && Objects.equals(units, army.units);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(name, units);

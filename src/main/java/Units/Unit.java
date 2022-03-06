@@ -27,16 +27,20 @@ public abstract class Unit {
 
     /**
      *Attack-method. Changes health of opponent
+     * if opponent armor is greater than attackers attack, nothing happens.
      * @param opponent opponent
      */
     public void attack(Unit opponent){
         setNAttacks(getNAttacks()+1);
         opponent.setNBlocked(opponent.getNBlocked()+1);
-        int newHealth = opponent.getHealth() - this.getAttack()-this.getAttackBonus() + opponent.armor+opponent.getResistBonus();
-        if( newHealth<0){
-            newHealth = 0;
+        if(this.getAttack()+this.getAttackBonus()> opponent.getArmor()+opponent.getResistBonus()){
+            int newHealth = opponent.getHealth() - this.getAttack()-this.getAttackBonus() + opponent.armor+opponent.getResistBonus();
+
+            if( newHealth<0){
+                newHealth = 0;
+            }
+            opponent.setHealth(newHealth);
         }
-        opponent.setHealth(newHealth);
     }
     /**
      *Returns name of unit
