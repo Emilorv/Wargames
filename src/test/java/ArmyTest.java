@@ -11,11 +11,15 @@ public class ArmyTest {
     @Test
     public void emptyArmy(){
         ArrayList<Unit> units = new ArrayList<>();
-        try {
-            Army army = new Army("Geir", units);
-        } catch (IllegalArgumentException e){
-           Assertions.assertEquals("List with units cannot be empty",e.getMessage());
-        }
+        Assertions.assertThrowsExactly(IllegalArgumentException.class, () ->new Army("Geir",units));
+    }
+
+    @Test
+    public void namelessArmy(){
+        ArrayList<Unit> units = new ArrayList<>();
+        InfantryUnit infantry1 = new InfantryUnit("Swordman",15);
+        units.add(infantry1);
+        Assertions.assertThrowsExactly(IllegalArgumentException.class, () ->new Army("",units));
     }
     /**
      * This test Creates an army and a unit. The test is successful if the method army.hasUnits()

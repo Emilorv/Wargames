@@ -21,7 +21,6 @@ public class UnitTest {
             Assertions.assertSame(e.getMessage(),"Health cannot be 0 or less");
         }
     }
-
     /**
      * The attack applies a damage of 15(attack) + 2(attackBonus) - 10(opponentArmor) -1(opponentResistBonus) = 6
      * Opponents health goes from 30 to 24 and then 18
@@ -35,6 +34,17 @@ public class UnitTest {
         Assertions.assertEquals(24, infantry2.getHealth());
         infantry1.attack(infantry2);
         Assertions.assertEquals(18, infantry2.getHealth());
+    }
+
+    /**
+     * Attack of Overpowered unit infantry2 will technically set infantry1's health to way less than 0
+     */
+    @Test
+    public void UnitHealthSetToLessThanZero(){
+        InfantryUnit infantry1 = new InfantryUnit("Swordman", 1);
+        InfantryUnit infantry2 = new InfantryUnit("Puncher",30,30,30,30,30 );
+        infantry2.attack(infantry1);
+        Assertions.assertEquals(0,infantry1.getHealth());
     }
     /**
      * Tests RangedUnits BonusResist on the first 2 attacks

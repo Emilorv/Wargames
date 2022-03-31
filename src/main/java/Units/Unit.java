@@ -93,7 +93,7 @@ public abstract class Unit {
      */
     public void setHealth(int health) {
         if(health<0){
-            this.health =0;
+            this.health = 0;
         }
         this.health = health;
     }
