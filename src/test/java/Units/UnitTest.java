@@ -1,8 +1,27 @@
 package Units;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 
 public class UnitTest {
+    @Test
+    public void NamelessUnit(){
+        try {
+           InfantryUnit infantry1 = new InfantryUnit("", 1);
+        }catch (IllegalArgumentException e){
+            Assertions.assertSame(e.getMessage(),"Name cannot be empty or null");
+        }
+    }
+
+    @Test
+    public void HealthlessUnit(){
+        try {
+            InfantryUnit infantry1 = new InfantryUnit("Swordman", 0);
+        }catch (IllegalArgumentException e){
+            Assertions.assertSame(e.getMessage(),"Health cannot be 0 or less");
+        }
+    }
+
     /**
      * The attack applies a damage of 15(attack) + 2(attackBonus) - 10(opponentArmor) -1(opponentResistBonus) = 6
      * Opponents health goes from 30 to 24 and then 18

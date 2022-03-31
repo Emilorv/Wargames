@@ -1,5 +1,8 @@
 package Units;
 
+/**
+ * CavalryUnit class. Unit that excels in melee combat, with a charged attack bonus. Extends Unit class
+ */
 public class CavalryUnit extends Unit {
     /**
      * Constructor of CavalryUnit

@@ -1,5 +1,8 @@
 package Units;
 
+/**
+ * InfantryUnit class. Basic melee unit. Extends Unit class
+ */
 public class InfantryUnit extends Unit {
     /**
      * Constructor of InfantryUnit

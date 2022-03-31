@@ -3,6 +3,9 @@ import Units.CommanderUnit;
 import Units.InfantryUnit;
 import Units.RangedUnit;
 
+/**
+ * Client class for Wargames. Creates 2 armies and simulates a battle
+ */
 public class Client {
     public Army createArmy1(){
         Army humanArmy = new Army("Human Army");

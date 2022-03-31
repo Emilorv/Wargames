@@ -2,11 +2,21 @@ import Units.InfantryUnit;
 import Units.RangedUnit;
 import Units.Unit;
 import org.junit.jupiter.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 public class ArmyTest {
+
+    @Test
+    public void emptyArmy(){
+        ArrayList<Unit> units = new ArrayList<>();
+        try {
+            Army army = new Army("Geir", units);
+        } catch (IllegalArgumentException e){
+           Assertions.assertEquals("List with units cannot be empty",e.getMessage());
+        }
+    }
     /**
      * This test Creates an army and a unit. The test is successful if the method army.hasUnits()
      * first returns false, and after adding the unit it returns true
@@ -54,6 +64,7 @@ public class ArmyTest {
     /**
      * Tests getRandom(): First tests if 
      */
+
     @Test
     public void testGetRandom() {
         InfantryUnit infantry1 = new InfantryUnit("Geir", 30);

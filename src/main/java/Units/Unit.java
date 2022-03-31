@@ -1,4 +1,8 @@
 package Units;
+
+/**
+ * Abstract Unit class. Model for units that will be part of Armies.
+ */
 public abstract class Unit {
     private final String name;
     private int health;
@@ -16,9 +20,17 @@ public abstract class Unit {
      * @param nAttacks number of times attacking
      * @param nBlocked number of times blocking an attack
      */
-    public Unit(String name, int health, int attack, int armor, int nAttacks, int nBlocked) {
-        this.name = name;
-        this.health = health;
+    public Unit(String name, int health, int attack, int armor, int nAttacks, int nBlocked) throws IllegalArgumentException{
+        if(name !=null && !name.equals("")) {
+            this.name = name;
+        }else {
+            throw new IllegalArgumentException("Name cannot be empty or null");
+        }
+        if (health>0){
+            this.health = health;
+        } else{
+            throw new IllegalArgumentException("Health cannot be 0 or less");
+        }
         this.attack = attack;
         this.armor = armor;
         this.nBlocked = nBlocked;
@@ -34,12 +46,13 @@ public abstract class Unit {
         setNAttacks(getNAttacks()+1);
         opponent.setNBlocked(opponent.getNBlocked()+1);
         if(this.getAttack()+this.getAttackBonus()> opponent.getArmor()+opponent.getResistBonus()){
-            int newHealth = opponent.getHealth() - this.getAttack()-this.getAttackBonus() + opponent.armor+opponent.getResistBonus();
 
+            int newHealth = opponent.getHealth() - this.getAttack()-this.getAttackBonus() + opponent.armor+opponent.getResistBonus();
             if( newHealth<0){
                 newHealth = 0;
             }
             opponent.setHealth(newHealth);
+
         }
     }
     /**
@@ -75,10 +88,13 @@ public abstract class Unit {
     }
 
     /**
-     * modifies health of Units.Unit
+     * modifies health of Units.Unit. If new health value is less then 0, set it to 0.
      * @param health new health value
      */
     public void setHealth(int health) {
+        if(health<0){
+            this.health =0;
+        }
         this.health = health;
     }
 

@@ -1,5 +1,8 @@
 import Units.Unit;
 
+/**
+ * Battle class. Simulates a battle between 2 armies.
+ */
 public class Battle {
     private final Army armyOne;
     private final Army armyTwo;

@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Army class. Assembles units into teams that will be used in battles against each other.
+ */
 public class Army {
     private String name;
     private ArrayList<Unit> units = new ArrayList<>();
@@ -12,8 +15,16 @@ public class Army {
      * @param units array with units
      */
     public Army(String name, ArrayList<Unit> units) {
-        this.name = name;
-        this.units = units;
+        if(name !=null && !name.equals("")) {
+            this.name = name;
+        }else {
+            throw new IllegalArgumentException("Name cannot be empty or null");
+        }
+        if(units.size()!=0) {
+            this.units = units;
+        }else{
+            throw new IllegalArgumentException("List with units cannot be empty");
+        }
     }
     public Army(String name) {
         this.name = name;

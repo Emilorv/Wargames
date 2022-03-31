@@ -1,5 +1,8 @@
 package Units;
 
+/**
+ * RangedUnit class. Unit that excels in ranged combat. Extends Unit class
+ */
 public class RangedUnit extends Unit {
     /**
      * Constructor of RangedUnit
