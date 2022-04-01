@@ -1,9 +1,6 @@
-import Units.InfantryUnit;
-import Units.RangedUnit;
-import Units.Unit;
+import Units.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 
 public class ArmyTest {
@@ -86,6 +83,41 @@ public class ArmyTest {
             Unit randomUnit = army.getRandom();
             Assertions.assertTrue(randomUnit == infantry1 || randomUnit == ranged1);
         }
+    }
+
+    /**
+     * Get units of each type.
+     */
+    @Test
+    public void getUnitsOfEachType(){
+        ArrayList<Unit> infantryUnits = new ArrayList<>();
+        infantryUnits.add(new InfantryUnit("Geir",30));
+        infantryUnits.add( new InfantryUnit("Geir2", 30));
+
+        ArrayList<Unit> rangedUnits = new ArrayList<>();
+        rangedUnits.add(new RangedUnit("Archer", 30));
+        rangedUnits.add(new RangedUnit("Gunslinger",30));
+        rangedUnits.add(new RangedUnit("Birk",30));
+
+        ArrayList<Unit> commanderUnits = new ArrayList<>();
+        commanderUnits.add(new CommanderUnit("Com", 30));
+        commanderUnits.add(new CommanderUnit("Gu",30));
+        commanderUnits.add(new CommanderUnit("Bir",30));
+
+        ArrayList<Unit> cavalryUnits = new ArrayList<>();
+        cavalryUnits.add(new CavalryUnit("Knight", 50));
+
+        ArrayList<Unit> inputUnits = new ArrayList<>();
+        inputUnits.addAll(infantryUnits);
+        inputUnits.addAll(rangedUnits);
+        inputUnits.addAll(commanderUnits);
+        inputUnits.addAll(cavalryUnits);
+
+        Army army = new Army("Army", inputUnits);
+        Assertions.assertEquals(infantryUnits, army.getInfantryUnits());
+        Assertions.assertEquals(rangedUnits,army.getRangedUnits());
+        Assertions.assertEquals(commanderUnits,army.getCommanderUnits());
+        Assertions.assertEquals(cavalryUnits,army.getCavalryUnits());
 
     }
 }

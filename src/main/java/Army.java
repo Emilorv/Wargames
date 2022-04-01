@@ -1,7 +1,10 @@
-import Units.Unit;
+import Units.*;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Random;
+import Units.InfantryUnit;
+
 
 /**
  * Army class. Assembles units into teams that will be used in battles against each other.
@@ -9,9 +12,11 @@ import java.util.Random;
 public class Army {
     private String name;
     private ArrayList<Unit> units = new ArrayList<>();
+
     /**
      * Constructor of ArmyClass
-     * @param name name of army
+     *
+     * @param name  name of army
      * @param units array with units
      */
     public Army(String name, ArrayList<Unit> units) {
@@ -26,13 +31,20 @@ public class Army {
             throw new IllegalArgumentException("List with units cannot be empty");
         }
     }
+
+    /**
+     * Instantiates a new Army.
+     *
+     * @param name the name
+     */
     public Army(String name) {
         this.name = name;
     }
 
     /**
      * Get name of army
-     * @return name
+     *
+     * @return name name
      */
     public String getName() {
         return name;
@@ -40,6 +52,7 @@ public class Army {
 
     /**
      * Adds Unit to army
+     *
      * @param unit unit to be added
      * @return true if succesfull
      */
@@ -50,6 +63,7 @@ public class Army {
 
     /**
      * Adds all units in an inputarray to army
+     *
      * @param inputUnits an array of units that are to be added to army
      * @return true if succesfull
      */
@@ -62,6 +76,7 @@ public class Army {
 
     /**
      * Removes unit from army
+     *
      * @param unit unit to be removed from army
      * @return true if succesfull
      */
@@ -72,6 +87,7 @@ public class Army {
 
     /**
      * Checks if army has units
+     *
      * @return false if army is empty, true if it is not
      */
     public boolean hasUnits(){
@@ -80,15 +96,53 @@ public class Army {
 
     /**
      * Returns an array of units in the army
-     * @return units
+     *
+     * @return units array list
      */
     public ArrayList<Unit> getAllUnits(){
         return units;
     }
 
     /**
+     * Get infantry units in army.
+     *
+     * @return the list
+     */
+    public List<Unit> getInfantryUnits(){
+        return getAllUnits().stream().filter(c->c instanceof InfantryUnit).toList();
+    }
+
+    /**
+     * Get cavalry units in army.
+     *
+     * @return the list
+     */
+    public List<Unit> getCavalryUnits(){
+        return getAllUnits().stream().filter(c->c.getClass().equals(CavalryUnit.class)).toList();
+    }
+
+    /**
+     * Get ranged units in army.
+     *
+     * @return the list
+     */
+    public List<Unit> getRangedUnits(){
+        return getAllUnits().stream().filter(c->c instanceof RangedUnit).toList();
+    }
+
+    /**
+     * Get commander units in army.
+     *
+     * @return the list
+     */
+    public List<Unit> getCommanderUnits(){
+        return getAllUnits().stream().filter(c->c instanceof CommanderUnit).toList();
+    }
+
+    /**
      * Returns a random unit in army
-     * @return unit
+     *
+     * @return unit unit
      */
     public Unit getRandom(){
         double randomNumber = Math.random()*units.size();
