@@ -135,7 +135,7 @@ public abstract class Unit {
      */
     @Override
     public String toString() {
-        return "{name=" + name + ", health=" + health + ", attack=" + attack + ", armor=" + armor +"}";
+        return getClass().getSimpleName()+","+getName()+","+getHealth();
     }
     /**
      *Abstract attack-bonus method

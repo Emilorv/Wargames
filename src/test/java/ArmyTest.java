@@ -1,6 +1,8 @@
 import Units.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class ArmyTest {
@@ -118,6 +120,20 @@ public class ArmyTest {
         Assertions.assertEquals(rangedUnits,army.getRangedUnits());
         Assertions.assertEquals(commanderUnits,army.getCommanderUnits());
         Assertions.assertEquals(cavalryUnits,army.getCavalryUnits());
+    }
 
+    @Test
+    public void saveArmyToFile(){
+        Army army = new Army("Appelsin army");
+        army.addUnit(new InfantryUnit("Geir",50));
+        army.addUnit(new RangedUnit("Gei",52));
+
+        army.saveArmyToFile();
+    }
+
+    @Test
+    public void readArmyFromFile(){
+        Army army = new Army("2");
+        army.readArmyFromFile("src/main/resources/Armies/Appelsin army.csv");
     }
 }

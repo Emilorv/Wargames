@@ -38,3 +38,4 @@ public class InfantryUnit extends Unit {
         return 1;
     }
 }
+
