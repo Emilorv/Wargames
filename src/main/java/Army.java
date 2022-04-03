@@ -18,6 +18,7 @@ import Units.InfantryUnit;
  * Army class. Assembles units into teams that will be used in battles against each other.
  */
 public class Army {
+
     private String name;
     private ArrayList<Unit> units = new ArrayList<>();
 
@@ -29,14 +30,10 @@ public class Army {
      */
     public Army(String name, ArrayList<Unit> units) {
         if (name != null && !name.equals("")) {
-            this.name = name;
+                    this.name = name;
+                    this.units = units;
         } else {
             throw new IllegalArgumentException("Name cannot be empty or null");
-        }
-        if (units.size() != 0) {
-            this.units = units;
-        } else {
-            throw new IllegalArgumentException("List with units cannot be empty");
         }
     }
 
@@ -46,9 +43,13 @@ public class Army {
      * @param name the name
      */
     public Army(String name) {
-        this.name = name;
+        if (name != null && !name.equals("")) {
+                    this.name = name;
+                    this.units = new ArrayList<>();
+        } else {
+            throw new IllegalArgumentException("Name cannot be empty or null");
+        }
     }
-
     /**
      * Get name of army
      *
@@ -165,54 +166,6 @@ public class Army {
         int unitIndex = (int) Math.floor(randomNumber);
         return units.get(unitIndex);
     }
-
-    public void saveArmyToFile() {
-        FileWriter fileWriter = null;
-        try {
-            String path = "src/main/resources/Armies/" + getName() + ".csv";
-            File army = new File(path);
-            fileWriter = new FileWriter(path);
-            fileWriter.write(getName() + "\n");
-            for (Unit unit : getAllUnits()) {
-                fileWriter.write(unit.toString() + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fileWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void readArmyFromFile(String filepath) {
-        try {
-            File file = new File(filepath);
-            Scanner myReader = new Scanner(file);
-            ArrayList<Unit> units = new ArrayList<>();
-            String armyName = myReader.nextLine();
-            while (myReader.hasNextLine()) {
-                String data[] = myReader.nextLine().split(",");
-                if (data[0].equals("InfantryUnit")) {
-                    units.add(new InfantryUnit(data[1], Integer.parseInt(data[2])));
-                } else if (data[0].equals("RangedUnit")) {
-                    units.add(new RangedUnit(data[1], Integer.parseInt(data[2])));
-                } else if (data[0].equals("CavalryUnit")) {
-                    units.add(new CavalryUnit(data[1], Integer.parseInt(data[2])));
-                } else if (data[0].equals("CommanderUnit")) {
-                    units.add(new CommanderUnit(data[1], Integer.parseInt(data[2])));
-                }
-            }
-            myReader.close();
-            setName(armyName);
-            addAll(units);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public String toString() {
         return "Army{" +

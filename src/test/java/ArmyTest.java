@@ -6,13 +6,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class ArmyTest {
-
-    @Test
-    public void emptyArmy(){
-        ArrayList<Unit> units = new ArrayList<>();
-        Assertions.assertThrowsExactly(IllegalArgumentException.class, () ->new Army("Geir",units));
-    }
-
     @Test
     public void namelessArmy(){
         ArrayList<Unit> units = new ArrayList<>();
@@ -26,7 +19,7 @@ public class ArmyTest {
      */
     @Test
     public void testAddUnitAndHasUnits() {
-        Army army = new Army("First Army");
+        Army army = new Army("ArmyAddUnitTest");
         InfantryUnit infantry1 = new InfantryUnit("Geir", 30);
         Assertions.assertFalse(army.hasUnits());
         army.addUnit(infantry1);
@@ -39,7 +32,7 @@ public class ArmyTest {
      */
     @Test
     public void testAddAllAndGetAllUnits() {
-        Army army = new Army("First Army");
+        Army army = new Army("ArmyGetAddAndGetUnitsTest");
         ArrayList<Unit> inputUnits = new ArrayList<>();
         InfantryUnit infantry1 = new InfantryUnit("Geir", 30);
         RangedUnit ranged1 = new RangedUnit("Hans", 30);
@@ -56,7 +49,7 @@ public class ArmyTest {
      */
     @Test
     public void testRemove() {
-        Army army = new Army("First Army");
+        Army army = new Army("ArmyRemoveTest");
         InfantryUnit infantry1 = new InfantryUnit("Geir", 30);
         army.addUnit(infantry1);
         Assertions.assertTrue(army.hasUnits());
@@ -65,15 +58,15 @@ public class ArmyTest {
     }
 
     /**
-     * Tests getRandom(): First tests if 
+     * Test get random unit. First tests if the random unit in an army with one unit always gets the one, and then tests if
+     * the random unit in an army with two units always will be one of the two
      */
-
     @Test
     public void testGetRandom() {
         InfantryUnit infantry1 = new InfantryUnit("Geir", 30);
         ArrayList<Unit> inputUnits = new ArrayList<>();
         inputUnits.add(infantry1);
-        Army army = new Army("First Army", inputUnits);
+        Army army = new Army("ArmyGetRandomTest", inputUnits);
         Assertions.assertEquals(1, army.getAllUnits().size());
         for (int i=0; i<100; i++){
             Unit randomUnit = army.getRandom();
@@ -115,7 +108,7 @@ public class ArmyTest {
         inputUnits.addAll(commanderUnits);
         inputUnits.addAll(cavalryUnits);
 
-        Army army = new Army("Army", inputUnits);
+        Army army = new Army("ArmyGetUnitsOfEachTypeTest", inputUnits);
         Assertions.assertEquals(infantryUnits, army.getInfantryUnits());
         Assertions.assertEquals(rangedUnits,army.getRangedUnits());
         Assertions.assertEquals(commanderUnits,army.getCommanderUnits());
@@ -124,16 +117,14 @@ public class ArmyTest {
 
     @Test
     public void saveArmyToFile(){
-        Army army = new Army("Appelsin army");
+        Army army = new Army("StianArmy");
         army.addUnit(new InfantryUnit("Geir",50));
         army.addUnit(new RangedUnit("Gei",52));
 
-        army.saveArmyToFile();
     }
+
 
     @Test
     public void readArmyFromFile(){
-        Army army = new Army("2");
-        army.readArmyFromFile("src/main/resources/Armies/Appelsin army.csv");
     }
 }
