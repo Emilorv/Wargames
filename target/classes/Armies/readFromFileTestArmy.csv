@@ -1,0 +1,4 @@
+readFromFileTestArmy
+InfantryUnit,Sword,50
+CommanderUnit,Knight,50
+RangedUnit,Archer,60
