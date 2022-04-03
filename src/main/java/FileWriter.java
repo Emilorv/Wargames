@@ -16,9 +16,8 @@ public class FileWriter {
      *First line is army name, then 1 unit for each line afterwards
      * @param army the army that is saved to file
      */
-    public void saveArmyToFile(Army army) {
+    public void saveArmyToFile(Army army) throws IOException {
         java.io.FileWriter fileWriter = null;
-        try {
             String path = "src/main/resources/Armies/" + army.getName() + ".csv";
             File file = new File(path);
             fileWriter = new java.io.FileWriter(path);
@@ -26,26 +25,17 @@ public class FileWriter {
             for (Unit unit : army.getAllUnits()) {
                 fileWriter.write(unit.toString() + "\n");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fileWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            fileWriter.close();
         }
-    }
 
     /**
      * Read army from file army.
      * @param armyName name of army that you want to receive
      * @return the army
      */
-    public Army readArmyFromFile(String armyName) {
+    public Army readArmyFromFile(String armyName) throws FileNotFoundException {
         if (armyName != null && !armyName.equals("")) {
             if (new File("src/main/resources/Armies/" + armyName + ".csv").isFile()) {
-                try {
                     Scanner fileReader = new Scanner(new File("src/main/resources/Armies/" + armyName + ".csv"));
                     ArrayList<Unit> unitsFromFile = new ArrayList<>();
                     armyName = fileReader.nextLine();
@@ -64,28 +54,25 @@ public class FileWriter {
                     fileReader.close();
                     Army army = new Army(armyName, unitsFromFile);
                     return army;
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+            } else{
+                throw new FileNotFoundException("File could not be found");
             }
         } else {
             throw new IllegalArgumentException("Name cannot be empty or null");
         }
-        return null;
     }
 
     /**
      * Delete army file.
      * @param armyName name of army that is being deleted
      */
-    public void deleteArmyFile(String armyName){
+    public void deleteArmyFile(String armyName) throws FileNotFoundException {
         if (new File("src/main/resources/Armies/" + armyName + ".csv").isFile()) {
-            try {
                 File file = new File("src/main/resources/Armies/" + armyName + ".csv");
                 file.delete();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+        }
+        else{
+            throw new FileNotFoundException();
         }
     }
 }
