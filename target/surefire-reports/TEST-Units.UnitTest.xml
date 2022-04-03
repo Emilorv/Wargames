@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="Units.UnitTest" time="0.015" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="Units.UnitTest" time="0.011" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="16"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="NO"/>
     <property name="sun.boot.library.path" value="C:\Users\Sjoko\.jdks\corretto-16.0.2\bin"/>
-    <property name="sun.java.command" value="C:\Users\Sjoko\AppData\Local\Temp\surefire2775680385188914604\surefirebooter1946752565041951857.jar C:\Users\Sjoko\AppData\Local\Temp\surefire2775680385188914604 2022-04-03T23-02-56_854-jvmRun1 surefire13182480444791101813tmp surefire_0454394091080304442tmp"/>
+    <property name="sun.java.command" value="C:\Users\Sjoko\AppData\Local\Temp\surefire6191597941103604899\surefirebooter2305736303941401069.jar C:\Users\Sjoko\AppData\Local\Temp\surefire6191597941103604899 2022-04-03T23-03-40_194-jvmRun1 surefire7426044525681017048tmp surefire_016524356965775463330tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Sjoko\OneDrive - NTNU\Programmering 2\Wargames\target\test-classes;C:\Users\Sjoko\OneDrive - NTNU\Programmering 2\Wargames\target\classes;C:\Users\Sjoko\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.2\junit-jupiter-engine-5.8.2.jar;C:\Users\Sjoko\.m2\repository\org\junit\platform\junit-platform-engine\1.8.2\junit-platform-engine-1.8.2.jar;C:\Users\Sjoko\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Sjoko\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.2\junit-jupiter-api-5.8.2.jar;C:\Users\Sjoko\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Sjoko\.m2\repository\org\junit\platform\junit-platform-commons\1.8.2\junit-platform-commons-1.8.2.jar;C:\Users\Sjoko\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Sjoko\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Sjoko\AppData\Local\Temp\surefire2775680385188914604\surefirebooter1946752565041951857.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Sjoko\AppData\Local\Temp\surefire6191597941103604899\surefirebooter2305736303941401069.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="16.0.2+7"/>
@@ -60,9 +60,9 @@
   <testcase name="InfantryAttacks" classname="Units.UnitTest" time="0.001"/>
   <testcase name="RangedBonusResist" classname="Units.UnitTest" time="0.001"/>
   <testcase name="UnitHealthSetToLessThanZero" classname="Units.UnitTest" time="0.001"/>
-  <testcase name="NamelessUnit" classname="Units.UnitTest" time="0"/>
-  <testcase name="HealthlessUnit" classname="Units.UnitTest" time="0"/>
-  <testcase name="CommanderUnitAttack" classname="Units.UnitTest" time="0"/>
+  <testcase name="NamelessUnit" classname="Units.UnitTest" time="0.001"/>
+  <testcase name="HealthlessUnit" classname="Units.UnitTest" time="0.001"/>
+  <testcase name="CommanderUnitAttack" classname="Units.UnitTest" time="0.001"/>
   <testcase name="CavalryChargeAttacks" classname="Units.UnitTest" time="0"/>
   <testcase name="ArmorGreaterThanAttack" classname="Units.UnitTest" time="0"/>
 </testsuite>
