@@ -17,7 +17,7 @@ public class FileWriter {
      * @param army the army that is saved to file
      */
     public void saveArmyToFile(Army army) throws IOException {
-        java.io.FileWriter fileWriter = null;
+            java.io.FileWriter fileWriter = null;
             String path = "src/main/resources/Armies/" + army.getName() + ".csv";
             File file = new File(path);
             fileWriter = new java.io.FileWriter(path);
@@ -41,15 +41,7 @@ public class FileWriter {
                     armyName = fileReader.nextLine();
                     while (fileReader.hasNextLine()) {
                         String data[] = fileReader.nextLine().split(",");
-                        if (data[0].equals("InfantryUnit")) {
-                            unitsFromFile.add(new InfantryUnit(data[1], Integer.parseInt(data[2])));
-                        } else if (data[0].equals("RangedUnit")) {
-                            unitsFromFile.add(new RangedUnit(data[1], Integer.parseInt(data[2])));
-                        } else if (data[0].equals("CavalryUnit")) {
-                            unitsFromFile.add(new CavalryUnit(data[1], Integer.parseInt(data[2])));
-                        } else if (data[0].equals("CommanderUnit")) {
-                            unitsFromFile.add(new CommanderUnit(data[1], Integer.parseInt(data[2])));
-                        }
+                        unitsFromFile.add(UnitFactory.createUnit(data[0],data[1],Integer.parseInt(data[2])));
                     }
                     fileReader.close();
                     Army army = new Army(armyName, unitsFromFile);
