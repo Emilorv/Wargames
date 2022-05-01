@@ -77,12 +77,10 @@ public class UpdateArmyController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        unitsInArmy.add(new InfantryUnit("Egil", 20));
         typeCol.setCellValueFactory( new PropertyValueFactory<>("type"));
         nameCol.setCellValueFactory( new PropertyValueFactory<>("name"));
         healthCol.setCellValueFactory( new PropertyValueFactory<>("health"));
         unitObservableList = FXCollections.observableArrayList(unitsInArmy);
-        System.out.println(unitObservableList.get(0).getType());
         armyTableView.setItems(unitObservableList);
         addTypesToComboBox();
 
@@ -99,7 +97,6 @@ public class UpdateArmyController implements Initializable {
         }
 
     }
-
     @FXML
     void addBtnClicked() {
         String type = typeComboBox.getValue();

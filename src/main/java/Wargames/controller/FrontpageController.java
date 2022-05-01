@@ -1,14 +1,18 @@
 package Wargames.controller;
 import Wargames.WargamesApplication;
+import Wargames.model.Army;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class FrontpageController {
+public class FrontpageController implements Initializable {
     @FXML
     private Label title;
     @FXML
@@ -40,16 +44,33 @@ public class FrontpageController {
     @FXML
     private Button updateArmy2Btn;
 
+    Army army1;
+    Army army2;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
     @FXML
     void battleBtnClicked() {
     }
     @FXML
     void updateArmy1BtnClicked() throws IOException {
+        initData(1, army1);
         WargamesApplication.changeScene("/view/UpdateArmyPage.fxml");
     }
     @FXML
     void updateArmy2BtnClicked() throws IOException {
+        initData(2,army2);
         WargamesApplication.changeScene("/view/UpdateArmyPage.fxml");
+
+
     }
+
+    public void initData(int selectedArmyIndex, Army army){
+
+    }
+
 }
 
