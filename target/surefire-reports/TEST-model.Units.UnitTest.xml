@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ArmyTest" time="0.054" tests="7" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="model.Units.UnitTest" time="0.008" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="16"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -58,11 +58,12 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="60.0"/>
   </properties>
-  <testcase name="testAddUnitAndHasUnits" classname="ArmyTest" time="0.02"/>
-  <testcase name="namelessArmy" classname="ArmyTest" time="0.003"/>
-  <testcase name="saveArmyToFile" classname="ArmyTest" time="0.001"/>
-  <testcase name="testAddAllAndGetAllUnits" classname="ArmyTest" time="0.001"/>
-  <testcase name="testGetRandom" classname="ArmyTest" time="0.001"/>
-  <testcase name="testRemove" classname="ArmyTest" time="0.001"/>
-  <testcase name="getUnitsOfEachType" classname="ArmyTest" time="0.004"/>
+  <testcase name="InfantryAttacks" classname="model.Units.UnitTest" time="0"/>
+  <testcase name="RangedBonusResist" classname="model.Units.UnitTest" time="0"/>
+  <testcase name="UnitHealthSetToLessThanZero" classname="model.Units.UnitTest" time="0"/>
+  <testcase name="NamelessUnit" classname="model.Units.UnitTest" time="0"/>
+  <testcase name="HealthlessUnit" classname="model.Units.UnitTest" time="0.001"/>
+  <testcase name="CommanderUnitAttack" classname="model.Units.UnitTest" time="0"/>
+  <testcase name="CavalryChargeAttacks" classname="model.Units.UnitTest" time="0"/>
+  <testcase name="ArmorGreaterThanAttack" classname="model.Units.UnitTest" time="0"/>
 </testsuite>

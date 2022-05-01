@@ -1,4 +1,4 @@
-package Units;
+package Wargames.model.Units;
 
 import java.util.ArrayList;
 
@@ -45,7 +45,7 @@ public class UnitFactory {
            if (listOfUnits.size() != 0) {
                return listOfUnits;
            } else {
-               throw new IllegalArgumentException("Units could not be created");
+               throw new IllegalArgumentException("model.Units could not be created");
            }
        } else {
            throw new IllegalArgumentException("Amount must be over 0");

@@ -1,4 +1,9 @@
-import Units.*;
+import Wargames.model.Army;
+import Wargames.model.FileWriting.FileWriter;
+import Wargames.model.Units.CommanderUnit;
+import Wargames.model.Units.InfantryUnit;
+import Wargames.model.Units.RangedUnit;
+import Wargames.model.Units.Unit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +44,7 @@ public class FileWriterTest {
        FileWriter fileWriter = new FileWriter();
        Army army = new Army("E");
        try {
-           army = fileWriter.readArmyFromFile(armyName);
+           army = fileWriter.readArmyFromFileByName(armyName);
        }catch (FileNotFoundException e){
            e.printStackTrace();
        }
@@ -50,7 +55,7 @@ public class FileWriterTest {
     public void readArmyFromFileThatDoesNotExsist(){
         String armyName = "readArmyFromFileThatDoesNotExsist";
         FileWriter fileWriter = new FileWriter();
-        Assertions.assertThrows(FileNotFoundException.class, () ->fileWriter.readArmyFromFile(armyName));
+        Assertions.assertThrows(FileNotFoundException.class, () ->fileWriter.readArmyFromFileByName(armyName));
     }
 
     @Test
@@ -70,7 +75,7 @@ public class FileWriterTest {
         }
         Army checkarmy = new Army("E");
         try {
-            checkarmy = fileWriter.readArmyFromFile("saveArmyToFileThatAlreadyExists");
+            checkarmy = fileWriter.readArmyFromFileByName("saveArmyToFileThatAlreadyExists");
         }catch(FileNotFoundException e){
             e.printStackTrace();
             }

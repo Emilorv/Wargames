@@ -1,14 +1,18 @@
-import Units.CavalryUnit;
-import Units.CommanderUnit;
-import Units.InfantryUnit;
-import Units.RangedUnit;
+package Wargames;
+
+import Wargames.model.Units.CavalryUnit;
+import Wargames.model.Units.CommanderUnit;
+import Wargames.model.Units.InfantryUnit;
+import Wargames.model.Units.RangedUnit;
+import Wargames.model.Army;
+import Wargames.model.Battle;
 
 /**
  * Client class for Wargames. Creates 2 armies and simulates a battle
  */
 public class Client {
     public Army createArmy1(){
-        Army humanArmy = new Army("Human Army");
+        Army humanArmy = new Army("Human model.Army");
         for (int i = 0; i < 500; i++) {
         humanArmy.addUnit(new InfantryUnit("Footman", 100));
         }

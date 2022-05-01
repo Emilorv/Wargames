@@ -1,8 +1,8 @@
-import Units.*;
+import Wargames.model.Units.*;
+import Wargames.model.Army;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class ArmyTest {
@@ -121,10 +121,5 @@ public class ArmyTest {
         army.addUnit(new InfantryUnit("Geir",50));
         army.addUnit(new RangedUnit("Gei",52));
 
-    }
-
-
-    @Test
-    public void readArmyFromFile(){
     }
 }

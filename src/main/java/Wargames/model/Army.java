@@ -1,21 +1,14 @@
-import Units.*;
+package Wargames.model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
-import Units.InfantryUnit;
+import Wargames.model.Units.*;
 
 
 /**
- * Army class. Assembles units into teams that will be used in battles against each other.
+ * model.Army class. Assembles units into teams that will be used in battles against each other.
  */
 public class Army {
 
@@ -38,7 +31,7 @@ public class Army {
     }
 
     /**
-     * Instantiates a new Army.
+     * Instantiates a new model.Army.
      *
      * @param name the name
      */
@@ -168,7 +161,7 @@ public class Army {
     }
     @Override
     public String toString() {
-        return "Army{" +
+        return "model.Army{" +
                 "name='" + name + '\'' +
                 ", units=" + units +
                 '}';

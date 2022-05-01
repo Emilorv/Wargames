@@ -1,11 +1,15 @@
-import Units.*;
+import Wargames.model.Army;
+import Wargames.model.Battle;
+import Wargames.model.Terrain;
+import Wargames.model.Units.CommanderUnit;
+import Wargames.model.Units.InfantryUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class BattleTest {
     /**
      * Simulates a fight between 2 armies where army1 is the attacker, and army 2 is defender.
-     * The Units in each army both have health adjusted so that they will be removed if attacked
+     * The model.Units in each army both have health adjusted so that they will be removed if attacked
      * The fight is successful if the unit in army2 is removed
      */
     @Test
@@ -15,7 +19,7 @@ public class BattleTest {
         army1.addUnit( new InfantryUnit("Swordsman", 6));
         army2.addUnit( new InfantryUnit("Swordsman", 6));
         Battle battle = new Battle(army1,army2);
-        battle.Fight(army1, army2);
+        battle.Fight(army1, army2, Terrain.DEFAULT);
         Assertions.assertFalse(army2.hasUnits());
     }
 
