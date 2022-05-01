@@ -1,4 +1,8 @@
-import Units.*;
+package Wargames.model.FileWriting;
+
+import Wargames.model.Army;
+import Wargames.model.Units.Unit;
+import Wargames.model.Units.UnitFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,7 +37,7 @@ public class FileWriter {
      * @param armyName name of army that you want to receive
      * @return the army
      */
-    public Army readArmyFromFile(String armyName) throws FileNotFoundException {
+    public Army readArmyFromFileByName(String armyName) throws FileNotFoundException {
         if (armyName != null && !armyName.equals("")) {
             if (new File("src/main/resources/Armies/" + armyName + ".csv").isFile()) {
                     Scanner fileReader = new Scanner(new File("src/main/resources/Armies/" + armyName + ".csv"));
@@ -53,6 +57,7 @@ public class FileWriter {
             throw new IllegalArgumentException("Name cannot be empty or null");
         }
     }
+
 
     /**
      * Delete army file.
