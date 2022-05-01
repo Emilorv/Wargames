@@ -1,10 +1,13 @@
-package Units;
+package Wargames.model.Units;
+
+import Wargames.model.Terrain;
 
 /**
  * Abstract Unit class. Model for units that will be part of Armies.
  */
 public abstract class Unit {
     private final String name;
+    private String type;
     private int health;
     private final int attack;
     private final int armor;
@@ -35,6 +38,7 @@ public abstract class Unit {
         this.armor = armor;
         this.nBlocked = nBlocked;
         this.nAttacks = nAttacks;
+        this.type = this.getClass().getSimpleName();
     }
 
     /**
@@ -45,14 +49,25 @@ public abstract class Unit {
     public void attack(Unit opponent){
         setNAttacks(getNAttacks()+1);
         opponent.setNBlocked(opponent.getNBlocked()+1);
-        if(this.getAttack()+this.getAttackBonus()> opponent.getArmor()+opponent.getResistBonus()){
+        if(this.getAttack()+this.getAttackBonus(Terrain.DEFAULT)> opponent.getArmor()+opponent.getResistBonus(Terrain.DEFAULT)){
 
-            int newHealth = opponent.getHealth() - this.getAttack()-this.getAttackBonus() + opponent.armor+opponent.getResistBonus();
+            int newHealth = opponent.getHealth() - this.getAttack()-this.getAttackBonus(Terrain.DEFAULT) + opponent.armor+opponent.getResistBonus(Terrain.DEFAULT);
             if( newHealth<0){
                 newHealth = 0;
             }
             opponent.setHealth(newHealth);
+        }
+    }
+    public void attack(Unit opponent, Terrain terrain){
+        setNAttacks(getNAttacks()+1);
+        opponent.setNBlocked(opponent.getNBlocked()+1);
+        if(this.getAttack()+this.getAttackBonus(terrain)> opponent.getArmor()+opponent.getResistBonus(terrain)){
 
+            int newHealth = opponent.getHealth() - this.getAttack()-this.getAttackBonus(terrain) + opponent.armor+opponent.getResistBonus(terrain);
+            if( newHealth<0){
+                newHealth = 0;
+            }
+            opponent.setHealth(newHealth);
         }
     }
     /**
@@ -64,7 +79,7 @@ public abstract class Unit {
     }
 
     /**
-     * Returns health of Units.Unit
+     * Returns health of model.Units.Unit
      * @return health
      */
     public int getHealth() {
@@ -72,7 +87,7 @@ public abstract class Unit {
     }
 
     /**
-     * Returns attack of Units.Unit
+     * Returns attack of model.Units.Unit
      * @return attack
      */
     public int getAttack() {
@@ -80,7 +95,7 @@ public abstract class Unit {
     }
 
     /**
-     * Returns armor of Units.Unit
+     * Returns armor of model.Units.Unit
      * @return armor
      */
     public int getArmor() {
@@ -88,7 +103,7 @@ public abstract class Unit {
     }
 
     /**
-     * modifies health of Units.Unit. If new health value is less then 0, set it to 0.
+     * modifies health of model.Units.Unit. If new health value is less then 0, set it to 0.
      * @param health new health value
      */
     public void setHealth(int health) {
@@ -96,6 +111,10 @@ public abstract class Unit {
             this.health = 0;
         }
         this.health = health;
+    }
+
+    public String getType() {
+        return type;
     }
 
     /**
@@ -140,10 +159,10 @@ public abstract class Unit {
     /**
      *Abstract attack-bonus method
      */
-    public abstract int getAttackBonus();
+    public abstract int getAttackBonus(Terrain terrain);
 
     /**
      *Abstract resist-bonus method
      */
-    public abstract int getResistBonus();
+    public abstract int getResistBonus(Terrain terrain);
 }

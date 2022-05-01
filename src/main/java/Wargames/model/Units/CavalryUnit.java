@@ -1,4 +1,6 @@
-package Units;
+package Wargames.model.Units;
+
+import Wargames.model.Terrain;
 
 /**
  * CavalryUnit class. Unit that excels in melee combat, with a charged attack bonus. Extends Unit class
@@ -22,23 +24,32 @@ public class CavalryUnit extends Unit {
 
     /**
      * Attackbonus for the first attack (6) then 2
+     * Bonus damage when in Plains-terrain
      * @return 2
      */
     @Override
-    public int getAttackBonus() {
+    public int getAttackBonus(Terrain terrain) {
+        int attackBonus = 2;
         if(getNAttacks()<2){
-            return 6;
+            attackBonus+=4;
         }
-        return 2;
+        if (terrain.equals(Terrain.PLAINS)) {
+            attackBonus+=2;
+        }
+        return attackBonus;
     }
 
     /**
      * Resistbonus small resist-bonus
+     * 0 resistbonus when in Forest-terrain
      * @return 1
      */
-    @Override
-    public int getResistBonus() {
 
+    @Override
+    public int getResistBonus(Terrain terrain) {
+        if (terrain.equals(Terrain.FOREST)) {
+            return 0;
+        }
         return 1;
     }
 }

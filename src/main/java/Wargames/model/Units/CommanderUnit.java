@@ -1,4 +1,4 @@
-package Units;
+package Wargames.model.Units;
 
 /**
  * Commander Unit. Special kind of CavalryUnit with better basic health and armor stats. Extends CavalryUnit

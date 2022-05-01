@@ -1,4 +1,6 @@
-package Units;
+package Wargames.model.Units;
+
+import Wargames.model.Terrain;
 
 /**
  * InfantryUnit class. Basic melee unit. Extends Unit class
@@ -15,6 +17,7 @@ public class InfantryUnit extends Unit {
      */
     public InfantryUnit(String name, int health, int attack, int armor, int nAttacks, int nBlocked) {
         super(name, health, attack, armor, nAttacks, nBlocked);
+
     }
     public InfantryUnit(String name, int health){
        super(name,health, 15,10, 0, 0);
@@ -22,19 +25,27 @@ public class InfantryUnit extends Unit {
 
     /**
      * Attackbonus for melee-range
-     * @return 2
+     * Bonus damage in Forest-terrain
+     * @return 4 or 2
      */
     @Override
-    public int getAttackBonus() {
+    public int getAttackBonus(Terrain terrain) {
+        if (terrain.equals(Terrain.FOREST)) {
+            return 4;
+        }
         return 2;
     }
 
     /**
      * Resistbonus small resist-bonus
-     * @return 1
+     * Bonus resist in Forest-terrain
+     * @return 2 or 1
      */
     @Override
-    public int getResistBonus() {
+    public int getResistBonus(Terrain terrain) {
+        if (terrain.equals(Terrain.FOREST)) {
+            return 2;
+        }
         return 1;
     }
 }

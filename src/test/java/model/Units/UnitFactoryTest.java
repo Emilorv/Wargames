@@ -1,5 +1,8 @@
-package Units;
+package model.Units;
 
+import Wargames.model.Units.CommanderUnit;
+import Wargames.model.Units.Unit;
+import Wargames.model.Units.UnitFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;

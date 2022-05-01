@@ -1,4 +1,8 @@
-package Units;
+package model.Units;
+import Wargames.model.Units.CavalryUnit;
+import Wargames.model.Units.CommanderUnit;
+import Wargames.model.Units.InfantryUnit;
+import Wargames.model.Units.RangedUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

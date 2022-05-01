@@ -1,4 +1,6 @@
-package Units;
+package Wargames.model.Units;
+
+import Wargames.model.Terrain;
 
 /**
  * RangedUnit class. Unit that excels in ranged combat. Extends Unit class
@@ -23,10 +25,16 @@ public class RangedUnit extends Unit {
 
     /**
      * Attackbonus for ranged-range
-     * @return 3
+     * Bonus damage in Hill-terrain
+     * @return 5 in Hill-terrain, 2 in forest. Else 3.
      */
     @Override
-    public int getAttackBonus() {
+    public int getAttackBonus(Terrain terrain) {
+        if (terrain.equals(Terrain.HILL)) {
+            return 5;
+        } else if (terrain.equals(Terrain.FOREST)) {
+            return 2;
+        }
         return 3;
     }
 
@@ -35,7 +43,7 @@ public class RangedUnit extends Unit {
      * @return 6, then 4, then 2
      */
     @Override
-    public int getResistBonus() {
+    public int getResistBonus(Terrain terrain) {
         if ( getNBlocked()<2){
             return 6;
         } else if (getNBlocked()<3){
