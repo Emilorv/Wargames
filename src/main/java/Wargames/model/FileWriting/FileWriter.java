@@ -57,6 +57,18 @@ public class FileWriter {
             throw new IllegalArgumentException("Name cannot be empty or null");
         }
     }
+    public Army readArmyFromFile(File file) throws FileNotFoundException {
+                Scanner fileReader = new Scanner(file);
+                ArrayList<Unit> unitsFromFile = new ArrayList<>();
+                String armyName = fileReader.nextLine();
+                while (fileReader.hasNextLine()) {
+                    String data[] = fileReader.nextLine().split(",");
+                    unitsFromFile.add(UnitFactory.createUnit(data[0],data[1],Integer.parseInt(data[2])));
+                }
+                fileReader.close();
+                Army army = new Army(armyName, unitsFromFile);
+                return army;
+            }
 
 
     /**

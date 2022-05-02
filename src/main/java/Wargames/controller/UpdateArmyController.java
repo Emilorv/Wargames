@@ -9,7 +9,9 @@ import Wargames.model.FileWriting.FileWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -18,7 +20,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,7 +31,10 @@ import java.util.ResourceBundle;
 
 import static java.lang.Integer.parseInt;
 
-public class UpdateArmyController implements Initializable {
+public class UpdateArmyController {
+    @FXML
+    private Label updateTitle;
+
     @FXML
     private Button addBtn;
     @FXML
@@ -71,20 +79,33 @@ public class UpdateArmyController implements Initializable {
     @FXML
     private Button backBtn;
 
+    private Army army1;
+    private Army army2;
+    private int armyIndex;
+
     private ObservableList<Unit> unitObservableList;
     ArrayList<Unit> unitsInArmy = new ArrayList<>();
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        typeCol.setCellValueFactory( new PropertyValueFactory<>("type"));
-        nameCol.setCellValueFactory( new PropertyValueFactory<>("name"));
-        healthCol.setCellValueFactory( new PropertyValueFactory<>("health"));
-        unitObservableList = FXCollections.observableArrayList(unitsInArmy);
-        armyTableView.setItems(unitObservableList);
+    public void receiveArmyInformation(int armyIndex, Army selectedArmy, Army otherArmy ){
+        unitsInArmy = new ArrayList<>();
+        if(armyIndex==1){
+            this.army1 = selectedArmy;
+            this.army2 = otherArmy;
+        } else{
+            this.army2 = selectedArmy;
+            this.army1 = otherArmy;
+        }
+        this.armyIndex=armyIndex;
+        updateTitle.setText("Updating Army" + armyIndex);
+        if(selectedArmy!=null){
+            unitsInArmy.addAll(selectedArmy.getAllUnits());
+            nameInput.setText(selectedArmy.getName());
+        }
+        updateTable();
         addTypesToComboBox();
-
     }
+
     @FXML
     void saveArmyToFileBtnClicked() {
         FileWriter fileWriter = new FileWriter();
@@ -92,6 +113,8 @@ public class UpdateArmyController implements Initializable {
         try{
             Army army = new Army(name, unitsInArmy);
             fileWriter.saveArmyToFile(army);
+            File savedFile = new File("src/main/resources/Armies/"+name+".csv");
+            fileUploadedFromText.setText("File Saved to " + savedFile.getPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,23 +143,41 @@ public class UpdateArmyController implements Initializable {
         }
     }
     @FXML
-    void uploadArmyFromFileBtnClicked() {
+    void uploadArmyFromFileBtnClicked() throws FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select an army File");
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("CSV-Files","*.csv")
         );
-
+        fileChooser.setInitialDirectory(new File("src/main/resources/Armies/"));
         File selectedFile = fileChooser.showOpenDialog(WargamesApplication.stage);
+        FileWriter fileWriter = new FileWriter();
+        if(armyIndex==1){
+            army1= fileWriter.readArmyFromFile(selectedFile);
+          receiveArmyInformation(armyIndex,army1,army2);
+        }
+        else{
+            army2= fileWriter.readArmyFromFile(selectedFile);
+            receiveArmyInformation(armyIndex,army2,army1);
+        }
         fileUploadedFromText.setText("File uploaded from: " + selectedFile.getPath());
     }
 
     @FXML
-    void confirmArmyBtnClicked(){
+    void confirmArmyBtnClicked() throws IOException {
+        if(armyIndex==1){
+            army1 = new Army(nameInput.getText(), unitsInArmy);
+        } else{
+            army2 = new Army(nameInput.getText(), unitsInArmy);
 
+        }
+        loadNextScene(army1,army2);
     }
 
     public void updateTable(){
+        typeCol.setCellValueFactory( new PropertyValueFactory<>("type"));
+        nameCol.setCellValueFactory( new PropertyValueFactory<>("name"));
+        healthCol.setCellValueFactory( new PropertyValueFactory<>("health"));
         unitObservableList = FXCollections.observableArrayList(unitsInArmy);
         armyTableView.setItems(unitObservableList);
     }
@@ -147,7 +188,17 @@ public class UpdateArmyController implements Initializable {
     }
     @FXML
     void backBtnClicked() throws IOException {
-        WargamesApplication.changeScene("/view/Frontpage.fxml");
+        loadNextScene(army1,army2);
+    }
+
+    public void loadNextScene(Army selectedArmy, Army otherArmy) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Frontpage.fxml"));
+        Parent root = loader.load();
+        FrontpageController controller = loader.getController();
+        controller.receiveArmyInformation(selectedArmy, otherArmy );
+
+        Stage stage = WargamesApplication.stage;
+        stage.getScene().setRoot(root);
     }
 }
 

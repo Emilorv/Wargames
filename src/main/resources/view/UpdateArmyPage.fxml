@@ -22,7 +22,7 @@
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="Update / Upload Army">
+                        <Label fx:id="updateTitle" text="Update / Upload Army">
                            <font>
                               <Font size="40.0" />
                            </font>

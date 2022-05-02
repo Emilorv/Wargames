@@ -61,11 +61,11 @@
                                                 <Text layoutX="14.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ranged:" />
                                                 <Text layoutX="14.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cavalry:" />
                                                 <Text layoutX="14.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Commander:" />
-                                                <Label layoutX="94.0" layoutY="23.0" text="InfantryU" />
-                                                <Label fx:id="rangedU1" layoutX="94.0" layoutY="38.0" text="RangedU" />
-                                                <Label fx:id="cavalryU1" layoutX="94.0" layoutY="52.0" text="Cavalry" />
-                                                <Label fx:id="commanderU1" layoutX="94.0" layoutY="68.0" text="InfantryU" />
-                                                <Label fx:id="numberOfUnits1" layoutX="105.0" layoutY="6.0" text="NUnits" />
+                                                <Label fx:id="infantryU1" layoutX="94.0" layoutY="23.0" text="0" />
+                                                <Label fx:id="rangedU1" layoutX="94.0" layoutY="38.0" text="0" />
+                                                <Label fx:id="cavalryU1" layoutX="94.0" layoutY="52.0" text="0" />
+                                                <Label fx:id="commanderU1" layoutX="94.0" layoutY="68.0" text="0" />
+                                                <Label fx:id="numberOfUnits1" layoutX="105.0" layoutY="6.0" text="0" />
                                              </children>
                                           </AnchorPane>
                                        </children>
@@ -114,11 +114,11 @@
                                                 <Text layoutX="14.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ranged:" />
                                                 <Text layoutX="14.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cavalry:" />
                                                 <Text layoutX="14.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Commander:" />
-                                                <Label fx:id="infantryU2" layoutX="94.0" layoutY="23.0" text="InfantryU" />
-                                                <Label fx:id="rangedU2" layoutX="94.0" layoutY="38.0" text="RangedU" />
-                                                <Label fx:id="cavalryU2" layoutX="94.0" layoutY="52.0" text="CavalryU" />
-                                                <Label fx:id="commanderU2" layoutX="94.0" layoutY="68.0" text="CommanderU" />
-                                                <Label fx:id="numberOfUnit2" layoutX="105.0" layoutY="6.0" text="NUnits" />
+                                                <Label fx:id="infantryU2" layoutX="94.0" layoutY="23.0" text="0" />
+                                                <Label fx:id="rangedU2" layoutX="94.0" layoutY="38.0" text="0" />
+                                                <Label fx:id="cavalryU2" layoutX="94.0" layoutY="52.0" text="0" />
+                                                <Label fx:id="commanderU2" layoutX="94.0" layoutY="68.0" text="0" />
+                                                <Label fx:id="numberOfUnits2" layoutX="105.0" layoutY="6.0" text="0" />
                                              </children>
                                           </AnchorPane>
                                        </children>
