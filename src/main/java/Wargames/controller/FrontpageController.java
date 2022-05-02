@@ -1,6 +1,9 @@
 package Wargames.controller;
 import Wargames.WargamesApplication;
 import Wargames.model.Army;
+import Wargames.model.Units.Unit;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
@@ -8,6 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -42,10 +48,30 @@ public class FrontpageController{
     private Label rangedU1;
     @FXML
     private Label rangedU2;
+
+    @FXML
+    private TableView<Unit> tableView1;
+    @FXML
+    private TableView<Unit> tableView2;
+    @FXML
+    private TableColumn<?, ?> typeCol1;
+    @FXML
+    private TableColumn<?, ?> typeCol2;
+    @FXML
+    private TableColumn<?, ?> nameCol1;
+    @FXML
+    private TableColumn<?, ?> nameCol2;
+    @FXML
+    private TableColumn<?, ?> healthCol1;
+    @FXML
+    private TableColumn<?, ?> healthCol2;
+
     @FXML
     private Button updateArmy1Btn;
     @FXML
     private Button updateArmy2Btn;
+    @FXML
+    private ObservableList<Unit> unitObservableList;
 
     private Army army1;
     private Army army2;
@@ -58,6 +84,7 @@ public class FrontpageController{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        updateTables();
     }
     public void loadNextScene(int armyIndex, Army selectedArmy, Army otherArmy) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UpdateArmyPage.fxml"));
@@ -99,6 +126,22 @@ public class FrontpageController{
             rangedU2.setText(Integer.toString(army2.getRangedUnits().size()));
             cavalryU2.setText(Integer.toString(army2.getCavalryUnits().size()));
             commanderU2.setText(Integer.toString(army2.getCommanderUnits().size()));
+        }
+    }
+    public void updateTables(){
+        if(army1 != null) {
+            typeCol1.setCellValueFactory(new PropertyValueFactory<>("type"));
+            nameCol1.setCellValueFactory(new PropertyValueFactory<>("name"));
+            healthCol1.setCellValueFactory(new PropertyValueFactory<>("health"));
+            unitObservableList = FXCollections.observableArrayList(army1.getAllUnits());
+            tableView1.setItems(unitObservableList);
+        }
+        if(army2 !=null) {
+            typeCol2.setCellValueFactory(new PropertyValueFactory<>("type"));
+            nameCol2.setCellValueFactory(new PropertyValueFactory<>("name"));
+            healthCol2.setCellValueFactory(new PropertyValueFactory<>("health"));
+            unitObservableList = FXCollections.observableArrayList(army2.getAllUnits());
+            tableView2.setItems(unitObservableList);
         }
     }
 }
