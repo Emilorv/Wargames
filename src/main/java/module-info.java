@@ -12,4 +12,5 @@ module Wargames{
     exports Wargames.model.Units;
     exports Wargames.model.FileWriting;
     opens Wargames.model.FileWriting to javafx.fxml;
+    opens images;
 }

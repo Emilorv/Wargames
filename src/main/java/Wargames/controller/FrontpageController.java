@@ -1,25 +1,27 @@
 package Wargames.controller;
 import Wargames.WargamesApplication;
+import Wargames.dialogs.Dialogs;
 import Wargames.model.Army;
+import Wargames.model.Terrain;
 import Wargames.model.Units.Unit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-public class FrontpageController{
+public class FrontpageController implements Initializable {
     @FXML
     private Label title;
     @FXML
@@ -28,6 +30,9 @@ public class FrontpageController{
     private Label army2Name;
     @FXML
     private Button battleBtn;
+
+    @FXML
+    private ComboBox<Terrain> terrainComboBox;
     @FXML
     private Label cavalryU1;
     @FXML
@@ -85,8 +90,9 @@ public class FrontpageController{
             e.printStackTrace();
         }
         updateTables();
+        fillTerrainComboBox();
     }
-    public void loadNextScene(int armyIndex, Army selectedArmy, Army otherArmy) throws IOException {
+    public void loadUpdateArmyScene(int armyIndex, Army selectedArmy, Army otherArmy) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UpdateArmyPage.fxml"));
         Parent root = loader.load();
         UpdateArmyController controller = loader.getController();
@@ -96,17 +102,40 @@ public class FrontpageController{
         stage.getScene().setRoot(root);
     }
 
+    public void loadBattleScene(Army army1, Army army2, Terrain terrain) throws IOException, InterruptedException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/battleView.fxml"));
+        Parent root = loader.load();
+        battleController controller = loader.getController();
+        controller.recieveData(army1,army2,terrain);
+        Stage stage = WargamesApplication.stage;
+        stage.getScene().setRoot(root);
+    }
+
     @FXML
-    void battleBtnClicked() {
+    void battleBtnClicked() throws IOException, InterruptedException {
+        if(army1 != null && army2 != null) {
+            if (army1.hasUnits() && army2.hasUnits()) {
+                if (terrainComboBox.getValue() != null) {
+                    loadBattleScene(army1, army2, terrainComboBox.getValue());
+                } else {
+                    Dialogs.showAlertDialog("Please select a type of terrain");
+                }
+            } else{
+                Dialogs.showAlertDialog("Please make sure that both armies have units");
+            }
+        }
+        else{
+            Dialogs.showAlertDialog("Please make / import both armies");
+        }
     }
 
     @FXML
     void updateArmy1BtnClicked() throws IOException {
-        loadNextScene(1,army1, army2);
+        loadUpdateArmyScene(1,army1, army2);
     }
     @FXML
     void updateArmy2BtnClicked() throws IOException {
-        loadNextScene(2,army2, army1);
+        loadUpdateArmyScene(2,army2, army1);
     }
 
 
@@ -143,6 +172,21 @@ public class FrontpageController{
             unitObservableList = FXCollections.observableArrayList(army2.getAllUnits());
             tableView2.setItems(unitObservableList);
         }
+    }
+    public void fillTerrainComboBox(){
+        ObservableList<Terrain> terrainList = FXCollections.observableArrayList(Terrain.values());
+        terrainComboBox.setItems(terrainList);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        updateTables();
+        fillTerrainComboBox();
+            try {
+                fillArmyFields();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 }
 

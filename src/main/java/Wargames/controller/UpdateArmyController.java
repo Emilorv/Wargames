@@ -2,7 +2,6 @@ package Wargames.controller;
 
 import Wargames.WargamesApplication;
 import Wargames.model.Army;
-import Wargames.model.Units.InfantryUnit;
 import Wargames.model.Units.Unit;
 import Wargames.model.Units.UnitFactory;
 import Wargames.model.FileWriting.FileWriter;
@@ -10,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,9 +23,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import static java.lang.Integer.parseInt;
 
@@ -171,7 +167,7 @@ public class UpdateArmyController {
             army2 = new Army(nameInput.getText(), unitsInArmy);
 
         }
-        loadNextScene(army1,army2);
+        loadFrontpageScene(army1,army2);
     }
 
     public void updateTable(){
@@ -188,10 +184,10 @@ public class UpdateArmyController {
     }
     @FXML
     void backBtnClicked() throws IOException {
-        loadNextScene(army1,army2);
+        loadFrontpageScene(army1,army2);
     }
 
-    public void loadNextScene(Army selectedArmy, Army otherArmy) throws IOException {
+    public void loadFrontpageScene(Army selectedArmy, Army otherArmy) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Frontpage.fxml"));
         Parent root = loader.load();
         FrontpageController controller = loader.getController();

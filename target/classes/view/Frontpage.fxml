@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -35,6 +36,15 @@
                      <VBox.margin>
                         <Insets top="30.0" />
                      </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ComboBox fx:id="terrainComboBox" prefHeight="25.0" prefWidth="182.0" promptText="Choose Terrain">
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
                   </HBox>
                   <HBox alignment="CENTER" spacing="100.0">
                      <children>
