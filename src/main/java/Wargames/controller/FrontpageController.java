@@ -14,6 +14,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,6 +33,9 @@ public class FrontpageController implements Initializable {
     private Label army2Name;
     @FXML
     private Button battleBtn;
+
+    @FXML
+    private AnchorPane background;
 
     @FXML
     private ComboBox<Terrain> terrainComboBox;
@@ -187,6 +193,12 @@ public class FrontpageController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        ImageView imageView = new ImageView();
+        imageView =  new ImageView(new Image(FrontpageController.class.getResourceAsStream("/images/backgroundplanks.png")));
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(WargamesApplication.stage.getWidth());
+        background.getChildren().add(imageView);
+        imageView.toBack();
     }
 }
 

@@ -21,6 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class battleController {
@@ -97,8 +99,8 @@ public class battleController {
         } else if(terrain.equals(Terrain.HILL)){
             imageView =  new ImageView(new Image(battleController.class.getResourceAsStream("/images/Hill.png")));
         }
-        imageView.setPreserveRatio(true);
         imageView.setFitWidth(WargamesApplication.stage.getWidth());
+        imageView.setFitHeight(WargamesApplication.stage.getHeight());
         background.getChildren().add(imageView);
         imageView.toBack();
 
@@ -179,5 +181,13 @@ public class battleController {
         }
         tableView1.refresh();
         tableView2.refresh();
+    }
+
+    public void produceUnitImages(){
+        Map<Unit, ImageView> imageMap = new HashMap<>();
+        for (Unit unit:army1.getAllUnits()) {
+            ImageView imageView =  new ImageView(new Image(battleController.class.getResourceAsStream("/images/Forest.png")));
+            units1.getChildren().add(imageView);
+        }
     }
 }
