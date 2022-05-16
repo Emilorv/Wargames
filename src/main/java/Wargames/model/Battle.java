@@ -2,6 +2,9 @@ package Wargames.model;
 
 import Wargames.model.Units.Unit;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * model.Battle class. Simulates a battle between 2 armies.
  */
@@ -56,16 +59,23 @@ public class Battle {
      * @param attackerArmy the army that strikes
      * @param defenderArmy the army that defends
      */
-    public void Fight(Army attackerArmy, Army defenderArmy, Terrain terrain){
+    public ArrayList<String> Fight(Army attackerArmy, Army defenderArmy, Terrain terrain){
+        ArrayList<String> fightInformation = new ArrayList<>();
         Unit Contestant1 = attackerArmy.getRandom();
         Unit Contestant2 = defenderArmy.getRandom();
-        Contestant1.attack(Contestant2, terrain);
+
+        String damageDone = Integer.toString(Contestant1.attack(Contestant2, terrain));
+        fightInformation.add(Contestant1.getName());
+        fightInformation.add(Contestant2.getName());
+        fightInformation.add(damageDone);
+
         if(Contestant2.getHealth()==0){
             defenderArmy.remove(Contestant2);
         }
+        return fightInformation;
     }
     @Override
     public String toString() {
-        return "model.Battle{" + "armyOne=" + armyOne + ", armyTwo=" + armyTwo + '}';
+        return "Battle{" + "armyOne=" + armyOne + ", armyTwo=" + armyTwo + '}';
     }
 }

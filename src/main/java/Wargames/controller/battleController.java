@@ -5,10 +5,10 @@ import Wargames.model.Army;
 import Wargames.model.Battle;
 import Wargames.model.Terrain;
 import Wargames.model.Units.Unit;
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,10 +17,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
 
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
 
 
 public class battleController {
@@ -41,6 +41,12 @@ public class battleController {
 
     @FXML
     private Label battleStatus;
+
+    @FXML
+    private Label damageDealtText;
+
+    @FXML
+    private Button battleSpeedBtn;
 
     @FXML
     private TableColumn<?, ?> healthCol1;
@@ -80,6 +86,8 @@ public class battleController {
     Army army1;
     Army army2;
     Terrain terrain;
+
+    int battleSpeed = 2000;
     public void recieveData(Army army1, Army army2, Terrain terrain){
         ImageView imageView = new ImageView();
         if(terrain.equals(Terrain.FOREST)){
@@ -92,6 +100,8 @@ public class battleController {
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(WargamesApplication.stage.getWidth());
         background.getChildren().add(imageView);
+        imageView.toBack();
+
 
         this.army1=army1;
         this.army2=army2;
@@ -99,28 +109,36 @@ public class battleController {
         updateTables();
     }
 
+    @FXML
+    void battleSpeedBtnHold(MouseEvent event) {
+        battleSpeedBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+            battleSpeedBtn.setText("2X Speed!!");
+            battleSpeed = 100;
+        });
+        battleSpeedBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, e->{
+            battleSpeedBtn.setText("Normal Speed");
+            battleSpeed = 2000;
+        });
+    }
+
     public void startBattleBtnClicked() {
         startBattleBtn.setDisable(true);
         Battle battle = new Battle(army1,army2,terrain);
         new Thread(()->{
             while (army1.hasUnits() && army2.hasUnits()) {
-                battle.Fight(army1, army2, terrain);
-                Platform.runLater(()-> battleStatus.setText(army1.getName() + " attacks " + army2.getName()));
+                    battleFight(battle,army1,army2,terrain);
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(battleSpeed);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("2");
                 if (army2.hasUnits()) {
-                    battle.Fight(army2, army1, terrain);
-                    Platform.runLater(()-> battleStatus.setText(army2.getName() + " attacks " + army1.getName()));
+                   battleFight(battle,army2,army1,terrain);
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(battleSpeed);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("1");
                 }
 
             }
@@ -129,29 +147,19 @@ public class battleController {
             } else{
                 Platform.runLater(()-> battleStatus.setText(army2.getName() + " is winner" ));
             }
+            battleSpeedBtn.setDisable(true);
         }).start();
     }
-    public void simulateBattle() {
-        startBattleBtn.setDisable(true);
-        Battle battle = new Battle(army1,army2,terrain);
-        while (army1.hasUnits() && army2.hasUnits()) {
-            System.out.println(1);
-            battle.Fight(army1, army2, terrain);
-            battleStatus.setText(army1.getName() + " attacks " + army2.getName());
-            if (army2.hasUnits()) {
-                System.out.println(2);
-                battle.Fight(army2, army1, terrain);
-                battleStatus.setText(army2.getName() + " attacks " + army1.getName());
-            }
-        }
-        if(army1.hasUnits()) {
-            battleStatus.setText(army1.getName() + "is winner");
-        } else{
-            battleStatus.setText(army2.getName() + "is winner");
-        }
+    public void battleFight(Battle battle, Army attackerArmy, Army defenderArmy, Terrain terrain){
+        ArrayList fightInformation = battle.Fight(attackerArmy, defenderArmy, terrain);
+        String attackerUnit = (String) fightInformation.get(0);
+        String defenderUnit = (String) fightInformation.get(1);
+        String damageDone = (String)fightInformation.get(2);
+        Platform.runLater(()-> battleStatus.setText(attackerArmy.getName() + " attacks " + defenderArmy.getName()));
+        Platform.runLater(()-> attackInfo.setText(attackerUnit +" attacked " + defenderUnit));
+        Platform.runLater(()-> damageDealtText.setText("For "+ damageDone + " damage!"));
+        Platform.runLater(()-> updateTables());
     }
-
-
     public void updateTables(){
         if(army1 != null) {
             armyName1.setText(army1.getName());
@@ -169,5 +177,7 @@ public class battleController {
             unitObservableList = FXCollections.observableArrayList(army2.getAllUnits());
             tableView2.setItems(unitObservableList);
         }
+        tableView1.refresh();
+        tableView2.refresh();
     }
 }

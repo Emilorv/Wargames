@@ -46,7 +46,7 @@ public abstract class Unit {
      * if opponent armor is greater than attackers attack, nothing happens.
      * @param opponent opponent
      */
-    public void attack(Unit opponent){
+    public int attack(Unit opponent){
         setNAttacks(getNAttacks()+1);
         opponent.setNBlocked(opponent.getNBlocked()+1);
         if(this.getAttack()+this.getAttackBonus(Terrain.DEFAULT)> opponent.getArmor()+opponent.getResistBonus(Terrain.DEFAULT)){
@@ -55,10 +55,15 @@ public abstract class Unit {
             if( newHealth<0){
                 newHealth = 0;
             }
+            int opponentHealth = opponent.getHealth();
             opponent.setHealth(newHealth);
+            int damageDone = opponentHealth-newHealth;
+            return damageDone;
+        } else{
+            return 0;
         }
     }
-    public void attack(Unit opponent, Terrain terrain){
+    public int attack(Unit opponent, Terrain terrain){
         setNAttacks(getNAttacks()+1);
         opponent.setNBlocked(opponent.getNBlocked()+1);
         if(this.getAttack()+this.getAttackBonus(terrain)> opponent.getArmor()+opponent.getResistBonus(terrain)){
@@ -67,7 +72,12 @@ public abstract class Unit {
             if( newHealth<0){
                 newHealth = 0;
             }
+            int opponentHealth = opponent.getHealth();
             opponent.setHealth(newHealth);
+            int damageDone = opponentHealth-newHealth;
+            return damageDone;
+        } else{
+            return 0;
         }
     }
     /**

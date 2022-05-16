@@ -1,0 +1,17 @@
+Wargames\dialogs\Dialogs.class
+Wargames\model\Battle.class
+Wargames\model\Units\InfantryUnit.class
+Wargames\model\FileWriting\FileWriter.class
+Wargames\controller\FrontpageController.class
+Wargames\Client.class
+Wargames\model\Terrain.class
+Wargames\model\Units\Unit.class
+Wargames\model\Units\UnitFactory.class
+module-info.class
+Wargames\controller\UpdateArmyController.class
+Wargames\model\Units\RangedUnit.class
+Wargames\model\Army.class
+Wargames\model\Units\CommanderUnit.class
+Wargames\controller\battleController.class
+Wargames\WargamesApplication.class
+Wargames\model\Units\CavalryUnit.class
