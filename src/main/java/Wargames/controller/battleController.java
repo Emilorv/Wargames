@@ -8,30 +8,34 @@ import Wargames.model.Units.Unit;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.ColorInput;
-import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class battleController {
+
+    Army army1;
+    Army army2;
+    Terrain terrain;
+    int battleSpeed = 2000;
+    Map<Unit, ImageView> imageMap = new HashMap<>();
+    int army1MaxHealth;
+    int army2MaxHealth;
 
     @FXML
     private Button startBattleBtn;
@@ -84,6 +88,11 @@ public class battleController {
     private TableColumn<?, ?> typeCol2;
 
     @FXML
+    private HBox healthBar1;
+
+    @FXML
+    private HBox healthBar2;
+    @FXML
     private Pane infantry1;
     @FXML
     private  Pane ranged1;
@@ -99,14 +108,11 @@ public class battleController {
     private  Pane cavalry2;
     @FXML
     private  Pane commander2;
-
     @FXML
     private ObservableList<Unit> unitObservableList;
-    Army army1;
-    Army army2;
-    Terrain terrain;
-    int battleSpeed = 2000;
-    Map<Unit, ImageView> imageMap = new HashMap<>();
+
+    Rectangle bar1 = new Rectangle();
+    Rectangle bar2 = new Rectangle();
 
     public void recieveData(Army army1, Army army2, Terrain terrain){
         ImageView imageView = new ImageView();
@@ -126,9 +132,14 @@ public class battleController {
         this.army1=army1;
         this.army2=army2;
         this.terrain=terrain;
+
+        this.army1MaxHealth = army1.getArmyHealth();
+        this.army2MaxHealth = army2.getArmyHealth();
         updateTables();
         produceUnitImages(army1,infantry1,ranged1,cavalry1,commander1);
         produceUnitImages(army2,infantry2,ranged2,cavalry2,commander2);
+        produceArmyHealthbars(healthBar1, bar1);
+        produceArmyHealthbars(healthBar2, bar2);
     }
 
     @FXML
@@ -162,7 +173,6 @@ public class battleController {
                         e.printStackTrace();
                     }
                 }
-
             }
             if(army1.hasUnits()) {
                 Platform.runLater(()-> battleStatus.setText(army1.getName() + " is winner"));
@@ -180,14 +190,22 @@ public class battleController {
 
         Platform.runLater(()-> {
             battleStatus.setText(attackerArmy.getName() + " attacks " + defenderArmy.getName());
+            attackInfo.setTextFill(Color.WHITE);
             attackInfo.setText(attackerUnit.getName() +" attacked " + defenderUnit.getName());
             damageDealtText.setText("For "+ damageDone + " damage!");
-            if (battle.getFight().isKilled()) {
+            if(attackerArmy.equals(army1)){
 
+            }
+            if (battle.getFight().isKilled()) {
                 ImageView killedUnitPicture = imageMap.get(defenderUnit);
                 killedUnitPicture.setImage(null);
+                attackInfo.setText(attackerUnit.getName() + " killed " + defenderUnit.getName());
+                attackInfo.setTextFill(Color.RED);
+                updateArmyHealthbars(bar1, army1,healthBar1);
+                updateArmyHealthbars(bar2, army2,healthBar2);
             }
             updateTables();
+
         });
     }
     public void updateTables(){
@@ -243,6 +261,30 @@ public class battleController {
                 }
                 });
             imageMap.put(unit, imageView);
+            }
         }
+        public void produceArmyHealthbars(HBox healthbar, Rectangle bar){
+        bar.setFill(Color.RED);
+        Platform.runLater(()->{
+            bar.setWidth(healthbar.getWidth());
+            bar.setHeight(healthbar.getHeight());
+        });
+        healthbar.getChildren().add(bar);
+        }
+        public void updateArmyHealthbars(Rectangle bar, Army army, HBox healthBar){
+        float percentHealth;
+        if(army.equals(army1)){
+            percentHealth = (float)army.getArmyHealth() / (float)army1MaxHealth;
+            System.out.println("Army Health: " + army.getArmyHealth());
+            System.out.println("Max Health: " + army1MaxHealth);
+        }
+        else {
+            percentHealth = (float)army.getArmyHealth()/(float)army2MaxHealth;
+        }
+            System.out.println(percentHealth);
+        Platform.runLater(()->{
+            bar.setWidth(healthBar.getWidth()*percentHealth);
+        });
+
         }
     }

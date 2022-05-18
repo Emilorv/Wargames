@@ -11,7 +11,7 @@ import Wargames.model.Units.*;
  * model.Army class. Assembles units into teams that will be used in battles against each other.
  */
 public class Army {
-
+    private int armyHealth;
     private String name;
     private ArrayList<Unit> units = new ArrayList<>();
 
@@ -159,6 +159,15 @@ public class Army {
         int unitIndex = (int) Math.floor(randomNumber);
         return units.get(unitIndex);
     }
+
+    public int getArmyHealth() {
+        armyHealth = 0;
+        for (Unit unit: getAllUnits()) {
+            armyHealth += unit.getHealth();
+        }
+        return armyHealth;
+    }
+
     @Override
     public String toString() {
         return "model.Army{" +
