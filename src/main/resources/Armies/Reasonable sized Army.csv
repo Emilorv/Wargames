@@ -1,0 +1,22 @@
+Reasonable sized Army
+InfantryUnit,Swordmen,10
+InfantryUnit,Swordmen,10
+InfantryUnit,Swordmen,10
+InfantryUnit,Swordmen,10
+InfantryUnit,Swordmen,10
+InfantryUnit,Swordmen,10
+InfantryUnit,Swordmen,10
+InfantryUnit,Swordmen,10
+InfantryUnit,Swordmen,10
+InfantryUnit,Swordmen,10
+RangedUnit,Archer,5
+RangedUnit,Archer,5
+RangedUnit,Archer,5
+RangedUnit,Archer,5
+RangedUnit,Archer,5
+CavalryUnit,Knight,5
+CavalryUnit,Knight,5
+CavalryUnit,Knight,5
+CavalryUnit,Knight,5
+CavalryUnit,Knight,5
+CommanderUnit,King,20

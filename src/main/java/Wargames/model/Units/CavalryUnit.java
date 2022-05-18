@@ -1,11 +1,14 @@
 package Wargames.model.Units;
 
 import Wargames.model.Terrain;
+import javafx.scene.image.Image;
 
 /**
  * CavalryUnit class. Unit that excels in melee combat, with a charged attack bonus. Extends Unit class
  */
 public class CavalryUnit extends Unit {
+
+    Image unitImage = new Image(InfantryUnit.class.getResourceAsStream("/images/Units/CavalryUnit.png"));
     /**
      * Constructor of CavalryUnit
      * @param name name of CavalryUnit
@@ -51,6 +54,11 @@ public class CavalryUnit extends Unit {
             return 0;
         }
         return 1;
+    }
+
+    @Override
+    public Image getUnitImage() {
+        return unitImage;
     }
 }
 

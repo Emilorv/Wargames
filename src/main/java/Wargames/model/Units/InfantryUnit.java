@@ -1,11 +1,14 @@
 package Wargames.model.Units;
 
 import Wargames.model.Terrain;
+import javafx.scene.image.Image;
 
 /**
  * InfantryUnit class. Basic melee unit. Extends Unit class
  */
 public class InfantryUnit extends Unit {
+
+    Image unitImage = new Image(InfantryUnit.class.getResourceAsStream("/images/Units/InfantryUnit.png"));
     /**
      * Constructor of InfantryUnit
      * @param name name of InfantryUnit
@@ -17,7 +20,6 @@ public class InfantryUnit extends Unit {
      */
     public InfantryUnit(String name, int health, int attack, int armor, int nAttacks, int nBlocked) {
         super(name, health, attack, armor, nAttacks, nBlocked);
-
     }
     public InfantryUnit(String name, int health){
        super(name,health, 15,10, 0, 0);
@@ -47,6 +49,11 @@ public class InfantryUnit extends Unit {
             return 2;
         }
         return 1;
+    }
+
+    @Override
+    public Image getUnitImage() {
+        return unitImage;
     }
 }
 

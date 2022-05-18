@@ -12,6 +12,7 @@ public class Battle {
     private Terrain terrain;
     private final Army armyOne;
     private final Army armyTwo;
+    private Fight fight;
 
     /**
      * The model.Battle Constructor
@@ -59,21 +60,19 @@ public class Battle {
      * @param attackerArmy the army that strikes
      * @param defenderArmy the army that defends
      */
-    public ArrayList<String> Fight(Army attackerArmy, Army defenderArmy, Terrain terrain){
-        ArrayList<String> fightInformation = new ArrayList<>();
-        Unit Contestant1 = attackerArmy.getRandom();
-        Unit Contestant2 = defenderArmy.getRandom();
-
-        String damageDone = Integer.toString(Contestant1.attack(Contestant2, terrain));
-        fightInformation.add(Contestant1.getName());
-        fightInformation.add(Contestant2.getName());
-        fightInformation.add(damageDone);
-
-        if(Contestant2.getHealth()==0){
-            defenderArmy.remove(Contestant2);
+    public void Fight(Army attackerArmy, Army defenderArmy, Terrain terrain){
+        Unit attackingUnit = attackerArmy.getRandom();
+        Unit defendingUnit = defenderArmy.getRandom();
+        fight = new Fight(attackingUnit, defendingUnit, terrain);
+        if(fight.isKilled()){
+            defenderArmy.remove(defendingUnit);
         }
-        return fightInformation;
     }
+
+    public Fight getFight() {
+        return fight;
+    }
+
     @Override
     public String toString() {
         return "Battle{" + "armyOne=" + armyOne + ", armyTwo=" + armyTwo + '}';

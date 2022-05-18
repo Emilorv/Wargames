@@ -10,15 +10,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.ColorInput;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,18 +84,30 @@ public class battleController {
     private TableColumn<?, ?> typeCol2;
 
     @FXML
-    private StackPane units1;
-
+    private Pane infantry1;
     @FXML
-    private StackPane units2;
+    private  Pane ranged1;
+    @FXML
+    private  Pane cavalry1;
+    @FXML
+    private  Pane commander1;
+    @FXML
+    private Pane infantry2;
+    @FXML
+    private  Pane ranged2;
+    @FXML
+    private  Pane cavalry2;
+    @FXML
+    private  Pane commander2;
 
     @FXML
     private ObservableList<Unit> unitObservableList;
     Army army1;
     Army army2;
     Terrain terrain;
-
     int battleSpeed = 2000;
+    Map<Unit, ImageView> imageMap = new HashMap<>();
+
     public void recieveData(Army army1, Army army2, Terrain terrain){
         ImageView imageView = new ImageView();
         if(terrain.equals(Terrain.FOREST)){
@@ -109,6 +127,8 @@ public class battleController {
         this.army2=army2;
         this.terrain=terrain;
         updateTables();
+        produceUnitImages(army1,infantry1,ranged1,cavalry1,commander1);
+        produceUnitImages(army2,infantry2,ranged2,cavalry2,commander2);
     }
 
     @FXML
@@ -153,14 +173,22 @@ public class battleController {
         }).start();
     }
     public void battleFight(Battle battle, Army attackerArmy, Army defenderArmy, Terrain terrain){
-        ArrayList fightInformation = battle.Fight(attackerArmy, defenderArmy, terrain);
-        String attackerUnit = (String) fightInformation.get(0);
-        String defenderUnit = (String) fightInformation.get(1);
-        String damageDone = (String)fightInformation.get(2);
-        Platform.runLater(()-> battleStatus.setText(attackerArmy.getName() + " attacks " + defenderArmy.getName()));
-        Platform.runLater(()-> attackInfo.setText(attackerUnit +" attacked " + defenderUnit));
-        Platform.runLater(()-> damageDealtText.setText("For "+ damageDone + " damage!"));
-        Platform.runLater(()-> updateTables());
+        battle.Fight(attackerArmy,defenderArmy,terrain);
+        Unit attackerUnit = battle.getFight().getAttacker();
+        Unit defenderUnit = battle.getFight().getDefender();
+        int damageDone = battle.getFight().getDamageDone();
+
+        Platform.runLater(()-> {
+            battleStatus.setText(attackerArmy.getName() + " attacks " + defenderArmy.getName());
+            attackInfo.setText(attackerUnit.getName() +" attacked " + defenderUnit.getName());
+            damageDealtText.setText("For "+ damageDone + " damage!");
+            if (battle.getFight().isKilled()) {
+
+                ImageView killedUnitPicture = imageMap.get(defenderUnit);
+                killedUnitPicture.setImage(null);
+            }
+            updateTables();
+        });
     }
     public void updateTables(){
         if(army1 != null) {
@@ -173,9 +201,11 @@ public class battleController {
         }
         if(army2 !=null) {
             armyName2.setText(army2.getName());
+
             typeCol2.setCellValueFactory(new PropertyValueFactory<>("type"));
             nameCol2.setCellValueFactory(new PropertyValueFactory<>("name"));
             healthCol2.setCellValueFactory(new PropertyValueFactory<>("health"));
+
             unitObservableList = FXCollections.observableArrayList(army2.getAllUnits());
             tableView2.setItems(unitObservableList);
         }
@@ -183,11 +213,36 @@ public class battleController {
         tableView2.refresh();
     }
 
-    public void produceUnitImages(){
-        Map<Unit, ImageView> imageMap = new HashMap<>();
-        for (Unit unit:army1.getAllUnits()) {
-            ImageView imageView =  new ImageView(new Image(battleController.class.getResourceAsStream("/images/Forest.png")));
-            units1.getChildren().add(imageView);
+    public void produceUnitImages(Army army,Pane infantry, Pane ranged, Pane cavalry, Pane commander) {
+        for (Unit unit : army.getAllUnits()) {
+            ImageView imageView = new ImageView(unit.getUnitImage());
+            if (unit.getClass().getSimpleName().equals("InfantryUnit")) {
+                infantry.getChildren().add(imageView);
+            }
+            else if (unit.getClass().getSimpleName().equals("RangedUnit")) {
+                ranged.getChildren().add(imageView);
+            }
+            else if (unit.getClass().getSimpleName().equals("CavalryUnit")) {
+                cavalry.getChildren().add(imageView);
+            }
+            else if (unit.getClass().getSimpleName().equals("CommanderUnit")) {
+                imageView.setEffect(new Glow(100));
+                imageView.setScaleX(1.2);
+                imageView.setScaleY(1.2);
+                commander.getChildren().add(imageView);
+            }
+           Platform.runLater(() -> {
+                imageView.setY(Math.random()*infantry.getHeight());
+                if(army.equals(army1)) {
+                    imageView.setX(Math.random() * (infantry.getWidth()-32));
+                    imageView.setY(Math.random() * infantry.getHeight());
+                }
+                if (army.equals(army2)) {
+                imageView.setX(Math.random()*(infantry2.getWidth()-32));
+                imageView.setScaleX(-1);
+                }
+                });
+            imageMap.put(unit, imageView);
+        }
         }
     }
-}

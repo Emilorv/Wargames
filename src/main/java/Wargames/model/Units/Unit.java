@@ -1,6 +1,7 @@
 package Wargames.model.Units;
 
 import Wargames.model.Terrain;
+import javafx.scene.image.Image;
 
 /**
  * Abstract Unit class. Model for units that will be part of Armies.
@@ -9,6 +10,7 @@ public abstract class Unit {
     private final String name;
     private String type;
     private int health;
+    private Image unitImage;
     private final int attack;
     private final int armor;
     protected int nAttacks;
@@ -175,4 +177,6 @@ public abstract class Unit {
      *Abstract resist-bonus method
      */
     public abstract int getResistBonus(Terrain terrain);
+
+    public abstract Image getUnitImage();
 }

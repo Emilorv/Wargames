@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="Wargames.Units.UnitTest" time="0.032" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="Wargames.Units.UnitTest" time="0.028" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="18"/>
+    <property name="javafx.runtime.version" value="18.0.1+2"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
     <property name="java.class.path" value="C:\Users\Emil\OneDrive - NTNU\Programmering 2\Wargames\target\test-classes;C:\Users\Emil\.m2\repository\org\openjfx\javafx-controls\18.0.1\javafx-controls-18.0.1.jar;C:\Users\Emil\.m2\repository\org\openjfx\javafx-graphics\18.0.1\javafx-graphics-18.0.1.jar;C:\Users\Emil\.m2\repository\org\openjfx\javafx-base\18.0.1\javafx-base-18.0.1.jar;C:\Users\Emil\.m2\repository\org\openjfx\javafx-fxml\18.0.1\javafx-fxml-18.0.1.jar;C:\Users\Emil\.m2\repository\org\controlsfx\controlsfx\11.1.1\controlsfx-11.1.1.jar;C:\Users\Emil\.m2\repository\com\dlsc\formsfx\formsfx-core\11.5.0\formsfx-core-11.5.0.jar;C:\Users\Emil\.m2\repository\org\kordamp\bootstrapfx\bootstrapfx-core\0.4.0\bootstrapfx-core-0.4.0.jar;C:\Users\Emil\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.2\junit-jupiter-engine-5.8.2.jar;C:\Users\Emil\.m2\repository\org\junit\platform\junit-platform-engine\1.8.2\junit-platform-engine-1.8.2.jar;C:\Users\Emil\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Emil\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.2\junit-jupiter-api-5.8.2.jar;C:\Users\Emil\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Emil\.m2\repository\org\junit\platform\junit-platform-commons\1.8.2\junit-platform-commons-1.8.2.jar;C:\Users\Emil\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Emil\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
@@ -10,12 +11,13 @@
     <property name="user.variant" value=""/>
     <property name="java.vendor.url" value="https://java.oracle.com/"/>
     <property name="user.timezone" value="Europe/Oslo"/>
+    <property name="javafx.version" value="18.0.1"/>
     <property name="os.name" value="Windows 11"/>
     <property name="java.vm.specification.version" value="18"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="NO"/>
     <property name="sun.boot.library.path" value="C:\Users\Emil\.jdks\openjdk-18.0.1.1\bin"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\Emil\AppData\Local\Temp\surefire4991747305060333443 2022-05-15T20-21-04_481-jvmRun1 surefire867180373225995146tmp surefire_016339432803631749189tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\Emil\AppData\Local\Temp\surefire15102044056502514731 2022-05-18T17-18-31_871-jvmRun1 surefire6640843950171822260tmp surefire_017155285450596717694tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Emil\OneDrive - NTNU\Programmering 2\Wargames\target\test-classes;C:\Users\Emil\.m2\repository\org\openjfx\javafx-controls\18.0.1\javafx-controls-18.0.1.jar;C:\Users\Emil\.m2\repository\org\openjfx\javafx-graphics\18.0.1\javafx-graphics-18.0.1.jar;C:\Users\Emil\.m2\repository\org\openjfx\javafx-base\18.0.1\javafx-base-18.0.1.jar;C:\Users\Emil\.m2\repository\org\openjfx\javafx-fxml\18.0.1\javafx-fxml-18.0.1.jar;C:\Users\Emil\.m2\repository\org\controlsfx\controlsfx\11.1.1\controlsfx-11.1.1.jar;C:\Users\Emil\.m2\repository\com\dlsc\formsfx\formsfx-core\11.5.0\formsfx-core-11.5.0.jar;C:\Users\Emil\.m2\repository\org\kordamp\bootstrapfx\bootstrapfx-core\0.4.0\bootstrapfx-core-0.4.0.jar;C:\Users\Emil\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.2\junit-jupiter-engine-5.8.2.jar;C:\Users\Emil\.m2\repository\org\junit\platform\junit-platform-engine\1.8.2\junit-platform-engine-1.8.2.jar;C:\Users\Emil\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Emil\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.2\junit-jupiter-api-5.8.2.jar;C:\Users\Emil\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Emil\.m2\repository\org\junit\platform\junit-platform-commons\1.8.2\junit-platform-commons-1.8.2.jar;C:\Users\Emil\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Emil\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -58,12 +60,12 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="62.0"/>
   </properties>
-  <testcase name="InfantryAttacks" classname="Wargames.Units.UnitTest" time="0.002"/>
-  <testcase name="RangedBonusResist" classname="Wargames.Units.UnitTest" time="0.003"/>
-  <testcase name="UnitHealthSetToLessThanZero" classname="Wargames.Units.UnitTest" time="0.001"/>
-  <testcase name="NamelessUnit" classname="Wargames.Units.UnitTest" time="0.002"/>
-  <testcase name="HealthlessUnit" classname="Wargames.Units.UnitTest" time="0.003"/>
-  <testcase name="CommanderUnitAttack" classname="Wargames.Units.UnitTest" time="0.002"/>
-  <testcase name="CavalryChargeAttacks" classname="Wargames.Units.UnitTest" time="0.002"/>
-  <testcase name="ArmorGreaterThanAttack" classname="Wargames.Units.UnitTest" time="0.003"/>
+  <testcase name="InfantryAttacks" classname="Wargames.Units.UnitTest" time="0.003"/>
+  <testcase name="RangedBonusResist" classname="Wargames.Units.UnitTest" time="0"/>
+  <testcase name="UnitHealthSetToLessThanZero" classname="Wargames.Units.UnitTest" time="0.008"/>
+  <testcase name="NamelessUnit" classname="Wargames.Units.UnitTest" time="0"/>
+  <testcase name="HealthlessUnit" classname="Wargames.Units.UnitTest" time="0"/>
+  <testcase name="CommanderUnitAttack" classname="Wargames.Units.UnitTest" time="0.007"/>
+  <testcase name="CavalryChargeAttacks" classname="Wargames.Units.UnitTest" time="0"/>
+  <testcase name="ArmorGreaterThanAttack" classname="Wargames.Units.UnitTest" time="0"/>
 </testsuite>

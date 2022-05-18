@@ -7,6 +7,7 @@ Wargames\Client.class
 Wargames\model\Terrain.class
 Wargames\model\Units\Unit.class
 Wargames\model\Units\UnitFactory.class
+Wargames\model\Fight.class
 module-info.class
 Wargames\controller\UpdateArmyController.class
 Wargames\model\Units\RangedUnit.class

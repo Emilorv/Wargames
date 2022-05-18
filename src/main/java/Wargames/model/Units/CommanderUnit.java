@@ -1,10 +1,14 @@
 package Wargames.model.Units;
 
+import javafx.scene.image.Image;
+
 /**
  * Commander Unit. Special kind of CavalryUnit with better basic health and armor stats. Extends CavalryUnit
  */
 public class CommanderUnit extends CavalryUnit{
-        /**
+    Image unitImage = new Image(InfantryUnit.class.getResourceAsStream("/images/Units/InfantryUnit.png"));
+
+    /**
          * Constructor of CommanderUnit
          * @param name name of CommanderUnit
          * @param health health of CommanderUnit
@@ -19,7 +23,12 @@ public class CommanderUnit extends CavalryUnit{
         public CommanderUnit(String name, int health){
             super(name,health, 25,15, 0, 0);
         }
+
+    @Override
+    public Image getUnitImage() {
+        return unitImage;
     }
+}
 
 
 

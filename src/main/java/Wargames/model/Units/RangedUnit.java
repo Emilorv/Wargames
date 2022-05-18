@@ -1,11 +1,13 @@
 package Wargames.model.Units;
 
 import Wargames.model.Terrain;
+import javafx.scene.image.Image;
 
 /**
  * RangedUnit class. Unit that excels in ranged combat. Extends Unit class
  */
 public class RangedUnit extends Unit {
+    Image unitImage = new Image(RangedUnit.class.getResourceAsStream("/images/Units/RangedUnit.png"));
     /**
      * Constructor of RangedUnit
      * @param name name of RangedUnit
@@ -50,5 +52,10 @@ public class RangedUnit extends Unit {
             return 4;
         }
         return 2;
+    }
+
+    @Override
+    public Image getUnitImage() {
+        return unitImage;
     }
 }
