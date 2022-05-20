@@ -13,6 +13,22 @@
 }
 .title {
     -fx-font-size: 40;
+    -fx-fill: white;
+    -fx-effect: dropshadow(three-pass-box, black, 0.5, 1, 0, 0);
+
+}
+
+.textBackground{
+    -fx-background-color: #360008E6;
+    -fx-border-color: black;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+.text{
+    -fx-fill: white;
+    -fx-font-size: 20;
+    -fx-effect: dropshadow(three-pass-box, black, 0.5, 1, 0, 0);
+
 }
 
 
@@ -23,7 +39,7 @@
     -fx-alignment: CENTER;
 }
 .table-view .column-header-background{
-    -fx-background-color: #999999CC;
+    -fx-background-color: #999999;
     -fx-background-radius: 7px 7px 0px 0px;
 }
 .table-view .column-header .label{

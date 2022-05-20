@@ -167,6 +167,24 @@ public class Army {
         }
         return armyHealth;
     }
+    public Army copy(){
+        String armyNameCopy = name;
+        ArrayList<Unit> copyUnits = new ArrayList();
+        for (Unit unit:getInfantryUnits()){
+            copyUnits.add(new InfantryUnit(unit.getName(),unit.getHealth()));
+        }
+        for (Unit unit:getRangedUnits()) {
+            copyUnits.add(new RangedUnit(unit.getName(),unit.getHealth()));
+        }
+        for (Unit unit:getCavalryUnits()) {
+            copyUnits.add(new CavalryUnit(unit.getName(),unit.getHealth()));
+        }
+        for (Unit unit:getCommanderUnits()) {
+            copyUnits.add(new CommanderUnit(unit.getName(),unit.getHealth()));
+        }
+        Army armyCopy = new Army(armyNameCopy, copyUnits);
+        return armyCopy;
+    }
 
     @Override
     public String toString() {

@@ -187,14 +187,16 @@ public class FrontpageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateTables();
+        loadBackground();
         fillTerrainComboBox();
             try {
                 fillArmyFields();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        ImageView imageView = new ImageView();
-        imageView =  new ImageView(new Image(FrontpageController.class.getResourceAsStream("/images/backgroundplanks.png")));
+    }
+    public void loadBackground(){
+        ImageView imageView =  new ImageView(new Image(FrontpageController.class.getResourceAsStream("/images/frontPage.png")));
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(WargamesApplication.stage.getWidth());
         background.getChildren().add(imageView);

@@ -17,6 +17,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -29,7 +35,7 @@ import static java.lang.Integer.parseInt;
 
 public class UpdateArmyController {
     @FXML
-    private Label updateTitle;
+    private Text updateTitle;
 
     @FXML
     private Button addBtn;
@@ -74,6 +80,8 @@ public class UpdateArmyController {
 
     @FXML
     private Button backBtn;
+    @FXML
+    private StackPane background;
 
     private Army army1;
     private Army army2;
@@ -100,6 +108,7 @@ public class UpdateArmyController {
         }
         updateTable();
         addTypesToComboBox();
+        loadBackground();
     }
 
     @FXML
@@ -195,6 +204,14 @@ public class UpdateArmyController {
 
         Stage stage = WargamesApplication.stage;
         stage.getScene().setRoot(root);
+    }
+
+    public void loadBackground(){
+        ImageView imageView =  new ImageView(new Image(FrontpageController.class.getResourceAsStream("/images/backgroundplanks.png")));
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(WargamesApplication.stage.getWidth());
+        background.getChildren().add(imageView);
+        imageView.toBack();
     }
 }
 

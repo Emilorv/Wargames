@@ -16,7 +16,7 @@
    <center>
       <StackPane fx:id="background" alignment="BOTTOM_CENTER" minHeight="200.0" minWidth="200.0" BorderPane.alignment="BOTTOM_CENTER">
          <children>
-            <VBox alignment="TOP_CENTER" spacing="20.0">
+            <VBox alignment="TOP_CENTER" spacing="20.0" StackPane.alignment="BOTTOM_CENTER">
                <children>
                   <HBox alignment="CENTER" VBox.vgrow="NEVER">
                      <children>
@@ -49,30 +49,31 @@
                                     <Insets />
                                  </VBox.margin>
                               </TableView>
-                              <HBox fx:id="healthBar1" minHeight="20.0" VBox.vgrow="ALWAYS" />
                            </children>
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>
                         </VBox>
-                        <VBox alignment="TOP_CENTER" maxWidth="250.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                        <VBox alignment="TOP_CENTER" maxWidth="250.0" minWidth="200.0" prefWidth="200.0" spacing="30.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Button fx:id="startBattleBtn" mnemonicParsing="false" onAction="#startBattleBtnClicked" styleClass="size15" text="Start Battle" />
-                              <VBox alignment="CENTER" spacing="20.0" styleClass="size15">
+                              <Button fx:id="startBattleBtn" mnemonicParsing="false" onAction="#startBattleBtnClicked" styleClass="size15" text="Start Battle" VBox.vgrow="ALWAYS" />
+                              <VBox alignment="CENTER" spacing="20.0" styleClass="size15" VBox.vgrow="NEVER">
                                  <children>
                                     <Label fx:id="battleStatus" text="Army attacks" />
                                     <Label fx:id="attackInfo" text="Attack Information" />
                                     <Label fx:id="damageDealtText" text="Damage dealt" />
                                  </children>
                                  <VBox.margin>
-                                    <Insets top="20.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </VBox>
-                              <Button fx:id="battleSpeedBtn" mnemonicParsing="false" onMouseClicked="#battleSpeedBtnHold" styleClass="size15" text="Normal Speed">
+                              <Button fx:id="battleSpeedBtn" mnemonicParsing="false" onAction="#battleSpeedBtnClicked" styleClass="size15" text="Normal Speed" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
-                                    <Insets top="100.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </Button>
+                              <Button fx:id="restartBtn" mnemonicParsing="false" onAction="#restartBtnClicked" styleClass="size15" text="Restart battle" VBox.vgrow="ALWAYS" />
+                              <Button fx:id="backBtn" mnemonicParsing="false" onAction="#backBtnClicked" styleClass="size15" text="Back To Menu" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
@@ -95,7 +96,6 @@
                                     <Insets />
                                  </VBox.margin>
                               </TableView>
-                              <HBox fx:id="healthBar2" minHeight="20.0" />
                            </children>
                            <HBox.margin>
                               <Insets right="20.0" />
@@ -103,9 +103,28 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="BOTTOM_CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
+                  <Pane VBox.vgrow="ALWAYS" />
+                  <HBox>
+                     <children>
+                        <HBox fx:id="healthBar1" alignment="CENTER_LEFT" maxWidth="200.0" minHeight="20.0" minWidth="200.0">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </HBox>
+                        <Pane minHeight="20.0" HBox.hgrow="ALWAYS" />
+                        <HBox fx:id="healthBar2" alignment="CENTER_LEFT" maxWidth="200.0" minHeight="20.0" minWidth="200.0">
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </HBox>
+                     </children>
                      <VBox.margin>
-                        <Insets bottom="20.0" />
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="BOTTOM_CENTER" maxHeight="200.0" spacing="20.0">
+                     <VBox.margin>
+                        <Insets />
                      </VBox.margin>
                      <children>
                         <HBox alignment="BOTTOM_CENTER" HBox.hgrow="ALWAYS">
@@ -126,6 +145,7 @@
                         </HBox>
                      </children>
                   </HBox>
+                  <Pane VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </children>

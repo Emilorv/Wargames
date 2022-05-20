@@ -9,7 +9,8 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -22,7 +23,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,11 +35,14 @@ public class battleController {
 
     Army army1;
     Army army2;
+    Army army1Saved;
+    Army army2Saved;
     Terrain terrain;
     int battleSpeed = 2000;
     Map<Unit, ImageView> imageMap = new HashMap<>();
     int army1MaxHealth;
     int army2MaxHealth;
+    int numberOfTimesClickedTheSpeedButton = 0;
 
     @FXML
     private Button startBattleBtn;
@@ -108,6 +115,11 @@ public class battleController {
     private  Pane cavalry2;
     @FXML
     private  Pane commander2;
+
+    @FXML
+    private Button restartBtn;
+    @FXML
+    private Button backBtn;
     @FXML
     private ObservableList<Unit> unitObservableList;
 
@@ -117,20 +129,24 @@ public class battleController {
     public void recieveData(Army army1, Army army2, Terrain terrain){
         ImageView imageView = new ImageView();
         if(terrain.equals(Terrain.FOREST)){
-            imageView =  new ImageView(new Image(battleController.class.getResourceAsStream("/images/Forest.png")));
+            imageView =  new ImageView(new Image(battleController.class.getResourceAsStream("/images/terrainBackgrounds/Forest.png")));
         }else if(terrain.equals(Terrain.PLAINS)){
-            imageView =  new ImageView(new Image(battleController.class.getResourceAsStream("/images/Plains.png")));
+            imageView =  new ImageView(new Image(battleController.class.getResourceAsStream("/images/terrainBackgrounds/Plains.png")));
         } else if(terrain.equals(Terrain.HILL)){
-            imageView =  new ImageView(new Image(battleController.class.getResourceAsStream("/images/Hill.png")));
+            imageView =  new ImageView(new Image(battleController.class.getResourceAsStream("/images/terrainBackgrounds/Hill.png")));
         }
         imageView.setFitWidth(WargamesApplication.stage.getWidth());
         imageView.setFitHeight(WargamesApplication.stage.getHeight());
         background.getChildren().add(imageView);
         imageView.toBack();
 
+        startBattleBtn.setDisable(false);
+        restartBtn.setDisable(true);
 
         this.army1=army1;
         this.army2=army2;
+        army1Saved = army1.copy();
+        army2Saved = army2.copy();
         this.terrain=terrain;
 
         this.army1MaxHealth = army1.getArmyHealth();
@@ -143,19 +159,20 @@ public class battleController {
     }
 
     @FXML
-    void battleSpeedBtnHold(MouseEvent event) {
-        battleSpeedBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
-            battleSpeedBtn.setText("2X Speed!!");
-            battleSpeed = 100;
-        });
-        battleSpeedBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, e->{
+    void battleSpeedBtnClicked() {
+        numberOfTimesClickedTheSpeedButton +=1;
+        if(numberOfTimesClickedTheSpeedButton%2 ==1){
+            battleSpeedBtn.setText("20X Speed!!");
+            battleSpeed = 50;
+        } else{
             battleSpeedBtn.setText("Normal Speed");
             battleSpeed = 2000;
-        });
+        }
     }
 
     public void startBattleBtnClicked() {
         startBattleBtn.setDisable(true);
+        battleSpeedBtn.setDisable(false);
         Battle battle = new Battle(army1,army2,terrain);
         new Thread(()->{
             while (army1.hasUnits() && army2.hasUnits()) {
@@ -179,7 +196,7 @@ public class battleController {
             } else{
                 Platform.runLater(()-> battleStatus.setText(army2.getName() + " is winner" ));
             }
-            battleSpeedBtn.setDisable(true);
+            restartBtn.setDisable(false);
         }).start();
     }
     public void battleFight(Battle battle, Army attackerArmy, Army defenderArmy, Terrain terrain){
@@ -193,42 +210,34 @@ public class battleController {
             attackInfo.setTextFill(Color.WHITE);
             attackInfo.setText(attackerUnit.getName() +" attacked " + defenderUnit.getName());
             damageDealtText.setText("For "+ damageDone + " damage!");
-            if(attackerArmy.equals(army1)){
-
-            }
+            updateArmyHealthbars(bar1, army1,healthBar1);
+            updateArmyHealthbars(bar2, army2,healthBar2);
+            updateTables();
             if (battle.getFight().isKilled()) {
                 ImageView killedUnitPicture = imageMap.get(defenderUnit);
                 killedUnitPicture.setImage(null);
                 attackInfo.setText(attackerUnit.getName() + " killed " + defenderUnit.getName());
                 attackInfo.setTextFill(Color.RED);
-                updateArmyHealthbars(bar1, army1,healthBar1);
-                updateArmyHealthbars(bar2, army2,healthBar2);
             }
-            updateTables();
 
         });
     }
     public void updateTables(){
-        if(army1 != null) {
-            armyName1.setText(army1.getName());
-            typeCol1.setCellValueFactory(new PropertyValueFactory<>("type"));
-            nameCol1.setCellValueFactory(new PropertyValueFactory<>("name"));
-            healthCol1.setCellValueFactory(new PropertyValueFactory<>("health"));
-            unitObservableList = FXCollections.observableArrayList(army1.getAllUnits());
-            tableView1.setItems(unitObservableList);
-        }
-        if(army2 !=null) {
-            armyName2.setText(army2.getName());
-
-            typeCol2.setCellValueFactory(new PropertyValueFactory<>("type"));
-            nameCol2.setCellValueFactory(new PropertyValueFactory<>("name"));
-            healthCol2.setCellValueFactory(new PropertyValueFactory<>("health"));
-
-            unitObservableList = FXCollections.observableArrayList(army2.getAllUnits());
-            tableView2.setItems(unitObservableList);
-        }
+        updateTables(army1, armyName1, typeCol1, nameCol1, healthCol1, tableView1);
+        updateTables(army2, armyName2, typeCol2, nameCol2, healthCol2, tableView2);
         tableView1.refresh();
         tableView2.refresh();
+    }
+
+    public void updateTables(Army army, Label armyName, TableColumn<?, ?> typeCol, TableColumn<?, ?> nameCol, TableColumn<?, ?> healthCol, TableView<Unit> tableView) {
+        if(army != null) {
+            armyName.setText(army.getName());
+            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+            healthCol.setCellValueFactory(new PropertyValueFactory<>("health"));
+            unitObservableList = FXCollections.observableArrayList(army.getAllUnits());
+            tableView.setItems(unitObservableList);
+        }
     }
 
     public void produceUnitImages(Army army,Pane infantry, Pane ranged, Pane cavalry, Pane commander) {
@@ -253,7 +262,6 @@ public class battleController {
                 imageView.setY(Math.random()*infantry.getHeight());
                 if(army.equals(army1)) {
                     imageView.setX(Math.random() * (infantry.getWidth()-32));
-                    imageView.setY(Math.random() * infantry.getHeight());
                 }
                 if (army.equals(army2)) {
                 imageView.setX(Math.random()*(infantry2.getWidth()-32));
@@ -264,27 +272,51 @@ public class battleController {
             }
         }
         public void produceArmyHealthbars(HBox healthbar, Rectangle bar){
-        bar.setFill(Color.RED);
         Platform.runLater(()->{
-            bar.setWidth(healthbar.getWidth());
-            bar.setHeight(healthbar.getHeight());
+            bar.setFill(Color.RED);
+            healthbar.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderStroke.MEDIUM)));
+            double healthBarBorderStrokes = healthbar.getBorder().getStrokes().get(0).getWidths().getRight()*2;
+            bar.setWidth(healthbar.getWidth()-healthBarBorderStrokes);
+            bar.setHeight(healthbar.getHeight()-healthBarBorderStrokes);
+            healthbar.getChildren().add(bar);
         });
-        healthbar.getChildren().add(bar);
         }
         public void updateArmyHealthbars(Rectangle bar, Army army, HBox healthBar){
         float percentHealth;
-        if(army.equals(army1)){
+            if(army.equals(army1)){
             percentHealth = (float)army.getArmyHealth() / (float)army1MaxHealth;
-            System.out.println("Army Health: " + army.getArmyHealth());
-            System.out.println("Max Health: " + army1MaxHealth);
         }
         else {
             percentHealth = (float)army.getArmyHealth()/(float)army2MaxHealth;
         }
-            System.out.println(percentHealth);
         Platform.runLater(()->{
-            bar.setWidth(healthBar.getWidth()*percentHealth);
+            double healthBarBorderStrokes = healthBar.getBorder().getStrokes().get(0).getWidths().getRight()*2;
+            bar.setWidth((healthBar.getWidth()-healthBarBorderStrokes)*percentHealth);
         });
 
         }
+        public void restartBtnClicked(){
+        healthBar1.getChildren().remove(bar1);
+        healthBar2.getChildren().remove(bar2);
+            for (Unit unit:army1.getAllUnits()) {
+                imageMap.get(unit).setImage(null);
+            }
+            for (Unit unit:army2.getAllUnits()) {
+                imageMap.get(unit).setImage(null);
+            }
+        imageMap.clear();
+        recieveData(army1Saved,army2Saved,terrain);
+        }
+        public void backBtnClicked() throws IOException {
+            loadFrontpageScene(army1Saved,army2Saved);
+        }
+        public void loadFrontpageScene(Army selectedArmy, Army otherArmy) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Frontpage.fxml"));
+        Parent root = loader.load();
+        FrontpageController controller = loader.getController();
+        controller.receiveArmyInformation(selectedArmy, otherArmy );
+
+        Stage stage = WargamesApplication.stage;
+        stage.getScene().setRoot(root);
+    }
     }
