@@ -168,7 +168,7 @@ public class battleController {
             battleSpeed = 50;
         } else{
             battleSpeedBtn.setText("Normal Speed");
-            battleSpeed = 2000;
+            battleSpeed = 1000;
         }
     }
 
@@ -204,12 +204,13 @@ public class battleController {
         }
     }
     public void battleFight(Battle battle, Army attackerArmy, Army defenderArmy, Terrain terrain){
+        Platform.runLater(()-> {
         battle.Fight(attackerArmy,defenderArmy,terrain);
         Unit attackerUnit = battle.getFight().getAttacker();
         Unit defenderUnit = battle.getFight().getDefender();
         int damageDone = battle.getFight().getDamageDone();
 
-        Platform.runLater(()-> {
+
             battleStatus.setText(attackerArmy.getName() + " attacks " + defenderArmy.getName());
             attackInfo.setTextFill(Color.WHITE);
             attackInfo.setText(attackerUnit.getName() +" attacked " + defenderUnit.getName());
