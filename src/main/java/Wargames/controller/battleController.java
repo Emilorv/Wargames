@@ -1,6 +1,7 @@
 package Wargames.controller;
 
 import Wargames.WargamesApplication;
+import Wargames.dialogs.Dialogs;
 import Wargames.model.Army;
 import Wargames.model.Battle;
 import Wargames.model.Terrain;
@@ -27,6 +28,7 @@ import javafx.stage.Stage;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -171,33 +173,35 @@ public class battleController {
     }
 
     public void startBattleBtnClicked() {
-        startBattleBtn.setDisable(true);
-        battleSpeedBtn.setDisable(false);
-        Battle battle = new Battle(army1,army2,terrain);
-        new Thread(()->{
-            while (army1.hasUnits() && army2.hasUnits()) {
+        if(Dialogs.showConfirmationDialog("Are you ready to start?")){
+            startBattleBtn.setDisable(true);
+            battleSpeedBtn.setDisable(false);
+            Battle battle = new Battle(army1,army2,terrain);
+            new Thread(()->{
+                while (army1.hasUnits() && army2.hasUnits()) {
                     battleFight(battle,army1,army2,terrain);
-                try {
-                    Thread.sleep(battleSpeed);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (army2.hasUnits()) {
-                   battleFight(battle,army2,army1,terrain);
                     try {
                         Thread.sleep(battleSpeed);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    if (army2.hasUnits()) {
+                        battleFight(battle,army2,army1,terrain);
+                        try {
+                            Thread.sleep(battleSpeed);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-            }
-            if(army1.hasUnits()) {
-                Platform.runLater(()-> battleStatus.setText(army1.getName() + " is winner"));
-            } else{
-                Platform.runLater(()-> battleStatus.setText(army2.getName() + " is winner" ));
-            }
-            restartBtn.setDisable(false);
-        }).start();
+                if(army1.hasUnits()) {
+                    Platform.runLater(()-> battleStatus.setText(army1.getName() + " is winner"));
+                } else{
+                    Platform.runLater(()-> battleStatus.setText(army2.getName() + " is winner" ));
+                }
+                restartBtn.setDisable(false);
+            }).start();
+        }
     }
     public void battleFight(Battle battle, Army attackerArmy, Army defenderArmy, Terrain terrain){
         battle.Fight(attackerArmy,defenderArmy,terrain);
@@ -231,12 +235,16 @@ public class battleController {
 
     public void updateTables(Army army, Label armyName, TableColumn<?, ?> typeCol, TableColumn<?, ?> nameCol, TableColumn<?, ?> healthCol, TableView<Unit> tableView) {
         if(army != null) {
-            armyName.setText(army.getName());
-            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-            nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-            healthCol.setCellValueFactory(new PropertyValueFactory<>("health"));
-            unitObservableList = FXCollections.observableArrayList(army.getAllUnits());
-            tableView.setItems(unitObservableList);
+            try {
+                armyName.setText(army.getName());
+                typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+                nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+                healthCol.setCellValueFactory(new PropertyValueFactory<>("health"));
+                unitObservableList = FXCollections.observableArrayList(army.getAllUnits());
+                tableView.setItems(unitObservableList);
+            }catch (ConcurrentModificationException e){
+                System.out.println(e.getClass().getSimpleName() + " from updating table for army: "+ army.getName());
+            }
         }
     }
 
@@ -283,16 +291,19 @@ public class battleController {
         }
         public void updateArmyHealthbars(Rectangle bar, Army army, HBox healthBar){
         float percentHealth;
-            if(army.equals(army1)){
-            percentHealth = (float)army.getArmyHealth() / (float)army1MaxHealth;
+        try {
+            if (army.equals(army1)) {
+                percentHealth = (float) army.getArmyHealth() / (float) army1MaxHealth;
+            } else {
+                percentHealth = (float) army.getArmyHealth() / (float) army2MaxHealth;
+            }
+            Platform.runLater(() -> {
+                double healthBarBorderStrokes = healthBar.getBorder().getStrokes().get(0).getWidths().getRight() * 2;
+                bar.setWidth((healthBar.getWidth() - healthBarBorderStrokes) * percentHealth);
+            });
+        }catch (ConcurrentModificationException e){
+            System.out.println(e.getClass().getSimpleName() + " from updating healthbar for army: "+ army.getName());
         }
-        else {
-            percentHealth = (float)army.getArmyHealth()/(float)army2MaxHealth;
-        }
-        Platform.runLater(()->{
-            double healthBarBorderStrokes = healthBar.getBorder().getStrokes().get(0).getWidths().getRight()*2;
-            bar.setWidth((healthBar.getWidth()-healthBarBorderStrokes)*percentHealth);
-        });
 
         }
         public void restartBtnClicked(){

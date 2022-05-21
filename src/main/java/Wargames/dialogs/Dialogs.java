@@ -1,18 +1,22 @@
 package Wargames.dialogs;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
+import java.util.Optional;
 
 public class Dialogs {
-    /**
-     * Displays an information dialog
-     * @param text the text displayed
-     */
-    public static void showInformationDialog(String text) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    public static boolean showConfirmationDialog(String text){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Wargames");
         alert.setHeaderText(null);
         alert.setContentText(text);
-        alert.showAndWait();
+        Optional<ButtonType> result = alert.showAndWait();
+        if(!result.isPresent() || result.get() != ButtonType.OK) {
+            return false;
+        } else{
+            return true;
+        }
     }
 
     /**
@@ -31,11 +35,11 @@ public class Dialogs {
      * Displays an error message
      * @param e the exception that is thrown
      */
-    public static void showAlertDialog(Exception e) {
+    public static void showAlertDialog(String s, Exception e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Wargames");
         alert.setHeaderText(null);
-        alert.setContentText(e.getMessage());
+        alert.setContentText(s + ": "+e.getMessage());
         alert.showAndWait();
     }
 }

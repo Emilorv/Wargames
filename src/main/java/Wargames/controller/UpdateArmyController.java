@@ -1,6 +1,7 @@
 package Wargames.controller;
 
 import Wargames.WargamesApplication;
+import Wargames.dialogs.Dialogs;
 import Wargames.model.Army;
 import Wargames.model.Units.Unit;
 import Wargames.model.Units.UnitFactory;
@@ -115,36 +116,48 @@ public class UpdateArmyController {
     void saveArmyToFileBtnClicked() {
         FileWriter fileWriter = new FileWriter();
         String name = nameInput.getText();
-        try{
-            Army army = new Army(name, unitsInArmy);
-            fileWriter.saveArmyToFile(army);
-            File savedFile = new File("src/main/resources/Armies/"+name+".csv");
-            fileUploadedFromText.setText("File Saved to " + savedFile.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                Army army = new Army(name, unitsInArmy);
+                File savedFile = new File("src/main/resources/Armies/"+name+".csv");
+                if(savedFile.isFile()){
+                    if(Dialogs.showConfirmationDialog("An army with that name already exists. Do you want to overwrite it?")){
+                        try {
+                            fileWriter.saveArmyToFile(army);
+                        }catch (IOException e) {
+                            Dialogs.showAlertDialog("Army could not be saved",e);
+                        }
+                        fileUploadedFromText.setText("File Saved to " + savedFile.getPath());
+                    }
+                } else{
+                    try {
+                        fileWriter.saveArmyToFile(army);
+                    }catch (IOException e) {
+                        Dialogs.showAlertDialog("Army could not be saved",e);
+                    }
+                    fileUploadedFromText.setText("File Saved to " + savedFile.getPath());
+                }
+            }catch (IllegalArgumentException e){
+                Dialogs.showAlertDialog("Army could not be saved", e);
+            }
 
     }
     @FXML
     void addBtnClicked() {
         String type = typeComboBox.getValue();
         String name = inputUnitName.getText();
-        int health = parseInt(inputHealth.getText());
-        int amount = parseInt(inputAmount.getText());
-        if( type!= null){
-            if( !name.equals("") || !name.equals(null)){
-                if(health>0){
-                    if(amount>0){
-                        try {
-                            unitsInArmy.addAll(UnitFactory.createUnits(type, name, health, amount));
-                        }catch (IllegalArgumentException e){
-                            e.getMessage();
-                        }
-                        updateTable();
-                    }
-                }
-
+        try {
+            int health = parseInt(inputHealth.getText());
+            int amount = parseInt(inputAmount.getText());
+            try {
+                unitsInArmy.addAll(UnitFactory.createUnits(type, name, health, amount));
+            }catch (IllegalArgumentException e){
+                Dialogs.showAlertDialog("Units could not be added to army", e);
+            } catch (NullPointerException e){
+                Dialogs.showAlertDialog("Units could not be added", e);
             }
+            updateTable();
+        }catch (NumberFormatException e){
+            Dialogs.showAlertDialog("The health and amount of units must be an integer",e);
         }
     }
     @FXML
@@ -170,13 +183,16 @@ public class UpdateArmyController {
 
     @FXML
     void confirmArmyBtnClicked() throws IOException {
-        if(armyIndex==1){
-            army1 = new Army(nameInput.getText(), unitsInArmy);
-        } else{
-            army2 = new Army(nameInput.getText(), unitsInArmy);
-
+        try {
+            if (armyIndex == 1) {
+                army1 = new Army(nameInput.getText(), unitsInArmy);
+            } else {
+                army2 = new Army(nameInput.getText(), unitsInArmy);
+            }
+            loadFrontpageScene(army1,army2);
+        }catch (IllegalArgumentException e){
+            Dialogs.showAlertDialog("Army could not be made",e);
         }
-        loadFrontpageScene(army1,army2);
     }
 
     public void updateTable(){
@@ -193,7 +209,9 @@ public class UpdateArmyController {
     }
     @FXML
     void backBtnClicked() throws IOException {
-        loadFrontpageScene(army1,army2);
+        if(Dialogs.showConfirmationDialog("Go back to main menu? Changes may not have been saved ")){
+            loadFrontpageScene(army1,army2);
+        }
     }
 
     public void loadFrontpageScene(Army selectedArmy, Army otherArmy) throws IOException {

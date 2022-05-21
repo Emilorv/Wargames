@@ -122,7 +122,9 @@ public class FrontpageController implements Initializable {
         if(army1 != null && army2 != null) {
             if (army1.hasUnits() && army2.hasUnits()) {
                 if (terrainComboBox.getValue() != null) {
-                    loadBattleScene(army1, army2, terrainComboBox.getValue());
+                    if(Dialogs.showConfirmationDialog("Do you want to start the game? ")){
+                        loadBattleScene(army1, army2, terrainComboBox.getValue());
+                    }
                 } else {
                     Dialogs.showAlertDialog("Please select a type of terrain");
                 }

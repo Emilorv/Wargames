@@ -1,12 +1,13 @@
 package Wargames.model.Units;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Unit factory. Creates units of each type
  */
 public class UnitFactory {
-
+    static String[] unitTypes = {"InfantryUnit","RangedUnit","CavalryUnit","CommanderUnit"};
     /**
      * Create unit.
      *
@@ -36,19 +37,27 @@ public class UnitFactory {
      * @param amount   the amount
      * @return the array list
      */
-    public static ArrayList<Unit> createUnits(String unitType, String name, int health, int amount){
-       ArrayList<Unit> listOfUnits = new ArrayList<>();
-       if(amount>0) {
-           for (int i = 0; i < amount; i++) {
-               listOfUnits.add(createUnit(unitType, name, health));
-           }
-           if (listOfUnits.size() != 0) {
-               return listOfUnits;
-           } else {
-               throw new IllegalArgumentException("model.Units could not be created");
-           }
-       } else {
-           throw new IllegalArgumentException("Amount must be over 0");
-       }
+    public static ArrayList<Unit> createUnits(String unitType, String name, int health, int amount) {
+        ArrayList<Unit> listOfUnits = new ArrayList<>();
+        if(unitType != null) {
+            if (Arrays.stream(unitTypes).anyMatch(e -> unitType.equals(e))) {
+                if (amount > 0 && amount <1001) {
+                    for (int i = 0; i < amount; i++) {
+                        listOfUnits.add(createUnit(unitType, name, health));
+                    }
+                    if (listOfUnits.size() != 0) {
+                        return listOfUnits;
+                    } else {
+                        throw new IllegalArgumentException("Units could not be created");
+                    }
+                } else {
+                    throw new IllegalArgumentException("Amount must be over 0 and 1000 or less");
+                }
+            } else {
+                throw new IllegalArgumentException("Select unit type");
+            }
+        } else{
+            throw new NullPointerException("Select unit type");
+        }
     }
 }

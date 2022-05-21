@@ -163,7 +163,12 @@ public class Army {
     public int getArmyHealth() {
         armyHealth = 0;
         for (Unit unit: getAllUnits()) {
-            armyHealth += unit.getHealth();
+            try {
+                armyHealth += unit.getHealth();
+            }catch (NullPointerException e){
+                e.getMessage();
+                remove(unit);
+            }
         }
         return armyHealth;
     }
@@ -188,7 +193,7 @@ public class Army {
 
     @Override
     public String toString() {
-        return "model.Army{" +
+        return "Army{" +
                 "name='" + name + '\'' +
                 ", units=" + units +
                 '}';
