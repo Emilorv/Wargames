@@ -10,8 +10,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -23,7 +21,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
@@ -37,48 +34,55 @@ import java.util.Objects;
 public class battleController {
 
     /**
-     * The Army 1.
+     * The Army on the left side.
      */
     Army army1;
     /**
-     * The Army 2.
+     * The Army on the right side.
      */
     Army army2;
     /**
-     * The Army 1 saved.
+     * Copy of the army on the left side. Used for restarting the battle.
      */
     Army army1Saved;
     /**
-     * The Army 2 saved.
+     * Copy of the army on the right side. Used for restarting the battle.
      */
     Army army2Saved;
     /**
-     * The Terrain.
+     * The Terrain. Used for calculating bonuses and background-image
      */
     Terrain terrain;
     /**
-     * The Battle speed.
+     * The Battle speed. Adjusts the rates at which the fights happen.
      */
     int battleSpeed = 2000;
     /**
-     * The Image map.
+     * The Image map. Used for connecting A unit to their image, so it can be removed when the unit dies.
      */
     Map<Unit, ImageView> imageMap = new HashMap<>();
     /**
-     * The Army 1 max health.
+     * The Army 1 max health. Used for calculating the width of the left-army healthBar
      */
     int army1MaxHealth;
     /**
-     * The Army 2 max health.
+     * The Army 2 max health. Used for calculating the width of the right-army healthBar
      */
     int army2MaxHealth;
     /**
-     * The Number of times clicked the speed button.
+     * The Number of times clicked the speed button. Used for alternating between normal and 20x speed
      */
     int numberOfTimesClickedTheSpeedButton = 0;
 
     @FXML
     private Button startBattleBtn;
+
+    @FXML
+    private Button battleSpeedBtn;
+
+    @FXML
+    private Button restartBtn;
+
     @FXML
     private Label armyName1;
 
@@ -89,16 +93,10 @@ public class battleController {
     private Label attackInfo;
 
     @FXML
-    private StackPane background;
-
-    @FXML
     private Label battleStatus;
 
     @FXML
     private Label damageDealtText;
-
-    @FXML
-    private Button battleSpeedBtn;
 
     @FXML
     private TableColumn<?, ?> healthCol1;
@@ -130,6 +128,10 @@ public class battleController {
 
     @FXML
     private HBox healthBar2;
+
+    @FXML
+    private StackPane background;
+
     @FXML
     private Pane infantry1;
     @FXML
@@ -148,16 +150,14 @@ public class battleController {
     private  Pane commander2;
 
     @FXML
-    private Button restartBtn;
-    @FXML
     private ObservableList<Unit> unitObservableList;
 
     /**
-     * The healthBar-bar for army 1.
+     * The healthBar-bar for the army on the left side.
      */
     Rectangle bar1 = new Rectangle();
     /**
-     * The healthBar-bar for army 2
+     * The healthBar-bar for the army on the right side.
      */
     Rectangle bar2 = new Rectangle();
 
@@ -187,7 +187,7 @@ public class battleController {
     }
 
     /**
-     * Start battle btn clicked.
+     * Start battle button clicked. Disable buttons, and starts a new Thread containing the while-loop which initiates battleFight()s until one of the armies has no units left.
      */
     public void startBattleBtnClicked() {
         if(Dialogs.showConfirmationDialog("Are you ready to start?")){
@@ -222,7 +222,10 @@ public class battleController {
     }
 
     /**
-     * Battle fight.
+     * Battle fight. Uses Platform.runLater() to simulate the fight running in real-time.
+     * Updates GUI-elements, so it displays which army attacked, damage done, and checks if the unit is killed
+     * The tables and healthBars of each army is also updated.
+     * If the unit is killed during the fight, their imageView is set to "null"
      *
      * @param battle       the battle
      * @param attackerArmy the attacker army
@@ -315,7 +318,7 @@ public class battleController {
     }
 
     /**
-     * Update tables.
+     * Initiates updateTables method for both armies.
      */
     public void updateTables(){
         updateTables(army1, armyName1, typeCol1, nameCol1, healthCol1, tableView1);
@@ -325,7 +328,7 @@ public class battleController {
     }
 
     /**
-     * Update tables. ConcurrentModificationException happens occasionally while battleSpeed is high, but it is not critical
+     * Update tables to include Units of each army. ConcurrentModificationException happens occasionally while battleSpeed is high, but it is not critical
      *
      * @param army      the army
      * @param armyName  the army name
@@ -406,9 +409,9 @@ public class battleController {
     /**
      * Update army healthBars. Bases the bar width on how much health the army has. ConcurrentModificationException happens occasionally while battleSpeed is high, but it is not critical
      *
-     * @param bar       the bar
+     * @param bar       the healthBar bar
      * @param army      the army
-     * @param healthBar the healthBar border
+     * @param healthBar the healthBar container
      */
     public void updateArmyHealthBars(Rectangle bar, Army army, HBox healthBar){
         float percentHealth;
