@@ -17,8 +17,10 @@ import java.util.Scanner;
 public class FileWriter {
     /**
      * Save army to file.
-     *First line is army name, then 1 unit for each line afterwards
+     * First line is army name, then 1 unit for each line afterwards
+     *
      * @param army the army that is saved to file
+     * @throws IOException the io exception
      */
     public void saveArmyToFile(Army army) throws IOException {
             java.io.FileWriter fileWriter = null;
@@ -34,8 +36,10 @@ public class FileWriter {
 
     /**
      * Read army from file army.
+     *
      * @param armyName name of army that you want to receive
      * @return the army
+     * @throws FileNotFoundException the file not found exception
      */
     public Army readArmyFromFileByName(String armyName) throws FileNotFoundException {
         if (armyName != null && !armyName.equals("")) {
@@ -57,6 +61,14 @@ public class FileWriter {
             throw new IllegalArgumentException("Name cannot be empty or null");
         }
     }
+
+    /**
+     * Read army from file army.
+     *
+     * @param file the file
+     * @return the army
+     * @throws FileNotFoundException the file not found exception
+     */
     public Army readArmyFromFile(File file) throws FileNotFoundException {
                 Scanner fileReader = new Scanner(file);
                 ArrayList<Unit> unitsFromFile = new ArrayList<>();
@@ -73,7 +85,9 @@ public class FileWriter {
 
     /**
      * Delete army file.
+     *
      * @param armyName name of army that is being deleted
+     * @throws FileNotFoundException the file not found exception
      */
     public void deleteArmyFile(String armyName) throws FileNotFoundException {
         if (new File("src/main/resources/Armies/" + armyName + ".csv").isFile()) {

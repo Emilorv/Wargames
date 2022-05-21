@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Unit factory. Creates units of each type
+ * Unit factory. Create amounts of units of each type
  */
 public class UnitFactory {
+    /**
+     * The Unit types.
+     */
     static String[] unitTypes = {"InfantryUnit","RangedUnit","CavalryUnit","CommanderUnit"};
+
     /**
      * Create unit.
      *
@@ -25,16 +29,16 @@ public class UnitFactory {
             return new CavalryUnit(name, health);
         } else if (unitType.equalsIgnoreCase("CommanderUnit")) {
             return new CommanderUnit(name, health);
-        } else throw new IllegalArgumentException("Unit could not be created");
+        } else throw new IllegalArgumentException("Unit Type is not available");
     }
 
     /**
-     * Create list of amount units.
+     * Creates an Array of units.
      *
-     * @param unitType the unit type
+     * @param unitType the unit type cannot be null
      * @param name     the name
      * @param health   the health
-     * @param amount   the amount
+     * @param amount   the amount cannot be less than 0 or more than 1000
      * @return the array list
      */
     public static ArrayList<Unit> createUnits(String unitType, String name, int health, int amount) {

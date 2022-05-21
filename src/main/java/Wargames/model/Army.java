@@ -8,12 +8,12 @@ import Wargames.model.Units.*;
 
 
 /**
- * model.Army class. Assembles units into teams that will be used in battles against each other.
+ * Army class. Assembles units into teams that will be used in battles against each other.
  */
 public class Army {
     private int armyHealth;
     private String name;
-    private ArrayList<Unit> units = new ArrayList<>();
+    private ArrayList<Unit> units;
 
     /**
      * Constructor of ArmyClass
@@ -31,7 +31,7 @@ public class Army {
     }
 
     /**
-     * Instantiates a new model.Army.
+     * Instantiates a new Army.
      *
      * @param name the name
      */
@@ -43,6 +43,7 @@ public class Army {
             throw new IllegalArgumentException("Name cannot be empty or null");
         }
     }
+
     /**
      * Get name of army
      *
@@ -54,6 +55,7 @@ public class Army {
 
     /**
      * Sets name.
+     *
      * @param name the name
      */
     public void setName(String name) {
@@ -64,7 +66,7 @@ public class Army {
      * Adds Unit to army
      *
      * @param unit unit to be added
-     * @return true if succesfull
+     * @return true if successful
      */
     public boolean addUnit(Unit unit) {
         units.add(unit);
@@ -72,10 +74,10 @@ public class Army {
     }
 
     /**
-     * Adds all units in an inputarray to army
+     * Adds all units in an input array to army
      *
      * @param inputUnits an array of units that are to be added to army
-     * @return true if succesfull
+     * @return true if successful
      */
     public boolean addAll(ArrayList<Unit> inputUnits) {
         for (Unit var : inputUnits) {
@@ -88,7 +90,7 @@ public class Army {
      * Removes unit from army
      *
      * @param unit unit to be removed from army
-     * @return true if succesfull
+     * @return true if successful
      */
     public boolean remove(Unit unit) {
         units.remove(unit);
@@ -152,7 +154,7 @@ public class Army {
     /**
      * Returns a random unit in army
      *
-     * @return unit unit
+     * @return unit
      */
     public Unit getRandom() {
         double randomNumber = Math.random() * units.size();
@@ -160,6 +162,11 @@ public class Army {
         return units.get(unitIndex);
     }
 
+    /**
+     * Gets the collective health of all units in army.
+     * Used to make the healthbar of each army
+     * @return the army health
+     */
     public int getArmyHealth() {
         armyHealth = 0;
         for (Unit unit: getAllUnits()) {
@@ -172,6 +179,12 @@ public class Army {
         }
         return armyHealth;
     }
+
+    /**
+     * Method that creates a copy of the army.
+     * Used for restarting the battle without having to import or make the army again.
+     * @return the copied army
+     */
     public Army copy(){
         String armyNameCopy = name;
         ArrayList<Unit> copyUnits = new ArrayList();

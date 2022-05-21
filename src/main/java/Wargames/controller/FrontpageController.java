@@ -112,7 +112,7 @@ public class FrontpageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/battleView.fxml"));
         Parent root = loader.load();
         battleController controller = loader.getController();
-        controller.recieveData(army1,army2,terrain);
+        controller.receiveData(army1,army2,terrain);
         Stage stage = WargamesApplication.stage;
         stage.getScene().setRoot(root);
     }
@@ -204,6 +204,22 @@ public class FrontpageController implements Initializable {
         imageView.setFitWidth(WargamesApplication.stage.getWidth());
         background.getChildren().add(imageView);
         imageView.toBack();
+    }
+    /**
+     * Load frontpage scene.
+     *
+     * @param selectedArmy the selected army
+     * @param otherArmy    the other army
+     * @throws IOException the io exception
+     */
+    public static void loadFrontpageScene(Army selectedArmy, Army otherArmy) throws IOException {
+        FXMLLoader loader = new FXMLLoader(FrontpageController.class.getResource("/view/Frontpage.fxml"));
+        Parent root = loader.load();
+        FrontpageController controller = loader.getController();
+        controller.receiveArmyInformation(selectedArmy, otherArmy );
+
+        Stage stage = WargamesApplication.stage;
+        stage.getScene().setRoot(root);
     }
 }
 

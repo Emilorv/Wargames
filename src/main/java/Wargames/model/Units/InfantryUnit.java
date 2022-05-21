@@ -8,19 +8,31 @@ import javafx.scene.image.Image;
  */
 public class InfantryUnit extends Unit {
 
+    /**
+     * The image representing InfantryUnit.
+     */
     Image unitImage = new Image(InfantryUnit.class.getResourceAsStream("/images/Units/InfantryUnit.png"));
+
     /**
      * Constructor of InfantryUnit
-     * @param name name of InfantryUnit
-     * @param health health of InfantryUnit
-     * @param attack attack of InfantryUnit
-     * @param armor armor of InfantryUnit
+     *
+     * @param name     name of InfantryUnit
+     * @param health   health of InfantryUnit
+     * @param attack   attack of InfantryUnit
+     * @param armor    armor of InfantryUnit
      * @param nAttacks number of times unit has attacked
      * @param nBlocked number of times unit has blocked
      */
     public InfantryUnit(String name, int health, int attack, int armor, int nAttacks, int nBlocked) {
         super(name, health, attack, armor, nAttacks, nBlocked);
     }
+
+    /**
+     * Instantiates a new Infantry unit.
+     *
+     * @param name   the name
+     * @param health the health
+     */
     public InfantryUnit(String name, int health){
        super(name,health, 15,10, 0, 0);
     }

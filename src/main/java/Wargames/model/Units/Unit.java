@@ -8,22 +8,29 @@ import javafx.scene.image.Image;
  */
 public abstract class Unit {
     private final String name;
-    private String type;
+    private final String type;
     private int health;
-    private Image unitImage;
     private final int attack;
     private final int armor;
+    /**
+     * The number of times attacked.
+     */
     protected int nAttacks;
+    /**
+     * The number of times blocked.
+     */
     protected int nBlocked;
 
     /**
      * Unit constructor
-     * @param name name of unit
-     * @param health health of unit
-     * @param attack attack of unit
-     * @param armor armor of unit
+     *
+     * @param name     name of unit
+     * @param health   health of unit
+     * @param attack   attack of unit
+     * @param armor    armor of unit
      * @param nAttacks number of times attacking
      * @param nBlocked number of times blocking an attack
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public Unit(String name, int health, int attack, int armor, int nAttacks, int nBlocked) throws IllegalArgumentException{
         if(name !=null && !name.equals("")) {
@@ -44,9 +51,11 @@ public abstract class Unit {
     }
 
     /**
-     *Attack-method. Changes health of opponent
+     * Attack-method. Changes health of opponent
      * if opponent armor is greater than attackers attack, nothing happens.
+     *
      * @param opponent opponent
+     * @return damageDone to opponent
      */
     public int attack(Unit opponent){
         setNAttacks(getNAttacks()+1);
@@ -65,6 +74,14 @@ public abstract class Unit {
             return 0;
         }
     }
+
+    /**
+     * Attack with terrain param. Used to calculate Attackbonus and resistbonus if the attack happens in terrain.
+     *
+     * @param opponent the opponent
+     * @param terrain  the terrain
+     * @return damageDone to opponent
+     */
     public int attack(Unit opponent, Terrain terrain){
         setNAttacks(getNAttacks()+1);
         opponent.setNBlocked(opponent.getNBlocked()+1);
@@ -82,56 +99,69 @@ public abstract class Unit {
             return 0;
         }
     }
+
     /**
-     *Returns name of unit
-     * @return name
+     * Returns name of unit
+     *
+     * @return name name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Returns health of model.Units.Unit
-     * @return health
+     * Returns health of unit
+     *
+     * @return health health
      */
     public int getHealth() {
         return health;
     }
 
     /**
-     * Returns attack of model.Units.Unit
-     * @return attack
+     * Returns attack of unit
+     *
+     * @return attack attack
      */
     public int getAttack() {
         return attack;
     }
 
     /**
-     * Returns armor of model.Units.Unit
-     * @return armor
+     * Returns armor of unit
+     *
+     * @return armor armor
      */
     public int getArmor() {
         return armor;
     }
 
     /**
-     * modifies health of model.Units.Unit. If new health value is less then 0, set it to 0.
+     * modifies health of unit. If new health value is less then 0, set it to 0.
+     *
      * @param health new health value
      */
     public void setHealth(int health) {
         if(health<0){
             this.health = 0;
+        } else{
+            this.health = health;
         }
-        this.health = health;
     }
 
+    /**
+     * Gets type of unit.
+     *
+     * @return the type
+     */
     public String getType() {
         return type;
     }
 
     /**
      * Returns number of times the unit has attacked
-     * @return nAttacks
+     *
+     * @return nAttacks number of times attacked
      */
     public int getNAttacks() {
         return nAttacks;
@@ -139,6 +169,7 @@ public abstract class Unit {
 
     /**
      * Modifies number of times attacked
+     *
      * @param nAttacks number of times attacked
      */
     public void setNAttacks(int nAttacks) {
@@ -147,7 +178,8 @@ public abstract class Unit {
 
     /**
      * Returns number of times the unit has been blocked an attack
-     * @return nBlocked
+     *
+     * @return nBlocked number of times blocked
      */
     public int getNBlocked() {
         return nBlocked;
@@ -155,11 +187,13 @@ public abstract class Unit {
 
     /**
      * Modifies number of times blocked
+     *
      * @param nBlocked number of times blocked
      */
     public void setNBlocked(int nBlocked) {
         this.nBlocked = nBlocked;
     }
+
     /**
      * ToString
      * @return String
@@ -168,15 +202,27 @@ public abstract class Unit {
     public String toString() {
         return getClass().getSimpleName()+","+getName()+","+getHealth();
     }
+
     /**
-     *Abstract attack-bonus method
+     * Abstract attack-bonus method
+     *
+     * @param terrain the terrain
+     * @return the attack bonus
      */
     public abstract int getAttackBonus(Terrain terrain);
 
     /**
-     *Abstract resist-bonus method
+     * Abstract resist-bonus method
+     *
+     * @param terrain the terrain
+     * @return the resist bonus
      */
     public abstract int getResistBonus(Terrain terrain);
 
+    /**
+     * Gets unit image.
+     *
+     * @return the unit image
+     */
     public abstract Image getUnitImage();
 }

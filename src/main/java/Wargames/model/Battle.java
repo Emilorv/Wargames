@@ -2,21 +2,22 @@ package Wargames.model;
 
 import Wargames.model.Units.Unit;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 /**
- * model.Battle class. Simulates a battle between 2 armies.
+ * Battle class. Simulates a battle between 2 armies.
  */
 public class Battle {
     private Terrain terrain;
     private final Army armyOne;
     private final Army armyTwo;
+    /**
+     * A battle has many fights, this param contains the latest one
+     */
     private Fight fight;
 
     /**
-     * The model.Battle Constructor
-     * @param armyOne the model.Army that strikes first in a simulated battle
+     * The Battle Constructor
+     *
+     * @param armyOne the Army that strikes first in a simulated battle
      * @param armyTwo the second army to strike in a simulated battle
      */
     public Battle(Army armyOne, Army armyTwo) {
@@ -26,7 +27,8 @@ public class Battle {
     }
 
     /**
-     * Instantiates a new model.Battle with terrain.
+     * Instantiates a new Battle with terrain.
+     *
      * @param armyOne the army one
      * @param armyTwo the army two
      * @param terrain the terrain
@@ -39,7 +41,8 @@ public class Battle {
 
 
     /**
-     * Simulates a battle between the two armies. Initiates Fight()s as long as both armies has model.Units left
+     * Simulates a battle between the two armies. Initiates Fight()s as long as both armies has Units left
+     *
      * @return army (the army that has units left when the battle is over, aka Winner)
      */
     public Army simulate() {
@@ -57,8 +60,10 @@ public class Battle {
     /**
      * Method where one random unit from the first army strikes a random unit from the other
      * If the defending unit has health equal to zero, it is removed from the army
+     *
      * @param attackerArmy the army that strikes
      * @param defenderArmy the army that defends
+     * @param terrain      the terrain
      */
     public void Fight(Army attackerArmy, Army defenderArmy, Terrain terrain){
         Unit attackingUnit = attackerArmy.getRandom();
@@ -69,6 +74,11 @@ public class Battle {
         }
     }
 
+    /**
+     * Gets the latest fight.
+     *
+     * @return the fight
+     */
     public Fight getFight() {
         return fight;
     }

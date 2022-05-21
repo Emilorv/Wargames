@@ -189,7 +189,7 @@ public class UpdateArmyController {
             } else {
                 army2 = new Army(nameInput.getText(), unitsInArmy);
             }
-            loadFrontpageScene(army1,army2);
+            FrontpageController.loadFrontpageScene(army1,army2);
         }catch (IllegalArgumentException e){
             Dialogs.showAlertDialog("Army could not be made",e);
         }
@@ -210,18 +210,8 @@ public class UpdateArmyController {
     @FXML
     void backBtnClicked() throws IOException {
         if(Dialogs.showConfirmationDialog("Go back to main menu? Changes may not have been saved ")){
-            loadFrontpageScene(army1,army2);
+            FrontpageController.loadFrontpageScene(army1,army2);
         }
-    }
-
-    public void loadFrontpageScene(Army selectedArmy, Army otherArmy) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Frontpage.fxml"));
-        Parent root = loader.load();
-        FrontpageController controller = loader.getController();
-        controller.receiveArmyInformation(selectedArmy, otherArmy );
-
-        Stage stage = WargamesApplication.stage;
-        stage.getScene().setRoot(root);
     }
 
     public void loadBackground(){

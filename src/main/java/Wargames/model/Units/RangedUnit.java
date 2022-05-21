@@ -7,13 +7,18 @@ import javafx.scene.image.Image;
  * RangedUnit class. Unit that excels in ranged combat. Extends Unit class
  */
 public class RangedUnit extends Unit {
+    /**
+     * The image representing RangedUnit.
+     */
     Image unitImage = new Image(RangedUnit.class.getResourceAsStream("/images/Units/RangedUnit.png"));
+
     /**
      * Constructor of RangedUnit
-     * @param name name of RangedUnit
-     * @param health health of RangedUnit
-     * @param attack attack of RangedUnit
-     * @param armor armor of RangedUnit
+     *
+     * @param name     name of RangedUnit
+     * @param health   health of RangedUnit
+     * @param attack   attack of RangedUnit
+     * @param armor    armor of RangedUnit
      * @param nAttacks number of times unit has attacked
      * @param nBlocked number of times unit has blocked
      */
@@ -21,6 +26,12 @@ public class RangedUnit extends Unit {
         super(name, health, attack, armor, nAttacks, nBlocked);
     }
 
+    /**
+     * Instantiates a new Ranged unit.
+     *
+     * @param name   the name
+     * @param health the health
+     */
     public RangedUnit(String name, int health) {
         super(name, health, 15, 8, 0, 0);
     }

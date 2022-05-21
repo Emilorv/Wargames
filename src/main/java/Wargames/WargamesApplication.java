@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Wargames application.
+ */
 public class WargamesApplication extends Application {
     public static Stage stage;
     @Override
@@ -18,8 +21,9 @@ public class WargamesApplication extends Application {
 
         WargamesApplication.stage = stage;
         Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
 
+        //gets screen bounds
+        Rectangle2D bounds = screen.getVisualBounds();
         stage.setX(bounds.getMinX());
         stage.setY(bounds.getMinY());
         stage.setWidth(bounds.getWidth());
@@ -32,10 +36,11 @@ public class WargamesApplication extends Application {
         stage.show();
 
     }
+
     /**
      * Change scene.
+     * Change scene to given fxml view
      *
-     * Change to given fxml view
      * @param fxml the fxml
      * @throws IOException the io exception
      */
@@ -45,6 +50,11 @@ public class WargamesApplication extends Application {
         stage.getScene().setRoot(parent);
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch();
     }
