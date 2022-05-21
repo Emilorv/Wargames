@@ -112,7 +112,7 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <ComboBox fx:id="terrainComboBox" promptText="Choose Terrain" styleClass="text" HBox.hgrow="ALWAYS">
+                                    <ComboBox fx:id="terrainComboBox" promptText="Choose Terrain" styleClass="button" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
                                           <Insets top="20.0" />
                                        </HBox.margin>

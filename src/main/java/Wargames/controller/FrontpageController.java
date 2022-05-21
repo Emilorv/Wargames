@@ -181,6 +181,7 @@ public class FrontpageController implements Initializable {
     }
     public void fillTerrainComboBox(){
         ObservableList<Terrain> terrainList = FXCollections.observableArrayList(Terrain.values());
+        terrainList.remove(Terrain.DEFAULT);
         terrainComboBox.setItems(terrainList);
     }
 

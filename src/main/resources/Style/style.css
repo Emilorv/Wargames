@@ -1,23 +1,20 @@
-.background{
-    -fx-start-margin: 0;
-    -fx-end-margin: 0;
-}
-.size12{
-    -fx-font-size: 12px;
-}
-.size15{
-    -fx-font-size: 15;
-}
-.size20{
-    -fx-font-size: 20;
-}
+
 .title {
     -fx-font-size: 40;
     -fx-fill: white;
     -fx-effect: dropshadow(three-pass-box, black, 0.5, 1, 0, 0);
 
 }
-
+.button{
+    -fx-background-color: #850014;
+    -fx-fill: white;
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-effect: dropshadow(three-pass-box, black, 0.5, 1, 0, 0);
+}
+.button:hover{
+    -fx-background-color: #47000B;
+}
 .textBackground{
     -fx-background-color: #360008E6;
     -fx-border-color: black;

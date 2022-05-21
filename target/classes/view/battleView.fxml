@@ -33,7 +33,7 @@
                            <children>
                               <HBox alignment="TOP_CENTER" styleClass="size20" VBox.vgrow="NEVER">
                                  <children>
-                                    <Label fx:id="armyName1" text="Label" HBox.hgrow="NEVER" />
+                                    <Label fx:id="armyName1" HBox.hgrow="NEVER" />
                                  </children>
                               </HBox>
                               <TableView fx:id="tableView1" styleClass="table" VBox.vgrow="ALWAYS">
@@ -59,9 +59,9 @@
                               <Button fx:id="startBattleBtn" mnemonicParsing="false" onAction="#startBattleBtnClicked" styleClass="size15" text="Start Battle" VBox.vgrow="ALWAYS" />
                               <VBox alignment="CENTER" spacing="20.0" styleClass="size15" VBox.vgrow="NEVER">
                                  <children>
-                                    <Label fx:id="battleStatus" text="Army attacks" />
-                                    <Label fx:id="attackInfo" text="Attack Information" />
-                                    <Label fx:id="damageDealtText" text="Damage dealt" />
+                                    <Label fx:id="battleStatus" />
+                                    <Label fx:id="attackInfo" />
+                                    <Label fx:id="damageDealtText" />
                                  </children>
                                  <VBox.margin>
                                     <Insets />
@@ -80,7 +80,7 @@
                            <children>
                               <HBox alignment="TOP_CENTER" styleClass="size20">
                                  <children>
-                                    <Label fx:id="armyName2" text="Label" HBox.hgrow="NEVER" />
+                                    <Label fx:id="armyName2" HBox.hgrow="NEVER" />
                                  </children>
                               </HBox>
                               <TableView fx:id="tableView2" styleClass="table" VBox.vgrow="ALWAYS">

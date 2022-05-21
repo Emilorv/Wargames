@@ -296,6 +296,9 @@ public class battleController {
 
         }
         public void restartBtnClicked(){
+        attackInfo.setText("");
+        battleStatus.setText("");
+        damageDealtText.setText("");
         healthBar1.getChildren().remove(bar1);
         healthBar2.getChildren().remove(bar2);
             for (Unit unit:army1.getAllUnits()) {
