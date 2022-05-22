@@ -22,7 +22,7 @@ public class BattleTest {
         army2.addUnit( new InfantryUnit("Swordsman", 6));
         Battle battle = new Battle(army1,army2);
         battle.Fight(army1, army2, Terrain.DEFAULT);
-        Assertions.assertFalse(army2.hasUnits());
+        Assertions.assertTrue(battle.getFight().isKilled());
     }
 
     /**
