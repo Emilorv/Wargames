@@ -1,35 +1,34 @@
 package Wargames.Units;
-import Wargames.model.Units.CavalryUnit;
-import Wargames.model.Units.CommanderUnit;
-import Wargames.model.Units.InfantryUnit;
-import Wargames.model.Units.RangedUnit;
+import Wargames.model.Units.*;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
 public class UnitTest {
     @Test
+    @DisplayName("Create a nameless unit")
     public void NamelessUnit(){
-        try {
-           new InfantryUnit("", 1);
-        }catch (IllegalArgumentException e){
-            Assertions.assertSame(e.getMessage(),"Name cannot be empty or null");
-        }
+        Assertions.assertThrowsExactly(IllegalArgumentException.class, ()-> new InfantryUnit("",1));
     }
 
     @Test
+    @DisplayName("Create unit with illegal charaters")
+    public void illegalCharactersUnit(){
+        Assertions.assertThrowsExactly(IllegalArgumentException.class, ()->new InfantryUnit("//Geir",20));
+    }
+
+    @Test
+    @DisplayName("Create a unit without health")
     public void HealthLessUnit(){
-        try {
-           new InfantryUnit("Swordsman", 0);
-        }catch (IllegalArgumentException e){
-            Assertions.assertSame(e.getMessage(),"Health cannot be 0 or less");
-        }
+        Assertions.assertThrowsExactly(IllegalArgumentException.class, ()-> new InfantryUnit("Swordsman",0));
     }
     /**
      * The attack applies damage of 15(attack) + 2(attackBonus) - 10(opponentArmor) -1(opponentResistBonus) = 6
      * Opponents health goes from 30 to 24 and then 18
      */
     @Test
+    @DisplayName("Attack values from InfantryUnit")
     public void InfantryAttacks(){
 
         InfantryUnit infantry1 = new InfantryUnit("Geir", 30);
@@ -44,6 +43,7 @@ public class UnitTest {
      * Attack of Overpowered unit infantry2 will technically set infantry1's health to way less than 0
      */
     @Test
+    @DisplayName("Unit health set to less than 0")
     public void UnitHealthSetToLessThanZero(){
         InfantryUnit infantry1 = new InfantryUnit("Swordsman", 1);
         InfantryUnit infantry2 = new InfantryUnit("Puncher",30,30,30,30,30 );
@@ -56,6 +56,7 @@ public class UnitTest {
      * Opponents health goes from 30 to 26 to 20 then 12
      */
     @Test
+    @DisplayName("Resist bonus for ranged units")
     public void RangedBonusResist(){
         RangedUnit ranged1 = new RangedUnit("Geir", 30);
         RangedUnit ranged2 = new RangedUnit("Hans", 30);
@@ -74,6 +75,7 @@ public class UnitTest {
      * Opponents health goes from 30 to 17 then 8
      */
     @Test
+    @DisplayName("Charge attacks from CavalryUnits")
     public void CavalryChargeAttacks(){
         CavalryUnit cavalry1 = new CavalryUnit("Geir", 30);
         CavalryUnit cavalry2 = new CavalryUnit("Hans", 30);
@@ -89,6 +91,7 @@ public class UnitTest {
      * Opponents health goes from 30 to 15 then 4
      */
     @Test
+    @DisplayName("CommanderUnit attack values")
     public void CommanderUnitAttack(){
         CommanderUnit commander1 = new CommanderUnit("Geir", 30);
         CommanderUnit commander2 = new CommanderUnit("Hans", 30);
@@ -103,6 +106,7 @@ public class UnitTest {
      * Test is successful if the
      */
     @Test
+    @DisplayName("When armor is greater than attack")
     public void ArmorGreaterThanAttack(){
         InfantryUnit infantry1 = new InfantryUnit("Swordsman", 10, 10, 20, 0, 0);
         InfantryUnit infantry2 = new InfantryUnit("Swordsman", 10, 10, 20, 0, 0);

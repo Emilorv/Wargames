@@ -47,9 +47,9 @@ public class Battle {
      */
     public Army simulate() {
         while (armyOne.hasUnits() && armyTwo.hasUnits()) {
-            Fight(armyOne, armyTwo, terrain);
+            Fight(armyOne, armyTwo);
             if (armyTwo.hasUnits()) {
-            Fight(armyTwo, armyOne, terrain);
+            Fight(armyTwo, armyOne);
             }
         }
         if(armyOne.hasUnits())
@@ -63,9 +63,8 @@ public class Battle {
      *
      * @param attackerArmy the army that strikes
      * @param defenderArmy the army that defends
-     * @param terrain      the terrain
      */
-    public void Fight(Army attackerArmy, Army defenderArmy, Terrain terrain){
+    public void Fight(Army attackerArmy, Army defenderArmy){
         Unit attackingUnit = attackerArmy.getRandom();
         Unit defendingUnit = defenderArmy.getRandom();
         fight = new Fight(attackingUnit, defendingUnit, terrain);

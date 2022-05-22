@@ -22,8 +22,12 @@ public class Army {
      */
     public Army(String name, ArrayList<Unit> units) throws IllegalArgumentException {
         if (name != null && !name.equals("")) {
-                    this.name = name;
-                    this.units = units;
+            if(name.split("[,.:;^=~#@*+%{}<>/\\[\\]|\"]", 2).length<2){
+                this.name = name;
+                this.units = units;
+            } else{
+                throw  new IllegalArgumentException("Army name cannot contain iIllegal Characters ");
+            }
         } else {
             throw new IllegalArgumentException("Name cannot be empty or null");
         }
@@ -36,8 +40,12 @@ public class Army {
      */
     public Army(String name) throws IllegalArgumentException {
         if (name != null && !name.equals("")) {
-                    this.name = name;
-                    this.units = new ArrayList<>();
+            if(name.split("[,.:;^=~#@*+%{}<>/\\[\\]|\"]", 2).length<2) {
+                this.name = name;
+                this.units = new ArrayList<>();
+            }else{
+                throw new IllegalArgumentException();
+            }
         } else {
             throw new IllegalArgumentException("Name cannot be empty or null");
         }
@@ -76,8 +84,8 @@ public class Army {
      * @param inputUnits an array of units that are to be added to army
      */
     public void addAll(ArrayList<Unit> inputUnits) {
-        for (Unit var : inputUnits) {
-            addUnit(var);
+        for (Unit unit : inputUnits) {
+            addUnit(unit);
         }
     }
 

@@ -30,7 +30,7 @@ public class FileWriter {
                 fileWriter.write(unit.toString() + "\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException("FileWriter-path is unavailable");
         }
         }
 
@@ -43,15 +43,20 @@ public class FileWriter {
      */
     public Army readArmyFromFileByName(String armyName) throws FileNotFoundException {
         if (armyName != null && !armyName.equals("")) {
-            if (new File("src/main/resources/Armies/" + armyName + ".csv" ).isFile()) {
+            if(armyName.split("[,.:;^=~#@*+%{}<>/\\[\\]|\"]", 2).length<2) {
+                if (new File("src/main/resources/Armies/" + armyName + ".csv").isFile()) {
                     Scanner fileReader = new Scanner(new File("src/main/resources/Armies/" + armyName + ".csv"));
                     ArrayList<Unit> unitsFromFile = new ArrayList<>();
                     armyName = fileReader.nextLine();
-                return readArmyFromFile(armyName, fileReader, unitsFromFile);
-            } else{
-                throw new FileNotFoundException("File could not be found");
+                    return readArmyFromFile(armyName, fileReader, unitsFromFile);
+                } else {
+                    throw new FileNotFoundException("File could not be found");
+                }
+            }else {
+                throw new IllegalArgumentException("ArmyName cannot contain illegal characters ");
             }
-        } else {
+        }
+            else {
             throw new IllegalArgumentException("Name cannot be empty or null");
         }
     }

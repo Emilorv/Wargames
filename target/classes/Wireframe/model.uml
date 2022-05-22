@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>Wargames.model</OriginalElement>
+  <nodes>
+    <node x="-15.0" y="-15.0">Wargames.model.FileWriting</node>
+    <node x="221.0" y="1001.0">Wargames.model.Terrain</node>
+    <node x="-180.41669420395215" y="5.255105412728838">Wargames.model.Units</node>
+    <node x="1150.0" y="274.90339139209397">Wargames.model.Fight</node>
+    <node x="843.0" y="0.0">Wargames.model.Army</node>
+    <node x="1112.0" y="0.0">Wargames.model.Battle</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic" zoom="0.592443226311668" showDependencies="false" x="360.0" y="409.0" />
+  <SelectedNodes>
+    <node>Wargames.model.FileWriting</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

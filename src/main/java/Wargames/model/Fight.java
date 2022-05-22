@@ -37,6 +37,7 @@ public class Fight {
     this.damageDone = attacker.attack(defender,terrain);
     }
 
+
     /**
      * Is killed boolean. If the defending unit has 0 health, it returns true
      *

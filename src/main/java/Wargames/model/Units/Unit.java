@@ -34,7 +34,11 @@ public abstract class Unit {
      */
     public Unit(String name, int health, int attack, int armor, int nAttacks, int nBlocked) throws IllegalArgumentException{
         if(name !=null && !name.equals("")) {
-            this.name = name;
+            if(name.split("[,.:;^=~#@*+%{}<>/\\[\\]|\"]", 2).length<2) {
+                this.name = name;
+            } else{
+                throw new IllegalArgumentException("Name cannot contain illegal characters ");
+            }
         }else {
             throw new IllegalArgumentException("Name cannot be empty or null");
         }

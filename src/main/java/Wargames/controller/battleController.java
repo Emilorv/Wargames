@@ -196,14 +196,14 @@ public class battleController {
             Battle battle = new Battle(army1,army2,terrain);
             new Thread(()->{
                 while (army1.hasUnits() && army2.hasUnits()) {
-                    battleFight(battle,army1,army2,terrain);
+                    battleFight(battle,army1,army2);
                     try {
                         Thread.sleep(battleSpeed);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     if (army2.hasUnits()) {
-                        battleFight(battle,army2,army1,terrain);
+                        battleFight(battle,army2,army1);
                         try {
                             Thread.sleep(battleSpeed);
                         } catch (InterruptedException e) {
@@ -230,11 +230,10 @@ public class battleController {
      * @param battle       the battle
      * @param attackerArmy the attacker army
      * @param defenderArmy the defender army
-     * @param terrain      the terrain
      */
-    public void battleFight(Battle battle, Army attackerArmy, Army defenderArmy, Terrain terrain){
+    public void battleFight(Battle battle, Army attackerArmy, Army defenderArmy){
         Platform.runLater(()-> {
-        battle.Fight(attackerArmy,defenderArmy,terrain);
+        battle.Fight(attackerArmy,defenderArmy);
         Unit attackerUnit = battle.getFight().getAttacker();
         Unit defenderUnit = battle.getFight().getDefender();
         int damageDone = battle.getFight().getDamageDone();

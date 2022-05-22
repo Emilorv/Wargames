@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ArmyTest {
     ArrayList<Unit> units;
-    @org.junit.Test
+
     public void testData(){
         units = new ArrayList<>();
         units.add(new InfantryUnit("Swordsman",15));
@@ -19,22 +19,28 @@ public class ArmyTest {
         units.add(new CommanderUnit("Leader",30));
     }
     @Test
+    @DisplayName("Create a nameless army")
     public void namelessArmy(){
-        ArrayList<Unit> units = new ArrayList<>();
-        InfantryUnit infantry1 = new InfantryUnit("Swordsman",15);
-        units.add(infantry1);
+        testData();
         Assertions.assertThrowsExactly(IllegalArgumentException.class, () ->new Army("",units));
+        Assertions.assertThrowsExactly(IllegalArgumentException.class, ()-> new Army(""));
+    }
+
+    @Test
+    @DisplayName("Create Army with illegal characters")
+    public void illegalCharactersArmy(){
+        Assertions.assertThrowsExactly(IllegalArgumentException.class,()-> new Army(",,:)"));
     }
     /**
      * This test Creates an army and a unit. The test is successful if the method army.hasUnits()
      * first returns false, and after adding the unit it returns true
      */
     @Test
+    @DisplayName("addUnit and hasUnits")
     public void testAddUnitAndHasUnits() {
         Army army = new Army("ArmyAddUnitTest");
-        InfantryUnit infantry1 = new InfantryUnit("Geir", 30);
         Assertions.assertFalse(army.hasUnits());
-        army.addUnit(infantry1);
+        army.addUnit(new InfantryUnit("Geir", 30));
         Assertions.assertTrue(army.hasUnits());
     }
 
@@ -43,14 +49,13 @@ public class ArmyTest {
      * army.getAllUnits first returns false, and after using army.addAll() it returns true
      */
     @Test
+    @DisplayName("addAllUnits and getAllUnits")
     public void testAddAllAndGetAllUnits() {
         Army army = new Army("ArmyGetAddAndGetUnitsTest");
-        ArrayList<Unit> inputUnits = new ArrayList<>();
-        InfantryUnit infantry1 = new InfantryUnit("Geir", 30);
-        RangedUnit ranged1 = new RangedUnit("Hans", 30);
-        inputUnits.add(infantry1);
-        inputUnits.add(ranged1);
         Assertions.assertEquals(0, army.getAllUnits().size());
+        ArrayList<Unit> inputUnits = new ArrayList<>();
+        inputUnits.add(new InfantryUnit("Geir", 30));
+        inputUnits.add(new RangedUnit("Hans", 30));
         army.addAll(inputUnits);
         Assertions.assertEquals(2, army.getAllUnits().size());
     }
@@ -60,6 +65,7 @@ public class ArmyTest {
      * army.hasUnits() first returns true, then after using army.remove() it returns false
      */
     @Test
+    @DisplayName("Remove unit from army")
     public void testRemove() {
         Army army = new Army("ArmyRemoveTest");
         InfantryUnit infantry1 = new InfantryUnit("Geir", 30);
@@ -74,12 +80,14 @@ public class ArmyTest {
      * the random unit in an army with two units always will be one of the two
      */
     @Test
+    @DisplayName("Get random unit from army")
     public void testGetRandom() {
         InfantryUnit infantry1 = new InfantryUnit("Geir", 30);
         ArrayList<Unit> inputUnits = new ArrayList<>();
         inputUnits.add(infantry1);
         Army army = new Army("ArmyGetRandomTest", inputUnits);
         Assertions.assertEquals(1, army.getAllUnits().size());
+
         for (int i=0; i<100; i++){
             Assertions.assertSame(army.getRandom(), infantry1);
         }
@@ -95,6 +103,7 @@ public class ArmyTest {
      * Get units of each type.
      */
     @Test
+    @DisplayName("Get units of each type")
     public void getUnitsOfEachType(){
         ArrayList<Unit> infantryUnits = new ArrayList<>();
         infantryUnits.add(new InfantryUnit("Geir",30));
