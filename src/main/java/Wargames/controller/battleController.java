@@ -29,7 +29,7 @@ import java.util.Objects;
 
 
 /**
- * The type Battle controller.
+ * The Battle controller.
  */
 public class battleController {
 

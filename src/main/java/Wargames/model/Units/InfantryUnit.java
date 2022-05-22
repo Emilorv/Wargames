@@ -3,6 +3,8 @@ package Wargames.model.Units;
 import Wargames.model.Terrain;
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 /**
  * InfantryUnit class. Basic melee unit. Extends Unit class
  */
@@ -11,7 +13,7 @@ public class InfantryUnit extends Unit {
     /**
      * The image representing InfantryUnit.
      */
-    Image unitImage = new Image(InfantryUnit.class.getResourceAsStream("/images/Units/InfantryUnit.png"));
+    Image unitImage = new Image(Objects.requireNonNull(InfantryUnit.class.getResourceAsStream("/images/Units/InfantryUnit.png")));
 
     /**
      * Constructor of InfantryUnit
@@ -38,7 +40,7 @@ public class InfantryUnit extends Unit {
     }
 
     /**
-     * Attackbonus for melee-range
+     * Attack bonus for melee-range
      * Bonus damage in Forest-terrain
      * @return 4 or 2
      */
@@ -51,7 +53,7 @@ public class InfantryUnit extends Unit {
     }
 
     /**
-     * Resistbonus small resist-bonus
+     * Resist bonus small resist-bonus
      * Bonus resist in Forest-terrain
      * @return 2 or 1
      */

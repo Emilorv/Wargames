@@ -21,7 +21,7 @@ public enum Terrain {
     /**
      * Forest terrain.
      * Damage and Resist-bonus for InfantryUnits
-     * Damage-debuff for RangedUnits
+     * Damage de-buff for RangedUnits
      * 0 resist-bonus for Commander and CavalryUnits
      */
     FOREST

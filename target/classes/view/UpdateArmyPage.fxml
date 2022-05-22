@@ -91,8 +91,9 @@
                         </HBox>
                         <AnchorPane prefHeight="25.0" prefWidth="622.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="backBtn" layoutX="34.0" mnemonicParsing="false" onAction="#backBtnClicked" styleClass="size15" text="Back" />
-                              <Button fx:id="confirmArmyBtn" layoutX="255.0" mnemonicParsing="false" onAction="#confirmArmyBtnClicked" styleClass="size15" text="Confirm Army" />
+                              <Button fx:id="backBtn" mnemonicParsing="false" onAction="#backBtnClicked" styleClass="size15" text="Back" />
+                              <Button fx:id="confirmArmyBtn" layoutX="241.0" mnemonicParsing="false" onAction="#confirmArmyBtnClicked" styleClass="size15" text="Confirm Army" />
+                              <Button fx:id="clearTableBtn" layoutX="511.0" layoutY="1.0" mnemonicParsing="false" onAction="#clearTableBtnClicked" text="Clear table" />
                            </children>
                            <VBox.margin>
                               <Insets top="30.0" />

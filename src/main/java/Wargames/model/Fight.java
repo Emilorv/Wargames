@@ -43,10 +43,7 @@ public class Fight {
      * @return true if 0 health, false if not.
      */
     public boolean isKilled() {
-        if (defender.getHealth() == 0) {
-            return true;
-        }
-        return false;
+        return defender.getHealth() == 0;
     }
 
     /**

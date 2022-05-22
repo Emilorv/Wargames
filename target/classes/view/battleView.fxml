@@ -54,14 +54,14 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </VBox>
-                        <VBox alignment="TOP_CENTER" maxWidth="250.0" minWidth="200.0" prefWidth="200.0" spacing="30.0" HBox.hgrow="ALWAYS">
+                        <VBox alignment="CENTER" maxWidth="250.0" minWidth="200.0" prefWidth="200.0" spacing="10.0" styleClass="textBackground" HBox.hgrow="ALWAYS">
                            <children>
                               <Button fx:id="startBattleBtn" mnemonicParsing="false" onAction="#startBattleBtnClicked" styleClass="size15" text="Start Battle" VBox.vgrow="ALWAYS" />
-                              <VBox alignment="CENTER" spacing="20.0" styleClass="size15" VBox.vgrow="NEVER">
+                              <VBox alignment="CENTER" spacing="20.0" styleClass="size12" VBox.vgrow="NEVER">
                                  <children>
-                                    <Label fx:id="battleStatus" />
-                                    <Label fx:id="attackInfo" />
-                                    <Label fx:id="damageDealtText" />
+                                    <Label fx:id="battleStatus" alignment="CENTER" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                                    <Label fx:id="attackInfo" contentDisplay="CENTER" textAlignment="CENTER" wrapText="true" />
+                                    <Label fx:id="damageDealtText" contentDisplay="CENTER" textAlignment="CENTER" wrapText="true" />
                                  </children>
                                  <VBox.margin>
                                     <Insets />
@@ -75,6 +75,12 @@
                               <Button fx:id="restartBtn" mnemonicParsing="false" onAction="#restartBtnClicked" styleClass="size15" text="Restart battle" VBox.vgrow="ALWAYS" />
                               <Button fx:id="backBtn" mnemonicParsing="false" onAction="#backBtnClicked" styleClass="size15" text="Back To Menu" />
                            </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
                         </VBox>
                         <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                            <children>

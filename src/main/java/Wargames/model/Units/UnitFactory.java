@@ -20,7 +20,7 @@ public class UnitFactory {
      * @param health   the health
      * @return the unit
      */
-    public static Unit createUnit(String unitType, String name, int health) {
+    public static Unit createUnit(String unitType, String name, int health) throws IllegalArgumentException {
         if (unitType.equalsIgnoreCase("InfantryUnit")) {
             return new InfantryUnit(name, health);
         } else if (unitType.equalsIgnoreCase("RangedUnit")) {
@@ -41,10 +41,10 @@ public class UnitFactory {
      * @param amount   the amount cannot be less than 0 or more than 1000
      * @return the array list
      */
-    public static ArrayList<Unit> createUnits(String unitType, String name, int health, int amount) {
+    public static ArrayList<Unit> createUnits(String unitType, String name, int health, int amount) throws IllegalArgumentException, NullPointerException {
         ArrayList<Unit> listOfUnits = new ArrayList<>();
         if(unitType != null) {
-            if (Arrays.stream(unitTypes).anyMatch(e -> unitType.equals(e))) {
+            if (Arrays.asList(unitTypes).contains(unitType)) {
                 if (amount > 0 && amount <1001) {
                     for (int i = 0; i < amount; i++) {
                         listOfUnits.add(createUnit(unitType, name, health));

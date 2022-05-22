@@ -2,6 +2,8 @@ package Wargames.model.Units;
 
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 /**
  * Commander Unit. Special kind of CavalryUnit with better basic health and armor stats. Extends CavalryUnit
  */
@@ -9,7 +11,7 @@ public class CommanderUnit extends CavalryUnit{
     /**
      * The image representing CommanderUnit.
      */
-    Image unitImage = new Image(InfantryUnit.class.getResourceAsStream("/images/Units/InfantryUnit.png"));
+    Image unitImage = new Image(Objects.requireNonNull(InfantryUnit.class.getResourceAsStream("/images/Units/InfantryUnit.png")));
 
     /**
      * Constructor of CommanderUnit

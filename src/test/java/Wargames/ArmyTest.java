@@ -3,15 +3,25 @@ package Wargames;
 import Wargames.model.Units.*;
 import Wargames.model.Army;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 public class ArmyTest {
+    ArrayList<Unit> units;
+    @org.junit.Test
+    public void testData(){
+        units = new ArrayList<>();
+        units.add(new InfantryUnit("Swordsman",15));
+        units.add(new RangedUnit("Archer",10));
+        units.add(new CavalryUnit("Knight",30));
+        units.add(new CommanderUnit("Leader",30));
+    }
     @Test
     public void namelessArmy(){
         ArrayList<Unit> units = new ArrayList<>();
-        InfantryUnit infantry1 = new InfantryUnit("Swordman",15);
+        InfantryUnit infantry1 = new InfantryUnit("Swordsman",15);
         units.add(infantry1);
         Assertions.assertThrowsExactly(IllegalArgumentException.class, () ->new Army("",units));
     }
@@ -71,7 +81,6 @@ public class ArmyTest {
         Army army = new Army("ArmyGetRandomTest", inputUnits);
         Assertions.assertEquals(1, army.getAllUnits().size());
         for (int i=0; i<100; i++){
-            Unit randomUnit = army.getRandom();
             Assertions.assertSame(army.getRandom(), infantry1);
         }
         RangedUnit ranged1 = new RangedUnit("Hans", 30);
@@ -118,10 +127,18 @@ public class ArmyTest {
     }
 
     @Test
-    public void saveArmyToFile(){
-        Army army = new Army("StianArmy");
-        army.addUnit(new InfantryUnit("Geir",50));
-        army.addUnit(new RangedUnit("Gei",52));
+    @DisplayName("Get Army Health")
+    public void getArmyHealth(){
+        testData();
+        Army army = new Army("Army", units);
+        Assertions.assertEquals(85,army.getArmyHealth());
+    }
 
+    @Test
+    @DisplayName("Army copy test")
+    public void armyCopy(){
+        testData();
+        Army army = new Army("Army", units);
+            Assertions.assertEquals(army.getArmyHealth(), army.copy().getArmyHealth());
     }
 }

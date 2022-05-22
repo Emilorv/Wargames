@@ -3,6 +3,8 @@ package Wargames.model.Units;
 import Wargames.model.Terrain;
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 /**
  * CavalryUnit class. Unit that excels in melee combat, with a charged attack bonus. Extends Unit class
  */
@@ -11,7 +13,7 @@ public class CavalryUnit extends Unit {
     /**
      * The image representing CavalryUnit.
      */
-    Image unitImage = new Image(InfantryUnit.class.getResourceAsStream("/images/Units/CavalryUnit.png"));
+    Image unitImage = new Image(Objects.requireNonNull(InfantryUnit.class.getResourceAsStream("/images/Units/CavalryUnit.png")));
 
     /**
      * Constructor of CavalryUnit
@@ -38,7 +40,7 @@ public class CavalryUnit extends Unit {
     }
 
     /**
-     * Attackbonus for the first attack (6) then 2
+     * Attack bonus for the first attack (6) then 2
      * Bonus damage when in Plains-terrain
      * @return 2
      */
@@ -55,8 +57,8 @@ public class CavalryUnit extends Unit {
     }
 
     /**
-     * Resistbonus small resist-bonus
-     * 0 resistbonus when in Forest-terrain
+     * Resist bonus small resist-bonus
+     * 0 resist bonus when in Forest-terrain
      * @return 1
      */
 

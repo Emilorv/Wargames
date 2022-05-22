@@ -11,22 +11,22 @@ public class UnitTest {
     @Test
     public void NamelessUnit(){
         try {
-           InfantryUnit infantry1 = new InfantryUnit("", 1);
+           new InfantryUnit("", 1);
         }catch (IllegalArgumentException e){
             Assertions.assertSame(e.getMessage(),"Name cannot be empty or null");
         }
     }
 
     @Test
-    public void HealthlessUnit(){
+    public void HealthLessUnit(){
         try {
-            InfantryUnit infantry1 = new InfantryUnit("Swordman", 0);
+           new InfantryUnit("Swordsman", 0);
         }catch (IllegalArgumentException e){
             Assertions.assertSame(e.getMessage(),"Health cannot be 0 or less");
         }
     }
     /**
-     * The attack applies a damage of 15(attack) + 2(attackBonus) - 10(opponentArmor) -1(opponentResistBonus) = 6
+     * The attack applies damage of 15(attack) + 2(attackBonus) - 10(opponentArmor) -1(opponentResistBonus) = 6
      * Opponents health goes from 30 to 24 and then 18
      */
     @Test
@@ -45,7 +45,7 @@ public class UnitTest {
      */
     @Test
     public void UnitHealthSetToLessThanZero(){
-        InfantryUnit infantry1 = new InfantryUnit("Swordman", 1);
+        InfantryUnit infantry1 = new InfantryUnit("Swordsman", 1);
         InfantryUnit infantry2 = new InfantryUnit("Puncher",30,30,30,30,30 );
         infantry2.attack(infantry1);
         Assertions.assertEquals(0,infantry1.getHealth());
@@ -85,7 +85,7 @@ public class UnitTest {
 
     /**
      * Tests CommanderUnit attacks. Same bonuses as CavalryUnit
-     * The attack applies a damage of 25(attack) + 6then2(attackbonus) -15(opponentArmor) -1(opponentResistBonus) = 15then11
+     * The attack applies a damage of 25(attack) + 6then2(attack-bonus) -15(opponentArmor) -1(opponentResistBonus) = 15then11
      * Opponents health goes from 30 to 15 then 4
      */
     @Test
@@ -104,8 +104,8 @@ public class UnitTest {
      */
     @Test
     public void ArmorGreaterThanAttack(){
-        InfantryUnit infantry1 = new InfantryUnit("Swordman", 10, 10, 20, 0, 0);
-        InfantryUnit infantry2 = new InfantryUnit("Swordman", 10, 10, 20, 0, 0);
+        InfantryUnit infantry1 = new InfantryUnit("Swordsman", 10, 10, 20, 0, 0);
+        InfantryUnit infantry2 = new InfantryUnit("Swordsman", 10, 10, 20, 0, 0);
         Assertions.assertEquals(10, infantry2.getHealth());
         infantry1.attack(infantry2);
         Assertions.assertEquals(10, infantry2.getHealth());

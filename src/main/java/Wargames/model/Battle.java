@@ -6,7 +6,7 @@ import Wargames.model.Units.Unit;
  * Battle class. Simulates a battle between 2 armies.
  */
 public class Battle {
-    private Terrain terrain;
+    private final Terrain terrain;
     private final Army armyOne;
     private final Army armyTwo;
     /**

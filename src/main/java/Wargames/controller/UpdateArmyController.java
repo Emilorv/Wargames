@@ -9,9 +9,6 @@ import Wargames.model.FileWriting.FileWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -20,26 +17,25 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * Update army controller.
+ */
 public class UpdateArmyController {
     @FXML
     private Text updateTitle;
 
-    @FXML
-    private Button addBtn;
     @FXML
     private TableView<Unit> armyTableView;
 
@@ -65,22 +61,11 @@ public class UpdateArmyController {
     private TextField nameInput;
 
     @FXML
-    private Button saveArmyToFileBtn;
-
-    @FXML
     private TableColumn<?, ?> typeCol;
 
     @FXML
     private ComboBox<String> typeComboBox;
 
-    @FXML
-    private Button uploadArmyFromFileBtn;
-
-    @FXML
-    private Button confirmArmyBtn;
-
-    @FXML
-    private Button backBtn;
     @FXML
     private StackPane background;
 
@@ -88,10 +73,19 @@ public class UpdateArmyController {
     private Army army2;
     private int armyIndex;
 
-    private ObservableList<Unit> unitObservableList;
+    /**
+     * The Units in the army.
+     */
     ArrayList<Unit> unitsInArmy = new ArrayList<>();
 
 
+    /**
+     * Receive army information from the frontpage scene.
+     *
+     * @param armyIndex    the army index
+     * @param selectedArmy the selected army
+     * @param otherArmy    the other army
+     */
     public void receiveArmyInformation(int armyIndex, Army selectedArmy, Army otherArmy ){
         unitsInArmy = new ArrayList<>();
         if(armyIndex==1){
@@ -112,8 +106,13 @@ public class UpdateArmyController {
         loadBackground();
     }
 
+    /**
+     * Save army to file button clicked. Uses the fileWriter to save army to file. If the army name already exists as a file, the user will be asked to overwrite it.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @FXML
-    void saveArmyToFileBtnClicked() {
+    void saveArmyToFileBtnClicked() throws IllegalArgumentException {
         FileWriter fileWriter = new FileWriter();
         String name = nameInput.getText();
             try {
@@ -123,26 +122,35 @@ public class UpdateArmyController {
                     if(Dialogs.showConfirmationDialog("An army with that name already exists. Do you want to overwrite it?")){
                         try {
                             fileWriter.saveArmyToFile(army);
+                            fileUploadedFromText.setText("File Saved to " + savedFile.getPath());
                         }catch (IOException e) {
                             Dialogs.showAlertDialog("Army could not be saved",e);
                         }
-                        fileUploadedFromText.setText("File Saved to " + savedFile.getPath());
                     }
                 } else{
                     try {
                         fileWriter.saveArmyToFile(army);
+                        fileUploadedFromText.setText("File Saved to " + savedFile.getPath());
+                        Dialogs.showConfirmationDialog("The army was saved");
                     }catch (IOException e) {
                         Dialogs.showAlertDialog("Army could not be saved",e);
                     }
-                    fileUploadedFromText.setText("File Saved to " + savedFile.getPath());
                 }
             }catch (IllegalArgumentException e){
                 Dialogs.showAlertDialog("Army could not be saved", e);
             }
 
     }
+
+    /**
+     * Add button clicked. Uses the inputFields to create units and add them to the table.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     * @throws NullPointerException     the null pointer exception
+     * @throws NumberFormatException    the number format exception
+     */
     @FXML
-    void addBtnClicked() {
+    void addBtnClicked() throws IllegalArgumentException, NullPointerException, NumberFormatException {
         String type = typeComboBox.getValue();
         String name = inputUnitName.getText();
         try {
@@ -157,9 +165,15 @@ public class UpdateArmyController {
             }
             updateTable();
         }catch (NumberFormatException e){
-            Dialogs.showAlertDialog("The health and amount of units must be an integer",e);
+            Dialogs.showAlertDialog("health and amount must be integers", e);
         }
     }
+
+    /**
+     * Upload army from file button clicked. Creates an army based on the information from a CSV-file
+     *
+     * @throws FileNotFoundException the file not found exception
+     */
     @FXML
     void uploadArmyFromFileBtnClicked() throws FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
@@ -168,7 +182,8 @@ public class UpdateArmyController {
                 new FileChooser.ExtensionFilter("CSV-Files","*.csv")
         );
         fileChooser.setInitialDirectory(new File("src/main/resources/Armies/"));
-        File selectedFile = fileChooser.showOpenDialog(WargamesApplication.stage);
+        try{
+            File selectedFile = fileChooser.showOpenDialog(WargamesApplication.stage);
         FileWriter fileWriter = new FileWriter();
         if(armyIndex==1){
             army1= fileWriter.readArmyFromFile(selectedFile);
@@ -179,8 +194,20 @@ public class UpdateArmyController {
             receiveArmyInformation(armyIndex,army2,army1);
         }
         fileUploadedFromText.setText("File uploaded from: " + selectedFile.getPath());
+        }catch (NullPointerException e){
+            Dialogs.showAlertDialog("You did not choose a file");
+        } catch (NumberFormatException e){
+            Dialogs.showAlertDialog("The file has the wrong format", e);
+        }catch (IllegalArgumentException e){
+            Dialogs.showAlertDialog(e.getMessage());
+        }
     }
 
+    /**
+     * Confirm army button clicked. Converts the added units and the inputted name into an army and changes scene to frontpage.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void confirmArmyBtnClicked() throws IOException {
         try {
@@ -195,11 +222,14 @@ public class UpdateArmyController {
         }
     }
 
-    public void updateTable(){
+    /**
+     * Update table with units.
+     */
+    void updateTable(){
         typeCol.setCellValueFactory( new PropertyValueFactory<>("type"));
         nameCol.setCellValueFactory( new PropertyValueFactory<>("name"));
         healthCol.setCellValueFactory( new PropertyValueFactory<>("health"));
-        unitObservableList = FXCollections.observableArrayList(unitsInArmy);
+        ObservableList<Unit> unitObservableList = FXCollections.observableArrayList(unitsInArmy);
         armyTableView.setItems(unitObservableList);
     }
 
@@ -207,15 +237,32 @@ public class UpdateArmyController {
         ObservableList<String> typeList = FXCollections.observableArrayList("InfantryUnit", "RangedUnit", "CavalryUnit", "CommanderUnit");
         typeComboBox.setItems(typeList);
     }
+
+    /**
+     * Back button clicked. Changes scene to the frontpage without converting added units and army name.
+     * If the army is imported, it will still be transferred to the frontPageScene
+     *
+     * @throws IOException the io exception
+     */
     @FXML
-    void backBtnClicked() throws IOException {
+    public void backBtnClicked() throws IOException {
         if(Dialogs.showConfirmationDialog("Go back to main menu? Changes may not have been saved ")){
             FrontpageController.loadFrontpageScene(army1,army2);
         }
     }
+    @FXML
+    public void clearTableBtnClicked(){
+        unitsInArmy = new ArrayList<>();
+        fileUploadedFromText.setText("");
+        updateTable();
+    }
 
+
+    /**
+     * Load background image.
+     */
     public void loadBackground(){
-        ImageView imageView =  new ImageView(new Image(FrontpageController.class.getResourceAsStream("/images/backgroundplanks.png")));
+        ImageView imageView =  new ImageView(new Image(Objects.requireNonNull(FrontpageController.class.getResourceAsStream("/images/backgroundplanks.png"))));
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(WargamesApplication.stage.getWidth());
         background.getChildren().add(imageView);

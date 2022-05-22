@@ -55,9 +55,8 @@ public abstract class Unit {
      * if opponent armor is greater than attackers attack, nothing happens.
      *
      * @param opponent opponent
-     * @return damageDone to opponent
      */
-    public int attack(Unit opponent){
+    public void attack(Unit opponent){
         setNAttacks(getNAttacks()+1);
         opponent.setNBlocked(opponent.getNBlocked()+1);
         if(this.getAttack()+this.getAttackBonus(Terrain.DEFAULT)> opponent.getArmor()+opponent.getResistBonus(Terrain.DEFAULT)){
@@ -66,17 +65,12 @@ public abstract class Unit {
             if( newHealth<0){
                 newHealth = 0;
             }
-            int opponentHealth = opponent.getHealth();
             opponent.setHealth(newHealth);
-            int damageDone = opponentHealth-newHealth;
-            return damageDone;
-        } else{
-            return 0;
         }
     }
 
     /**
-     * Attack with terrain param. Used to calculate Attackbonus and resistbonus if the attack happens in terrain.
+     * Attack with terrain param. Used to calculate Attack bonus and resist bonus if the attack happens in terrain.
      *
      * @param opponent the opponent
      * @param terrain  the terrain
@@ -93,8 +87,7 @@ public abstract class Unit {
             }
             int opponentHealth = opponent.getHealth();
             opponent.setHealth(newHealth);
-            int damageDone = opponentHealth-newHealth;
-            return damageDone;
+            return opponentHealth-newHealth;
         } else{
             return 0;
         }
@@ -103,7 +96,7 @@ public abstract class Unit {
     /**
      * Returns name of unit
      *
-     * @return name name
+     * @return name
      */
     public String getName() {
         return name;
@@ -112,7 +105,7 @@ public abstract class Unit {
     /**
      * Returns health of unit
      *
-     * @return health health
+     * @return health
      */
     public int getHealth() {
         return health;
@@ -121,7 +114,7 @@ public abstract class Unit {
     /**
      * Returns attack of unit
      *
-     * @return attack attack
+     * @return attack
      */
     public int getAttack() {
         return attack;
@@ -137,16 +130,12 @@ public abstract class Unit {
     }
 
     /**
-     * modifies health of unit. If new health value is less then 0, set it to 0.
+     * modifies health of unit. If new health value is less than 0, set it to 0.
      *
      * @param health new health value
      */
     public void setHealth(int health) {
-        if(health<0){
-            this.health = 0;
-        } else{
-            this.health = health;
-        }
+        this.health = Math.max(health, 0);
     }
 
     /**

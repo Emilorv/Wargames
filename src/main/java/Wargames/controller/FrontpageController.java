@@ -8,31 +8,28 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
+/**
+ * The Frontpage controller.
+ */
 public class FrontpageController implements Initializable {
-    @FXML
-    private Label title;
     @FXML
     private Label army1Name;
     @FXML
     private Label army2Name;
-    @FXML
-    private Button battleBtn;
 
     @FXML
     private AnchorPane background;
@@ -78,47 +75,46 @@ public class FrontpageController implements Initializable {
     private TableColumn<?, ?> healthCol2;
 
     @FXML
-    private Button updateArmy1Btn;
-    @FXML
-    private Button updateArmy2Btn;
-    @FXML
     private ObservableList<Unit> unitObservableList;
 
-    private Army army1;
-    private Army army2;
+    /**
+     * The Army on the left side, imported from frontpage.
+     */
+    Army army1;
+    /**
+     * The Army on the right side, imported from frontpage.
+     */
+    Army army2;
 
-    public void receiveArmyInformation(Army army1, Army army2 ){
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        updateTables();
+        loadBackground();
+        fillTerrainComboBox();
+        fillArmyFields();
+    }
+
+    /**
+     * Receive army information from other scenes.
+     *
+     * @param army1 the army on the left side
+     * @param army2 the army on the right side
+     */
+    public void receiveArmyInformation(Army army1, Army army2 ) {
         this.army1 = army1;
         this.army2 = army2;
-        try {
-            fillArmyFields();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fillArmyFields();
         updateTables();
         fillTerrainComboBox();
     }
-    public void loadUpdateArmyScene(int armyIndex, Army selectedArmy, Army otherArmy) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UpdateArmyPage.fxml"));
-        Parent root = loader.load();
-        UpdateArmyController controller = loader.getController();
-        controller.receiveArmyInformation(armyIndex,selectedArmy, otherArmy );
 
-        Stage stage = WargamesApplication.stage;
-        stage.getScene().setRoot(root);
-    }
-
-    public void loadBattleScene(Army army1, Army army2, Terrain terrain) throws IOException, InterruptedException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/battleView.fxml"));
-        Parent root = loader.load();
-        battleController controller = loader.getController();
-        controller.receiveData(army1,army2,terrain);
-        Stage stage = WargamesApplication.stage;
-        stage.getScene().setRoot(root);
-    }
-
+    /**
+     * Battle button clicked. If both armies has units and terrain is given, change the scene to battleScene
+     *
+     * @throws IOException          the io exception
+     */
     @FXML
-    void battleBtnClicked() throws IOException, InterruptedException {
+    void battleBtnClicked() throws IOException {
         if(army1 != null && army2 != null) {
             if (army1.hasUnits() && army2.hasUnits()) {
                 if (terrainComboBox.getValue() != null) {
@@ -137,17 +133,72 @@ public class FrontpageController implements Initializable {
         }
     }
 
+    /**
+     * Load battle scene.
+     *
+     * @param army1   the army 1
+     * @param army2   the army 2
+     * @param terrain the terrain
+     * @throws IOException          the io exception
+     */
+    public void loadBattleScene(Army army1, Army army2, Terrain terrain) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/battleView.fxml"));
+        Parent root = loader.load();
+        battleController controller = loader.getController();
+        controller.receiveData(army1,army2,terrain);
+        Stage stage = WargamesApplication.stage;
+        stage.getScene().setRoot(root);
+    }
+
+    /**
+     * Update army1 button clicked. Changes the scene to update the army on the left.
+     *
+     * @throws IOException if input is not available
+     */
     @FXML
     void updateArmy1BtnClicked() throws IOException {
         loadUpdateArmyScene(1,army1, army2);
     }
+
+    /**
+     * Update army2 button clicked. Changes the scene to update the army on the right
+     *
+     * @throws IOException if input is not available
+     */
     @FXML
     void updateArmy2BtnClicked() throws IOException {
         loadUpdateArmyScene(2,army2, army1);
     }
 
+    /**
+     * Load update army scene.
+     *
+     * @param armyIndex    the army index
+     * @param selectedArmy the selected army
+     * @param otherArmy    the other army
+     * @throws IOException the io exception
+     */
+    public void loadUpdateArmyScene(int armyIndex, Army selectedArmy, Army otherArmy) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UpdateArmyPage.fxml"));
+        Parent root = loader.load();
+        UpdateArmyController controller = loader.getController();
+        controller.receiveArmyInformation(armyIndex,selectedArmy, otherArmy );
 
-    public void fillArmyFields() throws IOException {
+        Stage stage = WargamesApplication.stage;
+        stage.getScene().setRoot(root);
+    }
+
+
+    /**
+     * Fill army fields with data from army1 and army2.
+     *
+     */
+    public void fillArmyFields() {
+        fillArmyFields(army1, army1Name, numberOfUnits1, infantryU1, rangedU1, cavalryU1, commanderU1);
+        fillArmyFields(army2, army2Name, numberOfUnits2, infantryU2, rangedU2, cavalryU2, commanderU2);
+    }
+
+    private void fillArmyFields(Army army1, Label army1Name, Label numberOfUnits1, Label infantryU1, Label rangedU1, Label cavalryU1, Label commanderU1) {
         if(army1 != null){
             army1Name.setText(army1.getName());
             numberOfUnits1.setText(Integer.toString(army1.getAllUnits().size()));
@@ -156,16 +207,17 @@ public class FrontpageController implements Initializable {
             cavalryU1.setText(Integer.toString(army1.getCavalryUnits().size()));
             commanderU1.setText(Integer.toString(army1.getCommanderUnits().size()));
         }
-        if(army2 != null){
-            army2Name.setText(army2.getName());
-            numberOfUnits2.setText(Integer.toString(army2.getAllUnits().size()));
-            infantryU2.setText(Integer.toString(army2.getInfantryUnits().size()));
-            rangedU2.setText(Integer.toString(army2.getRangedUnits().size()));
-            cavalryU2.setText(Integer.toString(army2.getCavalryUnits().size()));
-            commanderU2.setText(Integer.toString(army2.getCommanderUnits().size()));
-        }
     }
+
+    /**
+     * Update tables with units from army1 and army2.
+     */
     public void updateTables(){
+        updateTables(army1, typeCol1, nameCol1, healthCol1, tableView1);
+        updateTables(army2, typeCol2, nameCol2, healthCol2, tableView2);
+    }
+
+    private void updateTables(Army army1, TableColumn<?, ?> typeCol1, TableColumn<?, ?> nameCol1, TableColumn<?, ?> healthCol1, TableView<Unit> tableView1) {
         if(army1 != null) {
             typeCol1.setCellValueFactory(new PropertyValueFactory<>("type"));
             nameCol1.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -173,40 +225,30 @@ public class FrontpageController implements Initializable {
             unitObservableList = FXCollections.observableArrayList(army1.getAllUnits());
             tableView1.setItems(unitObservableList);
         }
-        if(army2 !=null) {
-            typeCol2.setCellValueFactory(new PropertyValueFactory<>("type"));
-            nameCol2.setCellValueFactory(new PropertyValueFactory<>("name"));
-            healthCol2.setCellValueFactory(new PropertyValueFactory<>("health"));
-            unitObservableList = FXCollections.observableArrayList(army2.getAllUnits());
-            tableView2.setItems(unitObservableList);
-        }
     }
+
+    /**
+     * Fill terrain combo box with terrains.
+     */
     public void fillTerrainComboBox(){
         ObservableList<Terrain> terrainList = FXCollections.observableArrayList(Terrain.values());
         terrainList.remove(Terrain.DEFAULT);
         terrainComboBox.setItems(terrainList);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        updateTables();
-        loadBackground();
-        fillTerrainComboBox();
-            try {
-                fillArmyFields();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    }
+    /**
+     * Load background image of frontpage.
+     */
     public void loadBackground(){
-        ImageView imageView =  new ImageView(new Image(FrontpageController.class.getResourceAsStream("/images/frontPage.png")));
+        ImageView imageView =  new ImageView(new Image(Objects.requireNonNull(FrontpageController.class.getResourceAsStream("/images/frontPage.png"))));
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(WargamesApplication.stage.getWidth());
         background.getChildren().add(imageView);
         imageView.toBack();
     }
+
     /**
-     * Load frontpage scene.
+     * Load frontpage scene from other scenes.
      *
      * @param selectedArmy the selected army
      * @param otherArmy    the other army

@@ -11,7 +11,6 @@ import Wargames.model.Units.*;
  * Army class. Assembles units into teams that will be used in battles against each other.
  */
 public class Army {
-    private int armyHealth;
     private String name;
     private ArrayList<Unit> units;
 
@@ -21,7 +20,7 @@ public class Army {
      * @param name  name of army
      * @param units array with units
      */
-    public Army(String name, ArrayList<Unit> units) {
+    public Army(String name, ArrayList<Unit> units) throws IllegalArgumentException {
         if (name != null && !name.equals("")) {
                     this.name = name;
                     this.units = units;
@@ -35,7 +34,7 @@ public class Army {
      *
      * @param name the name
      */
-    public Army(String name) {
+    public Army(String name) throws IllegalArgumentException {
         if (name != null && !name.equals("")) {
                     this.name = name;
                     this.units = new ArrayList<>();
@@ -47,7 +46,7 @@ public class Army {
     /**
      * Get name of army
      *
-     * @return name name
+     * @return name
      */
     public String getName() {
         return name;
@@ -66,35 +65,29 @@ public class Army {
      * Adds Unit to army
      *
      * @param unit unit to be added
-     * @return true if successful
      */
-    public boolean addUnit(Unit unit) {
+    public void addUnit(Unit unit) {
         units.add(unit);
-        return true;
     }
 
     /**
      * Adds all units in an input array to army
      *
      * @param inputUnits an array of units that are to be added to army
-     * @return true if successful
      */
-    public boolean addAll(ArrayList<Unit> inputUnits) {
+    public void addAll(ArrayList<Unit> inputUnits) {
         for (Unit var : inputUnits) {
             addUnit(var);
         }
-        return true;
     }
 
     /**
      * Removes unit from army
      *
      * @param unit unit to be removed from army
-     * @return true if successful
      */
-    public boolean remove(Unit unit) {
+    public void remove(Unit unit) {
         units.remove(unit);
-        return true;
     }
 
     /**
@@ -164,18 +157,13 @@ public class Army {
 
     /**
      * Gets the collective health of all units in army.
-     * Used to make the healthbar of each army
+     * Used to make the healthBar of each army
      * @return the army health
      */
     public int getArmyHealth() {
-        armyHealth = 0;
+        int armyHealth = 0;
         for (Unit unit: getAllUnits()) {
-            try {
-                armyHealth += unit.getHealth();
-            }catch (NullPointerException e){
-                e.getMessage();
-                remove(unit);
-            }
+            armyHealth += unit.getHealth();
         }
         return armyHealth;
     }
@@ -186,22 +174,23 @@ public class Army {
      * @return the copied army
      */
     public Army copy(){
-        String armyNameCopy = name;
-        ArrayList<Unit> copyUnits = new ArrayList();
-        for (Unit unit:getInfantryUnits()){
-            copyUnits.add(new InfantryUnit(unit.getName(),unit.getHealth()));
-        }
-        for (Unit unit:getRangedUnits()) {
-            copyUnits.add(new RangedUnit(unit.getName(),unit.getHealth()));
-        }
-        for (Unit unit:getCavalryUnits()) {
-            copyUnits.add(new CavalryUnit(unit.getName(),unit.getHealth()));
-        }
-        for (Unit unit:getCommanderUnits()) {
-            copyUnits.add(new CommanderUnit(unit.getName(),unit.getHealth()));
-        }
-        Army armyCopy = new Army(armyNameCopy, copyUnits);
-        return armyCopy;
+        if(name!=null) {
+            String armyNameCopy = name;
+            ArrayList<Unit> copyUnits = new ArrayList<>();
+            for (Unit unit : getInfantryUnits()) {
+                copyUnits.add(new InfantryUnit(unit.getName(), unit.getHealth()));
+            }
+            for (Unit unit : getRangedUnits()) {
+                copyUnits.add(new RangedUnit(unit.getName(), unit.getHealth()));
+            }
+            for (Unit unit : getCavalryUnits()) {
+                copyUnits.add(new CavalryUnit(unit.getName(), unit.getHealth()));
+            }
+            for (Unit unit : getCommanderUnits()) {
+                copyUnits.add(new CommanderUnit(unit.getName(), unit.getHealth()));
+            }
+            return new Army(armyNameCopy, copyUnits);
+        }else throw new NullPointerException();
     }
 
     @Override

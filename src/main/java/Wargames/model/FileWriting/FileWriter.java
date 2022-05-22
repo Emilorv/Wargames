@@ -23,19 +23,19 @@ public class FileWriter {
      * @throws IOException the io exception
      */
     public void saveArmyToFile(Army army) throws IOException {
-            java.io.FileWriter fileWriter = null;
-            String path = "src/main/resources/Armies/" + army.getName() + ".csv";
-            File file = new File(path);
-            fileWriter = new java.io.FileWriter(path);
+        String path = "src/main/resources/Armies/" + army.getName() + ".csv";
+        try (java.io.FileWriter fileWriter = new java.io.FileWriter(path)) {
             fileWriter.write(army.getName() + "\n");
             for (Unit unit : army.getAllUnits()) {
                 fileWriter.write(unit.toString() + "\n");
             }
-            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         }
 
     /**
-     * Read army from file army.
+     * Read army from file by name. Looking for armies in the "Armies" resource folder.
      *
      * @param armyName name of army that you want to receive
      * @return the army
@@ -43,17 +43,11 @@ public class FileWriter {
      */
     public Army readArmyFromFileByName(String armyName) throws FileNotFoundException {
         if (armyName != null && !armyName.equals("")) {
-            if (new File("src/main/resources/Armies/" + armyName + ".csv").isFile()) {
+            if (new File("src/main/resources/Armies/" + armyName + ".csv" ).isFile()) {
                     Scanner fileReader = new Scanner(new File("src/main/resources/Armies/" + armyName + ".csv"));
                     ArrayList<Unit> unitsFromFile = new ArrayList<>();
                     armyName = fileReader.nextLine();
-                    while (fileReader.hasNextLine()) {
-                        String data[] = fileReader.nextLine().split(",");
-                        unitsFromFile.add(UnitFactory.createUnit(data[0],data[1],Integer.parseInt(data[2])));
-                    }
-                    fileReader.close();
-                    Army army = new Army(armyName, unitsFromFile);
-                    return army;
+                return readArmyFromFile(armyName, fileReader, unitsFromFile);
             } else{
                 throw new FileNotFoundException("File could not be found");
             }
@@ -61,27 +55,34 @@ public class FileWriter {
             throw new IllegalArgumentException("Name cannot be empty or null");
         }
     }
-
     /**
-     * Read army from file army.
+     * Read army from file by file.
      *
      * @param file the file
      * @return the army
      * @throws FileNotFoundException the file not found exception
      */
     public Army readArmyFromFile(File file) throws FileNotFoundException {
-                Scanner fileReader = new Scanner(file);
-                ArrayList<Unit> unitsFromFile = new ArrayList<>();
-                String armyName = fileReader.nextLine();
-                while (fileReader.hasNextLine()) {
-                    String data[] = fileReader.nextLine().split(",");
-                    unitsFromFile.add(UnitFactory.createUnit(data[0],data[1],Integer.parseInt(data[2])));
-                }
-                fileReader.close();
-                Army army = new Army(armyName, unitsFromFile);
-                return army;
-            }
+        String[] filePath = file.getPath().split("\\.");
+        if(filePath[filePath.length-1].equalsIgnoreCase("csv")) {
+            Scanner fileReader = new Scanner(file);
+            ArrayList<Unit> unitsFromFile = new ArrayList<>();
+            String armyName = fileReader.nextLine();
+            return readArmyFromFile(armyName, fileReader, unitsFromFile);
+        } else {
+            throw new IllegalArgumentException("That is not a CSV-File");
+        }
+    }
 
+
+    private Army readArmyFromFile(String armyName, Scanner fileReader, ArrayList<Unit> unitsFromFile) throws NumberFormatException {
+        while (fileReader.hasNextLine()) {
+            String[] data = fileReader.nextLine().split(",");
+            unitsFromFile.add(UnitFactory.createUnit(data[0],data[1],Integer.parseInt(data[2])));
+        }
+        fileReader.close();
+        return new Army(armyName, unitsFromFile);
+    }
 
     /**
      * Delete army file.
@@ -92,7 +93,7 @@ public class FileWriter {
     public void deleteArmyFile(String armyName) throws FileNotFoundException {
         if (new File("src/main/resources/Armies/" + armyName + ".csv").isFile()) {
                 File file = new File("src/main/resources/Armies/" + armyName + ".csv");
-                file.delete();
+            file.delete();
         }
         else{
             throw new FileNotFoundException();

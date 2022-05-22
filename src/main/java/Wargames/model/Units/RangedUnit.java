@@ -3,6 +3,8 @@ package Wargames.model.Units;
 import Wargames.model.Terrain;
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 /**
  * RangedUnit class. Unit that excels in ranged combat. Extends Unit class
  */
@@ -10,7 +12,7 @@ public class RangedUnit extends Unit {
     /**
      * The image representing RangedUnit.
      */
-    Image unitImage = new Image(RangedUnit.class.getResourceAsStream("/images/Units/RangedUnit.png"));
+    Image unitImage = new Image(Objects.requireNonNull(RangedUnit.class.getResourceAsStream("/images/Units/RangedUnit.png")));
 
     /**
      * Constructor of RangedUnit
@@ -37,7 +39,7 @@ public class RangedUnit extends Unit {
     }
 
     /**
-     * Attackbonus for ranged-range
+     * Attack bonus for ranged-range
      * Bonus damage in Hill-terrain
      * @return 5 in Hill-terrain, 2 in forest. Else 3.
      */
@@ -52,7 +54,7 @@ public class RangedUnit extends Unit {
     }
 
     /**
-     * Resistbonus that decreases with the number of times blocked
+     * Resist bonus that decreases with the number of times blocked
      * @return 6, then 4, then 2
      */
     @Override
