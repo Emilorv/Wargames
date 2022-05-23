@@ -8,7 +8,6 @@ import Wargames.model.Terrain;
 import Wargames.model.Units.Unit;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -149,8 +148,6 @@ public class battleController {
     @FXML
     private  Pane commander2;
 
-    @FXML
-    private ObservableList<Unit> unitObservableList;
 
     /**
      * The healthBar-bar for the army on the left side.
@@ -179,7 +176,7 @@ public class battleController {
         army1Saved = army1.copy();
         army2Saved = army2.copy();
         setsBackgroundImage();
-        updateTables();
+        createTables();
         produceUnitImages(army1,infantry1,ranged1,cavalry1,commander1);
         produceUnitImages(army2,infantry2,ranged2,cavalry2,commander2);
         produceArmyHealthBars(healthBar1, bar1);
@@ -245,7 +242,8 @@ public class battleController {
             damageDealtText.setText("For "+ damageDone + " damage!");
             updateArmyHealthBars(bar1, army1,healthBar1);
             updateArmyHealthBars(bar2, army2,healthBar2);
-            updateTables();
+            updateTables(tableView1,army1);
+            updateTables(tableView2, army2);
             if (battle.getFight().isKilled()) {
                 ImageView killedUnitPicture = imageMap.get(defenderUnit);
                 killedUnitPicture.setImage(null);
@@ -292,6 +290,7 @@ public class battleController {
 
     /**
      * Back button clicked. Returns to the frontpage.
+     *
      * @throws IOException the io exception
      */
     public void backBtnClicked() throws IOException {
@@ -317,17 +316,15 @@ public class battleController {
     }
 
     /**
-     * Initiates updateTables method for both armies.
+     * Initiates createTables method for both armies.
      */
-    public void updateTables(){
-        updateTables(army1, armyName1, typeCol1, nameCol1, healthCol1, tableView1);
-        updateTables(army2, armyName2, typeCol2, nameCol2, healthCol2, tableView2);
-        tableView1.refresh();
-        tableView2.refresh();
+    public void createTables(){
+        createTables(army1, armyName1, typeCol1, nameCol1, healthCol1, tableView1);
+        createTables(army2, armyName2, typeCol2, nameCol2, healthCol2, tableView2);
     }
 
     /**
-     * Update tables to include Units of each army. ConcurrentModificationException happens occasionally while battleSpeed is high, but it is not critical
+     * Create tables to include Units of each army.
      *
      * @param army      the army
      * @param armyName  the army name
@@ -336,19 +333,25 @@ public class battleController {
      * @param healthCol the health col
      * @param tableView the table view
      */
-    public void updateTables(Army army, Label armyName, TableColumn<?, ?> typeCol, TableColumn<?, ?> nameCol, TableColumn<?, ?> healthCol, TableView<Unit> tableView) {
+    public void createTables(Army army, Label armyName, TableColumn<?, ?> typeCol, TableColumn<?, ?> nameCol, TableColumn<?, ?> healthCol, TableView<Unit> tableView) {
         if(army != null) {
-            try {
                 armyName.setText(army.getName());
                 typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
                 nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
                 healthCol.setCellValueFactory(new PropertyValueFactory<>("health"));
-                unitObservableList = FXCollections.observableArrayList(army.getAllUnits());
-                tableView.setItems(unitObservableList);
-            }catch (ConcurrentModificationException e){
-                System.out.println(e.getClass().getSimpleName() + " from updating table for army: "+ army.getName());
-            }
+                updateTables(tableView, army);
         }
+    }
+
+    /**
+     * Update tables.
+     *
+     * @param tableView the table view
+     * @param army      the army
+     */
+    public void updateTables(TableView<Unit> tableView, Army army){
+        tableView.setItems(FXCollections.observableArrayList(army.getAllUnits()));
+        tableView.refresh();
     }
 
     /**

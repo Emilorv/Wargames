@@ -32,8 +32,9 @@
 .table{
     -fx-background-color:  transparent;
     -fx-text-fill: white;
-    -fx-font-size: 17;
+    -fx-font-size: 20;
     -fx-alignment: CENTER;
+    -fx-effect: dropshadow(three-pass-box, black, 0.5, 1, 0, 0);
 }
 .table-view .column-header-background{
     -fx-background-color: #999999;
