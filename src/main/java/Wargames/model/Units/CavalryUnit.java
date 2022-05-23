@@ -13,7 +13,7 @@ public class CavalryUnit extends Unit {
     /**
      * The image representing CavalryUnit.
      */
-    Image unitImage = new Image(Objects.requireNonNull(InfantryUnit.class.getResourceAsStream("/images/Units/CavalryUnit.png")));
+    Image unitImage = new Image(Objects.requireNonNull(CavalryUnit.class.getResourceAsStream("/images/Units/CavalryUnit.png")));
 
     /**
      * Constructor of CavalryUnit

@@ -1,6 +1,6 @@
 package Wargames.controller;
 import Wargames.WargamesApplication;
-import Wargames.dialogs.Dialogs;
+import Wargames.controller.dialogs.Dialogs;
 import Wargames.model.Army;
 import Wargames.model.Terrain;
 import Wargames.model.Units.Unit;
@@ -111,10 +111,9 @@ public class FrontpageController implements Initializable {
     /**
      * Battle button clicked. If both armies has units and terrain is given, change the scene to battleScene
      *
-     * @throws IOException          the io exception
      */
     @FXML
-    void battleBtnClicked() throws IOException {
+    void battleBtnClicked() {
         if(army1 != null && army2 != null) {
             if (army1.hasUnits() && army2.hasUnits()) {
                 if (terrainComboBox.getValue() != null) {
@@ -139,34 +138,35 @@ public class FrontpageController implements Initializable {
      * @param army1   the army 1
      * @param army2   the army 2
      * @param terrain the terrain
-     * @throws IOException          the io exception
      */
-    public void loadBattleScene(Army army1, Army army2, Terrain terrain) throws IOException{
+    public void loadBattleScene(Army army1, Army army2, Terrain terrain){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/battleView.fxml"));
-        Parent root = loader.load();
-        battleController controller = loader.getController();
-        controller.receiveData(army1,army2,terrain);
-        Stage stage = WargamesApplication.stage;
-        stage.getScene().setRoot(root);
+        try {
+            Parent root = loader.load();
+            battleController controller = loader.getController();
+            controller.receiveData(army1, army2, terrain);
+            Stage stage = WargamesApplication.stage;
+            stage.getScene().setRoot(root);
+        }catch (IOException e){
+            Dialogs.showAlertDialog("Could not load scene", e);
+        }
     }
 
     /**
      * Update army1 button clicked. Changes the scene to update the army on the left.
      *
-     * @throws IOException if input is not available
      */
     @FXML
-    void updateArmy1BtnClicked() throws IOException {
+    void updateArmy1BtnClicked() {
         loadUpdateArmyScene(1,army1, army2);
     }
 
     /**
      * Update army2 button clicked. Changes the scene to update the army on the right
      *
-     * @throws IOException if input is not available
      */
     @FXML
-    void updateArmy2BtnClicked() throws IOException {
+    void updateArmy2BtnClicked() {
         loadUpdateArmyScene(2,army2, army1);
     }
 
@@ -176,16 +176,19 @@ public class FrontpageController implements Initializable {
      * @param armyIndex    the army index
      * @param selectedArmy the selected army
      * @param otherArmy    the other army
-     * @throws IOException the io exception
      */
-    public void loadUpdateArmyScene(int armyIndex, Army selectedArmy, Army otherArmy) throws IOException {
+    public void loadUpdateArmyScene(int armyIndex, Army selectedArmy, Army otherArmy){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UpdateArmyPage.fxml"));
-        Parent root = loader.load();
-        UpdateArmyController controller = loader.getController();
-        controller.receiveArmyInformation(armyIndex,selectedArmy, otherArmy );
+        try {
+            Parent root = loader.load();
+            UpdateArmyController controller = loader.getController();
+            controller.receiveArmyInformation(armyIndex, selectedArmy, otherArmy);
 
-        Stage stage = WargamesApplication.stage;
-        stage.getScene().setRoot(root);
+            Stage stage = WargamesApplication.stage;
+            stage.getScene().setRoot(root);
+        }catch (IOException e){
+            Dialogs.showAlertDialog("Could not load scene", e);
+        }
     }
 
 
@@ -252,16 +255,19 @@ public class FrontpageController implements Initializable {
      *
      * @param selectedArmy the selected army
      * @param otherArmy    the other army
-     * @throws IOException the io exception
      */
-    public static void loadFrontpageScene(Army selectedArmy, Army otherArmy) throws IOException {
+    public static void loadFrontpageScene(Army selectedArmy, Army otherArmy) {
         FXMLLoader loader = new FXMLLoader(FrontpageController.class.getResource("/view/Frontpage.fxml"));
-        Parent root = loader.load();
+        try {
+            Parent root = loader.load();
         FrontpageController controller = loader.getController();
         controller.receiveArmyInformation(selectedArmy, otherArmy );
 
         Stage stage = WargamesApplication.stage;
         stage.getScene().setRoot(root);
+        }catch (IOException e){
+            Dialogs.showAlertDialog("Could not load scene", e);
+        }
     }
 }
 

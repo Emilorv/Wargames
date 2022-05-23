@@ -12,7 +12,7 @@ import Wargames.model.Battle;
  */
 public class Client {
     public Army createArmy1(){
-        Army humanArmy = new Army("Human model.Army");
+        Army humanArmy = new Army("Human Army");
         for (int i = 0; i < 500; i++) {
         humanArmy.addUnit(new InfantryUnit("Footman", 100));
         }

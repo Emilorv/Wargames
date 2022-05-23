@@ -1,7 +1,7 @@
 package Wargames.controller;
 
 import Wargames.WargamesApplication;
-import Wargames.dialogs.Dialogs;
+import Wargames.controller.dialogs.Dialogs;
 import Wargames.model.Army;
 import Wargames.model.Units.Unit;
 import Wargames.model.Units.UnitFactory;
@@ -109,10 +109,9 @@ public class UpdateArmyController {
     /**
      * Save army to file button clicked. Uses the fileWriter to save army to file. If the army name already exists as a file, the user will be asked to overwrite it.
      *
-     * @throws IllegalArgumentException the illegal argument exception
      */
     @FXML
-    void saveArmyToFileBtnClicked() throws IllegalArgumentException {
+    void saveArmyToFileBtnClicked(){
         FileWriter fileWriter = new FileWriter();
         String name = nameInput.getText();
             try {
@@ -145,12 +144,9 @@ public class UpdateArmyController {
     /**
      * Add button clicked. Uses the inputFields to create units and add them to the table.
      *
-     * @throws IllegalArgumentException the illegal argument exception
-     * @throws NullPointerException     the null pointer exception
-     * @throws NumberFormatException    the number format exception
      */
     @FXML
-    void addBtnClicked() throws IllegalArgumentException, NullPointerException, NumberFormatException {
+    void addBtnClicked() {
         String type = typeComboBox.getValue();
         String name = inputUnitName.getText();
         try {
@@ -172,10 +168,9 @@ public class UpdateArmyController {
     /**
      * Upload army from file button clicked. Creates an army based on the information from a CSV-file
      *
-     * @throws FileNotFoundException the file not found exception
      */
     @FXML
-    void uploadArmyFromFileBtnClicked() throws FileNotFoundException {
+    void uploadArmyFromFileBtnClicked() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select an army File");
         fileChooser.getExtensionFilters().add(
@@ -200,16 +195,17 @@ public class UpdateArmyController {
             Dialogs.showAlertDialog("The file has the wrong format", e);
         }catch (IllegalArgumentException e){
             Dialogs.showAlertDialog(e.getMessage());
+        }catch (FileNotFoundException e){
+            Dialogs.showAlertDialog("File could not be found", e);
         }
     }
 
     /**
      * Confirm army button clicked. Converts the added units and the inputted name into an army and changes scene to frontpage.
      *
-     * @throws IOException the io exception
      */
     @FXML
-    void confirmArmyBtnClicked() throws IOException {
+    void confirmArmyBtnClicked() {
         try {
             if (armyIndex == 1) {
                 army1 = new Army(nameInput.getText(), unitsInArmy);
@@ -242,10 +238,9 @@ public class UpdateArmyController {
      * Back button clicked. Changes scene to the frontpage without converting added units and army name.
      * If the army is imported, it will still be transferred to the frontPageScene
      *
-     * @throws IOException the io exception
      */
     @FXML
-    public void backBtnClicked() throws IOException {
+    public void backBtnClicked(){
         if(Dialogs.showConfirmationDialog("Go back to main menu? Changes may not have been saved ")){
             FrontpageController.loadFrontpageScene(army1,army2);
         }

@@ -11,7 +11,7 @@ public class CommanderUnit extends CavalryUnit{
     /**
      * The image representing CommanderUnit.
      */
-    Image unitImage = new Image(Objects.requireNonNull(InfantryUnit.class.getResourceAsStream("/images/Units/InfantryUnit.png")));
+    Image unitImage = new Image(Objects.requireNonNull(CommanderUnit.class.getResourceAsStream("/images/Units/InfantryUnit.png")));
 
     /**
      * Constructor of CommanderUnit

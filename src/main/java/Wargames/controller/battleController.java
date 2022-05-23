@@ -1,7 +1,7 @@
 package Wargames.controller;
 
 import Wargames.WargamesApplication;
-import Wargames.dialogs.Dialogs;
+import Wargames.controller.dialogs.Dialogs;
 import Wargames.model.Army;
 import Wargames.model.Battle;
 import Wargames.model.Terrain;
@@ -20,7 +20,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import java.io.IOException;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
@@ -290,11 +289,10 @@ public class battleController {
 
     /**
      * Back button clicked. Returns to the frontpage.
-     *
-     * @throws IOException the io exception
      */
-    public void backBtnClicked() throws IOException {
-        FrontpageController.loadFrontpageScene(army1Saved,army2Saved);
+    public void backBtnClicked(){
+            FrontpageController.loadFrontpageScene(army1Saved, army2Saved);
+
     }
 
     /**

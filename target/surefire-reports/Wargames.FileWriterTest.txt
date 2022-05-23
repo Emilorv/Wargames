@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: Wargames.FileWriterTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s - in Wargames.FileWriterTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.085 s - in Wargames.FileWriterTest
