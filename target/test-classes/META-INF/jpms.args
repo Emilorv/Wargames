@@ -1,4 +1,0 @@
---patch-module
-Wargames=_
---add-reads
-Wargames=ALL-UNNAMED
